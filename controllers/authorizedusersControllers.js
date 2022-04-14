@@ -30,15 +30,14 @@ module.exports = {
           .then(data => res.status(200).json(data.rows[0]))
           .catch(e => console.error(e.stack))
     },
-    put: async (req, res) => {
-        console.log("put de authusers")
-        console.log("req.body",req.body)
-        const {name,lastname,role,email,isactive} = req.body;
+    updateUser: async (req, res) => {
+        const {id,name,lastname,role,email,isactive} = req.body;
+        console.log("req.body")
         try {
           const query = await {
             name: "update-user",
-            text: `update authorizedusers set name=$1, lastname=$2, role=$3, email=$4, isactive=$5 where email=$6`,
-            values: [name,lastname,role,email,isactive,email],
+            text: `update authorizedusers set id=$1, name=$2, lastname=$3, role=$4, email=$5, isactive=$6 where id=$1`,
+            values: [id,name,lastname,role,email,isactive],
           };
           db
             .query(query)
