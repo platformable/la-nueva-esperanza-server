@@ -10,11 +10,11 @@ module.exports = {
       res.send("an error ocurred");
     }
   },
-  post: async (req, res) => {
-    const { name, lastname, userrole, email, dateaccountactivated } = req.body;
+  createUser: async (req, res) => {
+    const {user_id, name, lastname, userrole, email, dateaccountactivated } = req.body;
     const text =
-      "INSERT INTO users(name,lastname,userrole,useremail,dateaccountactivated) VALUES($1, $2,$3,$4,$5) RETURNING *";
-    const values = [name, lastname, userrole, email, dateaccountactivated];
+      "INSERT INTO users(user_id,name,lastname,userrole,useremail,dateaccountactivated) VALUES($1,$2,$3,$4,$5,$6) RETURNING *";
+    const values = [user_id,name, lastname, userrole, email, dateaccountactivated];
     // callback
     db.query(text, values, (err, res) => {
       if (err) {
