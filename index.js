@@ -34,6 +34,9 @@ app.use('/users', usersRoute)
 const clientsRoute = require('./routes/clients')
 app.use('/clients', clientsRoute)
 
+const clientActionPlanRoute = require('./routes/clientsActionPlan')
+app.use('/client_action_plan', clientActionPlanRoute)
+
 
 
 
