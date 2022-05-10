@@ -32,7 +32,7 @@ module.exports = {
     },
     updateUser: async (req, res) => {
         const {id,name,lastname,role,email,isactive} = req.body;
-        console.log("req.body")
+
         try {
           const query = await {
             name: "update-user",

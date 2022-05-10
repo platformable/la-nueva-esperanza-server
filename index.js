@@ -34,9 +34,11 @@ app.use('/users', usersRoute)
 const clientsRoute = require('./routes/clients')
 app.use('/clients', clientsRoute)
 
-const clientActionPlanRoute = require('./routes/clientsActionPlan')
-app.use('/client_action_plan', clientActionPlanRoute)
+const servicesActionPlanRoute = require('./routes/servicesActionPlan')
+app.use('/services_action_plan', servicesActionPlanRoute)
 
+const msaFormRoute = require('./routes/msaForm')
+app.use('/msa_forms', msaFormRoute)
 
 
 

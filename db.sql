@@ -66,3 +66,56 @@ create clients_action_plan(
     HCWSignatureDate DATE,
     supervisorSignature bit,
 )
+
+create table msa_form (
+    id serial primary key,
+dateFormReviewed date,
+clientID text,
+clientFirstName text,
+clientLastName text,
+clientHCWID text,
+userFirstName text,
+userLastName text,
+AIRSIntakeForm bit,
+AIRSIntakeFormDate date
+ComprehensiveRiskBehaviorAssessment bit
+ComprehensiveRiskBehaviorAssessmentDate date 
+ServiceActionPlan bit
+ServiceActionPlanDate date 
+AIRSCollateralInformation bit
+AIRSCollateralInformationDate date 
+AIRSFinancialInformation bit,
+AIRSFinancialInformationDate date,
+AIRSHIVAIDSRiskHistory bit,
+AIRSHIVAIDSRiskHistoryDate date,
+AIRSHCVHistory bit
+AIRSHCVHistoryDate date 
+AIRSHousingInformation bit,
+AIRSHousingInformationDate date,
+AIRSInsuranceInformation bit,
+AIRSInsuranceInformationDate date,
+AIRSSubstanceUseHistory bit,
+AIRSSubstanceUseHistoryDate date,
+LNEClientRights bit,
+LNEClientRightsDate date,
+LNEClientGrievancePolicyProcedure bit,
+LNEClientGrievancePolicyProcedureDate date,
+LNEProgramRules bit,
+LNEProgramRulesDate date,
+LNEEmergencyContactConsent bit, 
+LNEEmergencyContactConsentDate date,
+LNEConsentForReleaseOfConfidentialInformation bit,
+LNEConsentForReleaseOfConfidentialInformationDate date,
+HIPPAConsentForm bit,
+HIPPAConsentFormDate date
+NYCDOHMHNoticeOfPrivacyPractices bit,
+NYCDOHMHNoticeOfPrivacyPracticesDate date,
+LNEOutreachRetentionTrackingForm bit,
+LNEOutreachRetentionTrackingFormDate date,
+LNEReferralInformation bit,
+LNEReferralInformationDate date,
+LNEClientReferralForm bit,
+LNEClientReferralFormDate date,
+LNEHNSEligibilityForm bit,
+LNEHNSEligibilityFormDate date
+)

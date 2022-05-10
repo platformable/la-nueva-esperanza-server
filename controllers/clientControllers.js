@@ -215,7 +215,7 @@ module.exports = {
       values: [clientid],
     };
     try {
-      console.log("query.values",query.text)
+
       const allData = await db.query(query);
       const response = allData.rows;
       console.log("response", response);
@@ -243,6 +243,7 @@ module.exports = {
       clientHCWName,
       clientHCWLastname,
       clientID,
+      clientDateCreated
     } = req.body;
 
     const nameCapitalized =
@@ -268,7 +269,7 @@ module.exports = {
             res.status(409).send("Client is already registered");
           } else {
             const query = {
-              text: "INSERT INTO clients(clientfirstname,clientlastname,clientssn,clientactive,clienthcwid,clienthcwname,clienthcwlastname,clientid) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *",
+              text: "INSERT INTO clients(clientfirstname,clientlastname,clientssn,clientactive,clienthcwid,clienthcwname,clienthcwlastname,clientid,clientdatecreated) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *",
               values: [
                 nameCapitalized,
                 lastnameCapitalized,
@@ -278,6 +279,7 @@ module.exports = {
                 clientHCWName,
                 clientHCWLastname,
                 clientID,
+                clientDateCreated
               ],
             };
 
