@@ -233,6 +233,51 @@ module.exports = {
       res.send("an error ocurred");
     }
   },
+  getClientProfileData: async (req,res)=>{
+    let {clientid} = req.params
+    //check if there is a msa form
+    const checkIfClientHasMSAForm = async ()=>{
+
+      const checkIfMsaFormQuery = {
+        text:"select clients.clientfirstname ,clients.clientlastname, clients.clientid,clients.clienthcwname,clients.clienthcwlastname, msa_form.airsintakeform, msa_form.comprehensiveriskbehaviorassessment,msa_form.serviceactionplan ,msa_form.id as msa_form_id  from clients inner join msa_form  on clients.clientid = msa_form.clientid  where clients.clientid=$1",
+        values:[clientid]
+      }
+      db.query(checkIfMsaFormQuery)
+      .then(response=>{
+        if(response.rows.length>0){
+         res.status(200).send([response.rows[0]])
+        } else {
+          getClientById()
+        }
+      })
+      .catch(err=>console.log(err))
+    }
+
+    const getClientById = async () =>{
+      const query = {
+      text: "select * from clients where clientid=$1",
+      values: [clientid],
+    };
+    try {
+
+      const allData = await db.query(query);
+      const response = allData.rows;
+      console.log("response", response);
+      res.send(response);
+    } catch (e) {
+      console.log("response");
+    }
+    }
+
+   try {
+
+    checkIfClientHasMSAForm()
+   }
+   catch(e) {
+      console.log(e)
+      res.json({"message":"an error ocurred"})
+   }
+  },
   createClient: async (req, res) => {
     let {
       clientFirstName,

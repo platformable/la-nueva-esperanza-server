@@ -12,7 +12,7 @@ module.exports= {
   getClientServicesActionPlan: async (req,res)=>{
     let { clientid } = await req.params;
     const query= {
-      text:'select * from services_action_plan sap where clientid =$1',
+      text:'select * from services_action_plan where clientid =$1',
       values:[clientid]
     }
       const allData = await db.query(query);
@@ -138,6 +138,22 @@ module.exports= {
               }
             }
 
+            let activateCheckboxOnMSAForm=1
+
+            const updateClientMSAForm=()=>{
+
+                const queryToUpdateClientMSAForm = {
+                  text: `UPDATE msa_form SET ServiceActionPlan = $1,ServiceActionPlanDate=$2 WHERE clientid =$3`,
+                  values:[activateCheckboxOnMSAForm,new Date(),response_clientId]
+                }
+                db.query(queryToUpdateClientMSAForm)
+                .then((data) => {
+                  console.log("msa updated")
+                })    
+                .catch((e) => console.error(e.stack));
+             
+            }
+
             db.query(query)
             .then((data) => {
               response_id=data.rows[0].id
@@ -145,6 +161,7 @@ module.exports= {
               res.status(200).json(data.rows[0])
             })
             .then(res=>updateClientProfileWithSAP())
+            .then(newResponse=>updateClientMSAForm())
             .catch((e) => console.error(e.stack));
             
 
