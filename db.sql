@@ -119,3 +119,22 @@ LNEClientReferralFormDate date,
 LNEHNSEligibilityForm bit,
 LNEHNSEligibilityFormDate date
 )
+
+create table impact_form_baseline (
+    id serial primary key,
+    impactFormStartDate date,
+    barrierHIVPrimaryCare bit,
+    barrierAccessingMedications bit, 
+    medicationAdherence bit,
+    CD4ViralLoad bit,
+    lastHIVTest bit,
+    PrEP bit,
+    unsafeSexualBehavior bit,
+    substanceAbuse bit,
+    riskOfOverdose bit,
+    mentalHealthIssues bit,
+    unstableHousing bit,
+    foodInsecurity bit,
+    legalIssues bit,
+    unstableEmployment bit 
+)

@@ -20,7 +20,8 @@ module.exports = {
   },
   getClientMsaForm: async (req, res) => {
     let { clientid } = await req.params;
-    console.log("clientid",clientid)
+    
+
     const query = {
       text: "select * from msa_form where clientid=$1",
       values: [clientid],
@@ -29,6 +30,9 @@ module.exports = {
 
       const allData = await db.query(query);
       const response = allData.rows;
+
+   
+      
       console.log("response", response);
       res.send(response);
     } catch (e) {
@@ -48,8 +52,8 @@ module.exports = {
       if(req.body.clientData[property]===""){
         req.body.clientData[property]=null
       }
-     
     } 
+
     let {
       dateFormReviewed,
       clientId,
@@ -215,7 +219,7 @@ module.exports = {
             let response_clientId=''
 
             const updateClientProfileWithMSAForm=()=>{
-              console.log(response_id,response_clientId)
+             
               if(response_id !=="" && response_clientId !==""){
 
                 const queryToUpdateClientPrfileWithMSAForm = {
@@ -248,6 +252,186 @@ module.exports = {
     }
   },
   updateMsaForm: async (req, res) => {
-    res.send("updating");
+    console.log("req.body",req.body)
+    
+    for (const property in req.body.clientData) {
+      if(req.body.clientData[property]===true){
+        req.body.clientData[property]=1
+      }
+      if(req.body.clientData[property]===false){
+        req.body.clientData[property]=0
+      }
+      if(req.body.clientData[property]===""){
+        req.body.clientData[property]=null
+      }
+     
+    } 
+    let {
+      dateFormReviewed,
+      clientId,
+      clientFirstName,
+      clientLastName,
+      clientHCWID,
+      userFirstName,
+      userLastName,
+      AIRSIntakeForm,
+      AIRSIntakeFormDate,
+      ComprehensiveRiskBehaviorAssessment,
+      ComprehensiveRiskBehaviorAssessmentDate,
+      ServiceActionPlan,
+      ServiceActionPlanDate,
+      AIRSCollateralInformation,
+      AIRSCollateralInformationDate,
+      AIRSFinancialInformation,
+      AIRSFinancialInformationDate,
+      AIRSHIVAIDSRiskHistory,
+      AIRSHIVAIDSRiskHistoryDate,
+      AIRSHCVHistory,
+      AIRSHCVHistoryDate,
+      AIRSHousingInformation,
+      AIRSHousingInformationDate,
+      AIRSInsuranceInformation,
+      AIRSInsuranceInformationDate,
+      AIRSSubstanceUseHistory,
+      AIRSSubstanceUseHistoryDate,
+      LNEClientRights,
+      LNEClientRightsDate,
+      LNEClientGrievancePolicyProcedure,
+      LNEClientGrievancePolicyProcedureDate,
+      LNEProgramRules,
+      LNEProgramRulesDate,
+      LNEEmergencyContactConsent,
+      LNEEmergencyContactConsentDate,
+      LNEConsentForReleaseOfConfidentialInformation,
+      LNEConsentForReleaseOfConfidentialInformationDate,
+      HIPPAConsentForm,
+      HIPPAConsentFormDate,
+      NYCDOHMHNoticeOfPrivacyPractices,
+      NYCDOHMHNoticeOfPrivacyPracticesDate,
+      LNEOutreachRetentionTrackingForm,
+      LNEOutreachRetentionTrackingFormDate,
+      LNEReferralInformation,
+      LNEReferralInformationDate,
+      LNEClientReferralForm,
+      LNEClientReferralFormDate,
+      LNEHNSEligibilityForm,
+      LNEHNSEligibilityFormDate,
+    } = req.body.clientData;
+
+    try {
+      const query = await {
+        name: "update-user",
+        text: `update msa_form set 
+        dateFormReviewed = $1,
+        clientId=$2,
+        clientFirstName=$3,
+        clientLastName=$4,
+        clientHCWID=$5,
+        userFirstName=$6,
+        userLastName=$7,
+        AIRSIntakeForm=$8,
+        AIRSIntakeFormDate=$9,
+        ComprehensiveRiskBehaviorAssessment=$10,
+        ComprehensiveRiskBehaviorAssessmentDate=$11,
+        ServiceActionPlan=$12,
+        ServiceActionPlanDate=$13,
+        AIRSCollateralInformation=$14,
+        AIRSCollateralInformationDate=$15,
+        AIRSFinancialInformation=$16,
+        AIRSFinancialInformationDate=$17,
+        AIRSHIVAIDSRiskHistory=$18,
+        AIRSHIVAIDSRiskHistoryDate=$19,
+        AIRSHCVHistory=$20,
+        AIRSHCVHistoryDate=$21,
+        AIRSHousingInformation=$22,
+        AIRSHousingInformationDate=$23,
+        AIRSInsuranceInformation=$24,
+        AIRSInsuranceInformationDate=$25,
+        AIRSSubstanceUseHistory=$26,
+        AIRSSubstanceUseHistoryDate=$27,
+        LNEClientRights=$28,
+        LNEClientRightsDate=$29,
+        LNEClientGrievancePolicyProcedure=$30,
+        LNEClientGrievancePolicyProcedureDate=$31,
+        LNEProgramRules=$32,
+        LNEProgramRulesDate=$33,
+        LNEEmergencyContactConsent=$34,
+        LNEEmergencyContactConsentDate=$35,
+        LNEConsentForReleaseOfConfidentialInformation=$36,
+        LNEConsentForReleaseOfConfidentialInformationDate=$37,
+        HIPPAConsentForm=$38,
+        HIPPAConsentFormDate=$39,
+        NYCDOHMHNoticeOfPrivacyPractices=$40,
+        NYCDOHMHNoticeOfPrivacyPracticesDate=$41,
+        LNEOutreachRetentionTrackingForm=$42,
+        LNEOutreachRetentionTrackingFormDate=$43,
+        LNEReferralInformation=$44,
+        LNEReferralInformationDate=$45,
+        LNEClientReferralForm=$46,
+        LNEClientReferralFormDate=$47,
+        LNEHNSEligibilityForm=$48,
+        LNEHNSEligibilityFormDate=$49 where clientId=$2`,
+        values: [dateFormReviewed,
+          clientId,
+          clientFirstName,
+          clientLastName,
+          clientHCWID,
+          userFirstName,
+          userLastName,
+          AIRSIntakeForm,
+          AIRSIntakeFormDate,
+          ComprehensiveRiskBehaviorAssessment,
+          ComprehensiveRiskBehaviorAssessmentDate,
+          ServiceActionPlan,
+          ServiceActionPlanDate,
+          AIRSCollateralInformation,
+          AIRSCollateralInformationDate,
+          AIRSFinancialInformation,
+          AIRSFinancialInformationDate,
+          AIRSHIVAIDSRiskHistory,
+          AIRSHIVAIDSRiskHistoryDate,
+          AIRSHCVHistory,
+          AIRSHCVHistoryDate,
+          AIRSHousingInformation,
+          AIRSHousingInformationDate,
+          AIRSInsuranceInformation,
+          AIRSInsuranceInformationDate,
+          AIRSSubstanceUseHistory,
+          AIRSSubstanceUseHistoryDate,
+          LNEClientRights,
+          LNEClientRightsDate,
+          LNEClientGrievancePolicyProcedure,
+          LNEClientGrievancePolicyProcedureDate,
+          LNEProgramRules,
+          LNEProgramRulesDate,
+          LNEEmergencyContactConsent,
+          LNEEmergencyContactConsentDate,
+          LNEConsentForReleaseOfConfidentialInformation,
+          LNEConsentForReleaseOfConfidentialInformationDate,
+          HIPPAConsentForm,
+          HIPPAConsentFormDate,
+          NYCDOHMHNoticeOfPrivacyPractices,
+          NYCDOHMHNoticeOfPrivacyPracticesDate,
+          LNEOutreachRetentionTrackingForm,
+          LNEOutreachRetentionTrackingFormDate,
+          LNEReferralInformation,
+          LNEReferralInformationDate,
+          LNEClientReferralForm,
+          LNEClientReferralFormDate,
+          LNEHNSEligibilityForm,
+          LNEHNSEligibilityFormDate],
+      };
+      db
+        .query(query)
+        .then((response) =>{
+         console.log("updated response",response)
+          res.status(200).send(response)
+        }
+        )
+        .catch((e) => res.send(e.stack));
+    } catch (error) {
+      res.json("an error ocurred");
+      console.log("error message:", error);
+    }
   },
 };
