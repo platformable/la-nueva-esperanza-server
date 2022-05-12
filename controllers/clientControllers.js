@@ -239,7 +239,7 @@ module.exports = {
     const checkIfClientHasMSAForm = async ()=>{
 
       const checkIfMsaFormQuery = {
-        text:"select clients.clientfirstname ,clients.clientlastname, clients.clientid,clients.clienthcwname,clients.clienthcwlastname, msa_form.airsintakeform, msa_form.comprehensiveriskbehaviorassessment,msa_form.serviceactionplan ,msa_form.id as msa_form_id  from clients inner join msa_form  on clients.clientid = msa_form.clientid  where clients.clientid=$1",
+        text:"select clients.clientfirstname ,clients.clientlastname, clients.clientid,clients.clienthcwname,clients.clienthcwlastname,clients.clientdatecreated, msa_form.airsintakeform, msa_form.comprehensiveriskbehaviorassessment,msa_form.serviceactionplan ,msa_form.id as msa_form_id  from clients inner join msa_form  on clients.clientid = msa_form.clientid  where clients.clientid=$1",
         values:[clientid]
       }
       db.query(checkIfMsaFormQuery)
