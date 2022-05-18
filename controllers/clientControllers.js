@@ -5,41 +5,21 @@ const axios = require("axios");
 var ACCESS_TOKEN = process.env.DROPBOX_ACCESS_TK;
 var dbx = new Dropbox({ accessToken: ACCESS_TOKEN });
 
-const clientFolders = [
-  {
-    name: "folder1",
-  },
-  {
-    name: "folder2",
-  },
-  {
-    name: "folder3",
-  },
-  {
-    name: "folder4",
-  },
-  {
-    name: "folder5",
-  },
-  {
-    name: "folder6",
-  },
-  {
-    name: "folder1",
-  },
-];
+
 
 const createFoldersAfterUserRegistration = (clientID) => {
   axios({
     method: "post",
-    url: `https://api.dropboxapi.com/2/files/create_folder_v2`,
+    url: `https://api.dropboxapi.com/2/files/create_folder_batch`,
     headers: {
       "Content-Type": "application/json",
       authorization: `Bearer ${ACCESS_TOKEN}`,
     },
     data: {
       autorename: false,
-      path: `/${clientID}`,
+      force_async: false,
+      paths:[`/clients/${clientID}`,`/clients/${clientID}/${clientID}_INTAKE_FORM`,`/clients/${clientID}/${clientID}_CBRA`,`/clients/${clientID}/${clientID}_ACTION_PLANS`,`/clients/${clientID}/${clientID}_MISCELLANEOUS`,`/clients/${clientID}/${clientID}_MEDICAL`,`/clients/${clientID}/${clientID}_CONSENT`,`/clients/${clientID}/${clientID}_LINKAGE_NAVIGATION`]
+      
     },
   })
     .then(function (response) {
@@ -50,161 +30,6 @@ const createFoldersAfterUserRegistration = (clientID) => {
     });
 };
 
-const createClientSubfolder1AfterUserRegistration = (clientID) => {
-  console.log("subfolde 1");
-  axios({
-    method: "post",
-    url: `https://api.dropboxapi.com/2/files/create_folder_v2`,
-    headers: {
-      "Content-Type": "application/json",
-      authorization: `Bearer ${ACCESS_TOKEN}`,
-    },
-    data: {
-      autorename: false,
-      path: `/${clientID}/subfolder1`,
-    },
-  })
-    .then(function (response) {
-      console.log("dropbox response:", response);
-    })
-    .then((createClientSubfolder2) =>
-      setTimeout(() => {
-        createClientSubfolder2AfterUserRegistration(clientID);
-      }, 3000)
-    )
-    .catch(function (error) {
-      console.log(error);
-    });
-};
-const createClientSubfolder2AfterUserRegistration = (clientID) => {
-  console.log("subfolde 2");
-  axios({
-    method: "post",
-    url: `https://api.dropboxapi.com/2/files/create_folder_v2`,
-    headers: {
-      "Content-Type": "application/json",
-      authorization: `Bearer ${ACCESS_TOKEN}`,
-    },
-    data: {
-      autorename: false,
-      path: `/${clientID}/subfolder2`,
-    },
-  })
-    .then(function (response) {
-      console.log("dropbox response:", response);
-    })
-    .then((createClientSubfolder3) =>
-      setTimeout(() => {
-        createClientSubfolder3AfterUserRegistration(clientID);
-      }, 3000)
-    )
-    .catch(function (error) {
-      console.log(error);
-    });
-};
-
-const createClientSubfolder3AfterUserRegistration = (clientID) => {
-  console.log("subfolde 3");
-  axios({
-    method: "post",
-    url: `https://api.dropboxapi.com/2/files/create_folder_v2`,
-    headers: {
-      "Content-Type": "application/json",
-      authorization: `Bearer ${ACCESS_TOKEN}`,
-    },
-    data: {
-      autorename: false,
-      path: `/${clientID}/subfolder3`,
-    },
-  })
-    .then(function (response) {
-      console.log("dropbox response:", response);
-    })
-    .then((createClientSubfolder4) =>
-      setTimeout(() => {
-        createClientSubfolder4AfterUserRegistration(clientID);
-      }, 3000)
-    )
-    .catch(function (error) {
-      console.log(error);
-    });
-};
-
-const createClientSubfolder4AfterUserRegistration = (clientID) => {
-  console.log("subfolde 4");
-  axios({
-    method: "post",
-    url: `https://api.dropboxapi.com/2/files/create_folder_v2`,
-    headers: {
-      "Content-Type": "application/json",
-      authorization: `Bearer ${ACCESS_TOKEN}`,
-    },
-    data: {
-      autorename: false,
-      path: `/${clientID}/subfolder4`,
-    },
-  })
-    .then(function (response) {
-      console.log("dropbox response:", response);
-    })
-    .then((createClientSubfolder5) =>
-      setTimeout(() => {
-        createClientSubfolder5AfterUserRegistration(clientID);
-      }, 3000)
-    )
-    .catch(function (error) {
-      console.log(error);
-    });
-};
-
-const createClientSubfolder5AfterUserRegistration = (clientID) => {
-  console.log("subfolde 5");
-  axios({
-    method: "post",
-    url: `https://api.dropboxapi.com/2/files/create_folder_v2`,
-    headers: {
-      "Content-Type": "application/json",
-      authorization: `Bearer ${ACCESS_TOKEN}`,
-    },
-    data: {
-      autorename: false,
-      path: `/${clientID}/subfolder5`,
-    },
-  })
-    .then(function (response) {
-      console.log("dropbox response:", response);
-    })
-    .then((createClientSubfolder6) =>
-      setTimeout(() => {
-        createClientSubfolder6AfterUserRegistration(clientID);
-      }, 3000)
-    )
-    .catch(function (error) {
-      console.log(error);
-    });
-};
-
-const createClientSubfolder6AfterUserRegistration = (clientID) => {
-  console.log("subfolde 6");
-  axios({
-    method: "post",
-    url: `https://api.dropboxapi.com/2/files/create_folder_v2`,
-    headers: {
-      "Content-Type": "application/json",
-      authorization: `Bearer ${ACCESS_TOKEN}`,
-    },
-    data: {
-      autorename: false,
-      path: `/${clientID}/subfolder6`,
-    },
-  })
-    .then(function (response) {
-      console.log("dropbox response:", response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-};
 
 module.exports = {
   getClientById: async (req, res) => {
@@ -333,11 +158,11 @@ module.exports = {
               .then((createClientFolder) =>
                 createFoldersAfterUserRegistration(clientID)
               )
-              .then((createClientSubfolder1) =>
+             /*  .then((createClientSubfolder1) =>
                 setTimeout(() => {
                   createClientSubfolder1AfterUserRegistration(clientID);
                 }, 4000)
-              )
+              ) */
               .catch((e) => console.error(e.stack));
           }
         })
