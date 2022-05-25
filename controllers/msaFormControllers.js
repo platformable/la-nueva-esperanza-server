@@ -23,7 +23,7 @@ module.exports = {
     
 
     const query = {
-      text: "select * from msa_form where clientid=$1",
+      text: "select * from msa_form inner join clients on msa_form.clientid =clients.clientid where clients.clientid=$1",
       values: [clientid],
     };
     try {

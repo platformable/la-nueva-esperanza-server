@@ -351,9 +351,9 @@ const createClientSharedMainFolder =(clientID)=>{
       "access_inheritance": "inherit",
       "acl_update_policy": "editors",
       "force_async": false,
-      "member_policy": "team",
+      "member_policy": "anyone",
       "path": `/clients/${clientID}`,
-      "shared_link_policy": "team"
+      "shared_link_policy": "anyone"
   }
   }).then(res=>console.log("main folder shared:", res.statusText))
    .then((result) => {setTimeout(()=>{createClientIntakeFormSharedFolder(clientID)},10000)})
@@ -373,9 +373,9 @@ const createClientIntakeFormSharedFolder=(clientID)=>{
       "access_inheritance": "inherit",
       "acl_update_policy": "editors",
       "force_async": false,
-      "member_policy": "team",
+      "member_policy": "anyone",
       "path": `/clients/${clientID}/${clientID}_INTAKE_FORM`,
-      "shared_link_policy": "team"
+      "shared_link_policy": "anyone"
   }
   })
    .then(()=>createClientCbraSharedFolder(clientID))
@@ -395,9 +395,9 @@ const createClientCbraSharedFolder=(clientID)=>{
       "access_inheritance": "inherit",
       "acl_update_policy": "editors",
       "force_async": false,
-      "member_policy": "team",
+      "member_policy": "anyone",
       "path": `/clients/${clientID}/${clientID}_CBRA`,
-      "shared_link_policy": "team"
+      "shared_link_policy": "anyone"
   }
   })
   .then((resaction) => {
@@ -420,9 +420,9 @@ const createClientActionPlansSharedFolder=(clientID)=>{
       "access_inheritance": "inherit",
       "acl_update_policy": "editors",
       "force_async": false,
-      "member_policy": "team",
+      "member_policy": "anyone",
       "path": `/clients/${clientID}/${clientID}_ACTION_PLANS`,
-      "shared_link_policy": "team"
+      "shared_link_policy": "anyone"
   }
   })
   .then((resmiscellaneous) => {setTimeout(()=>{createClientMiscellaneousSharedFolder(clientID)},5000)})
@@ -444,9 +444,9 @@ const createClientConsentSharedFolder=(clientID)=>{
       "access_inheritance": "inherit",
       "acl_update_policy": "editors",
       "force_async": false,
-      "member_policy": "team",
+      "member_policy": "anyone",
       "path": `/clients/${clientID}/${clientID}_CONSENT`,
-      "shared_link_policy": "team"
+      "shared_link_policy": "anyone"
   }
   })
   .then((reslinkage) => setTimeout(()=>{createClientLinkageNavigationSharedFolder(clientID)},5000))
@@ -466,9 +466,9 @@ const createClientMiscellaneousSharedFolder=(clientID)=>{
       "access_inheritance": "inherit",
       "acl_update_policy": "editors",
       "force_async": false,
-      "member_policy": "team",
+      "member_policy": "anyone",
       "path": `/clients/${clientID}/${clientID}_MISCELLANEOUS`,
-      "shared_link_policy": "team"
+      "shared_link_policy": "anyone"
   }
   })
   .then((resmedical) => {setTimeout(()=>{createClientMedicalSharedFolder(clientID)},5000)})
@@ -488,9 +488,9 @@ const createClientLinkageNavigationSharedFolder=(clientID)=>{
       "access_inheritance": "inherit",
       "acl_update_policy": "editors",
       "force_async": false,
-      "member_policy": "team",
+      "member_policy": "anyone",
       "path": `/clients/${clientID}/${clientID}_LINKAGE_NAVIGATION`,
-      "shared_link_policy": "team"
+      "shared_link_policy": "anyone"
   }
   })
   .then(res=>setTimeout(()=>{getIdAndFolderLinkage(clientID,'LINKAGE_NAVIGATION')},15000))
@@ -509,9 +509,9 @@ const createClientMedicalSharedFolder=(clientID)=>{
       "access_inheritance": "inherit",
       "acl_update_policy": "editors",
       "force_async": false,
-      "member_policy": "team",
+      "member_policy": "anyone",
       "path": `/clients/${clientID}/${clientID}_MEDICAL`,
-      "shared_link_policy": "team"
+      "shared_link_policy": "anyone"
   }
   })
   .then((resconsent) => setTimeout(()=>{createClientConsentSharedFolder(clientID)},5000))
