@@ -7,7 +7,8 @@ app.use(express.json());
 app.use(cors())
 app.use(urlencoded({extended:true}))
 const port = process.env.PORT || 5500
-
+const axios = require('axios')
+const db = require("./dbConnect");
 const { Pool,Client } = require('pg')
 const { user } = require('pg/lib/defaults')
 
@@ -40,6 +41,101 @@ app.use('/services_action_plan', servicesActionPlanRoute)
 const msaFormRoute = require('./routes/msaForm')
 app.use('/msa_forms', msaFormRoute)
 
+const progressNotes = require('./routes/progressNotes')
+app.use('/progress_notes',progressNotes)
+
+/* 
+app.get("/test", async (req,res)=>{
+  var clientID = 'g1234e'
+  var folderName="cbra"
+  let sharedFolderId;
+
+  try {
+
+  let founded;
+  const getFolderId = await axios({
+    method: "post",
+    url: `https://api.dropboxapi.com/2/files/get_metadata`,
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${process.env.DROPBOX_ACCESS_TK}`,
+    },
+    data: {  
+        "include_deleted": false,
+        "include_has_explicit_shared_members": false,
+        "include_media_info": false,
+        "path": `/clients/${clientID}/${clientID}_${folderName}`
+    },
+  })
+  const getFolderIdResponse = await getFolderId
+  const folderID=  getFolderIdResponse.data.shared_folder_id
+
+ 
+
+   const getUrl= await axios({
+      method: "post",
+      url: `https://api.dropboxapi.com/2/sharing/get_folder_metadata`,
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${process.env.DROPBOX_ACCESS_TK}`,
+      },
+      data: {
+      "shared_folder_id":folderID
+      },
+    })
+    const getFolderUrlResponse = await getUrl
+  const folderUrl=  await getFolderUrlResponse.data.preview_url
+  const resultUrl= await res.send(folderUrl)
+  console.log(folderUrl)
+
+  const sendToDb = await addClientFolder(folderUrl,"cbra",clientID)
+  }
+  catch(e) {
+    console.log(e)
+  }
+
+})
+
+
+const addClientFolder = async (url,folderName,clientID) =>{
+console.log("url desde add client",url)
+console.log("folder desde add client",folderName)
+console.log("id desde add client",clientID)
+      try {
+        const query = await {
+          name: "update-last-login",
+          text: `update clients set ${folderName}_folder_url=$1 where clientid=$2`,
+          values: [url, clientID.toUpperCase()],
+        };
+        db
+          .query(query)
+          .then((response) => console.log("update client sucess",response.rowCount))
+          .catch((e) => console.log(e));
+      } catch (error) {
+        console.log("error message de addClientFolder:", error);
+      }
+  }
+
+app.get("/testurl",(req,res)=>{
+  let sharedFolderUrl;
+  var clientID = 'g1234e'
+  var folderName="intake_form"
+  var sharedFolderId="2637785713"
+  axios({
+    method: "post",
+    url: `https://api.dropboxapi.com/2/sharing/get_folder_metadata`,
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${process.env.DROPBOX_ACCESS_TK}`,
+    },
+    data: {
+    "shared_folder_id":sharedFolderId
+    },
+  })
+    .then(response => {sharedFolderUrl=response.data.preview_url})
+    .then(resx=>res.send(sharedFolderUrl))
+    .catch((error)=> { console.log(error)})
+}) */
 
 
 
