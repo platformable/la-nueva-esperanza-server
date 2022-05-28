@@ -5,6 +5,7 @@ const controller = require('../controllers/progressNotesControllers')
 
 /* router.get("/",controller.getClients) */
 router.get("/:clientid",controller.getProgressNoteByClientId)
+router.post("/",controller.createProgressNote)
 /* router.get("/:clientid/profile",controller.getClientProfileData) */
 
 

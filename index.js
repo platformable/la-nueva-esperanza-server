@@ -44,7 +44,7 @@ app.use('/msa_forms', msaFormRoute)
 const progressNotes = require('./routes/progressNotes')
 app.use('/progress_notes',progressNotes)
 
-/* 
+
 app.get("/test", async (req,res)=>{
   var clientID = 'g1234e'
   var folderName="cbra"
@@ -135,7 +135,7 @@ app.get("/testurl",(req,res)=>{
     .then(response => {sharedFolderUrl=response.data.preview_url})
     .then(resx=>res.send(sharedFolderUrl))
     .catch((error)=> { console.log(error)})
-}) */
+}) 
 
 
 

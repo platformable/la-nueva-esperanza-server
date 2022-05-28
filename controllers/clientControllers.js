@@ -8,7 +8,6 @@ var dbx = new Dropbox({ accessToken: ACCESS_TOKEN });
 
 
 const getIdAndFolderIntakeForm = async (clientID,folderName)=>{
-  console.log("folderName al comienzo de getIdandfolder",folderName)
   try {
     const getFolderId = await axios({
       method: "post",
@@ -556,17 +555,18 @@ module.exports = {
       clients.clientfirstname,
       clients.clientlastname ,
       clients.clienthcwname,
-      clients.clienthcwlastname, 
+      clients.clienthcwlastname,
+      clients.clientdatecreated, 
       msa_form.clientid as msaClientId, 
       msa_form.id as msaFormID,
       msa_form.airsintakeform as msaFormAIRSINTAKEFORM,
       msa_form.comprehensiveriskbehaviorassessment as msaformcomprehensiveriskbehavrioassesment,
       progress_note.id as progressNoteid,
       services_action_plan.id as servicesactionplanid
-      from clients full outer join msa_form on 
-      clients.clientid=msa_form.clientid 
-      full outer join progress_note on progress_note.clientid = clients.clientid
-      full outer join services_action_plan on services_action_plan.clientid = clients.clientid 
+      from clients 
+      full outer join msa_form on clients.clientid=msa_form.clientid 
+      full outer join services_action_plan on services_action_plan.clientid = clients.clientid
+      full outer join progress_note on progress_note.clientid = clients.clientid 
       where clients.clientid=$1`,
       values: [clientid],
     };
