@@ -71,9 +71,66 @@ where clients.clientid =$1
       const allData = await db.query(query);
       const response = allData.rows;
       console.log("response", response);
-      let data;
+
+
+    
+      const mergeObjects=()=>{
+        let result={}
+        result.progressnotesid=[]
+        
+      const createObject=  response.forEach(x=>{
+    result.clientId=x.clientid
+    result.clientfirstname=x.clientfirstname
+    result.clientlastname=x.clientlastname
+    result.clienthcwid=x.clienthcwid
+    result.clienthcwname=x.clienthcwname
+    result.clienthcwlastname=x.clienthcwlastname
+    result.clientdatecreated=x.clientdatecreated
+    result.linkage_navigation_folder_url=x.linkage_navigation_folder_url
+    result.planstartdate=x.planstartdate
+    result.userfirstname=x.userfirstname
+    result.userlastname=x.userlastname
+    result.goal1servicecategory=x.goal1servicecategory
+    result.goal1summary=x.goal1summary
+    result.goal1details=x.goal1details
+    result.goal1targetdate=x.goal1targetdate
+    result.goal1actionstep1=x.goal1actionstep1
+    result.goal1actionstep2=x.goal1actionstep2
+    result.goal1actionstep3=x.goal1actionstep3
+    result.goal2servicecategory=x.goal2servicecategory
+    result.goal2summary=x.goal2summary
+    result.goal2details=x.goal2details
+    result.goal2targetdate=x.goal2targetdate
+    result.goal2actionstep1=x.goal2actionstep1
+    result.goal2actionstep2=x.goal2actionstep2
+    result.goal2actionstep3=x.goal2actionstep3
+    result.goal3servicecategory=x.goal3servicecategory
+    result.goal3summary=x.goal3summary
+    result.goal3details=x.goal3details
+    result.goal3targetdate=x.goal3targetdate
+    result.goal3actionstep1=x.goal3actionstep1
+    result.goal3actionstep2=x.goal3actionstep2
+    result.goal3actionstep3=x.goal3actionstep3
+    result.comments=x.comments
+    result.clientsignature=x.clientsignature
+    result.clientsignaturedate=x.clientsignaturedate
+    result.hcwsignature=x.hcwsignature
+    result.hcwsignaturedate=x.hcwsignaturedate
+    result.supervisorsignature=x.supervisorsignature
+    result.goal1completed=x.goal1completed
+    result.goal2completed=x.goal2completed
+    result.goal3completed=x.goal3completed
+    result.goal1completiondate=x.goal1completiondate
+    result.goal2completiondate=x.goal2completiondate
+    result.goal3completiondate=x.goal3completiondate
+    result.progressnotesid.push(x.progressnoteid)
       
-      res.json(response);
+        })
+      res.json([result]);
+
+      }
+
+      mergeObjects()
   },
   createServicesActionPlan: async (req,res)=> {
 

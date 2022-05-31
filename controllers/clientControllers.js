@@ -287,6 +287,126 @@ const getIdAndFolderMiscellaneous = async (clientID,folderName)=>{
     }
 }
 
+const getIdAndFolderTicklerUpdates = async (clientID,folderName)=>{
+  console.log("folderName al comienzo de getIdandfolder",folderName)
+  try {
+    const getFolderId = await axios({
+      method: "post",
+      url: `https://api.dropboxapi.com/2/files/get_metadata`,
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${process.env.DROPBOX_ACCESS_TK}`,
+      },
+      data: {  
+          "include_deleted": false,
+          "include_has_explicit_shared_members": false,
+          "include_media_info": false,
+          "path": `/clients/${clientID}/${clientID}_${folderName}`
+      },
+    })
+    const getFolderIdResponse = await getFolderId
+    const folderID=  getFolderIdResponse.data.shared_folder_id
+  
+     const getUrl= await axios({
+        method: "post",
+        url: `https://api.dropboxapi.com/2/sharing/get_folder_metadata`,
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${process.env.DROPBOX_ACCESS_TK}`,
+        },
+        data: {
+        "shared_folder_id":folderID
+        },
+      })
+      const getFolderUrlResponse = await getUrl
+      const folderUrl=  await getFolderUrlResponse.data.preview_url
+      const sendToDb = await addClientFolder(folderUrl,'tickler_updates',clientID)
+    }
+    catch(e) {
+      console.log(e)
+    }
+}
+
+const getIdAndFolderSupportGroups = async (clientID,folderName)=>{
+  console.log("folderName al comienzo de getIdandfolder",folderName)
+  try {
+    const getFolderId = await axios({
+      method: "post",
+      url: `https://api.dropboxapi.com/2/files/get_metadata`,
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${process.env.DROPBOX_ACCESS_TK}`,
+      },
+      data: {  
+          "include_deleted": false,
+          "include_has_explicit_shared_members": false,
+          "include_media_info": false,
+          "path": `/clients/${clientID}/${clientID}_${folderName}`
+      },
+    })
+    const getFolderIdResponse = await getFolderId
+    const folderID=  getFolderIdResponse.data.shared_folder_id
+  
+     const getUrl= await axios({
+        method: "post",
+        url: `https://api.dropboxapi.com/2/sharing/get_folder_metadata`,
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${process.env.DROPBOX_ACCESS_TK}`,
+        },
+        data: {
+        "shared_folder_id":folderID
+        },
+      })
+      const getFolderUrlResponse = await getUrl
+      const folderUrl=  await getFolderUrlResponse.data.preview_url
+      const sendToDb = await addClientFolder(folderUrl,'support_groups',clientID)
+    }
+    catch(e) {
+      console.log(e)
+    }
+}
+
+const getIdAndFolderIdg = async (clientID,folderName)=>{
+  console.log("folderName al comienzo de getIdandfolder",folderName)
+  try {
+    const getFolderId = await axios({
+      method: "post",
+      url: `https://api.dropboxapi.com/2/files/get_metadata`,
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${process.env.DROPBOX_ACCESS_TK}`,
+      },
+      data: {  
+          "include_deleted": false,
+          "include_has_explicit_shared_members": false,
+          "include_media_info": false,
+          "path": `/clients/${clientID}/${clientID}_${folderName}`
+      },
+    })
+    const getFolderIdResponse = await getFolderId
+    const folderID=  getFolderIdResponse.data.shared_folder_id
+  
+     const getUrl= await axios({
+        method: "post",
+        url: `https://api.dropboxapi.com/2/sharing/get_folder_metadata`,
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${process.env.DROPBOX_ACCESS_TK}`,
+        },
+        data: {
+        "shared_folder_id":folderID
+        },
+      })
+      const getFolderUrlResponse = await getUrl
+      const folderUrl=  await getFolderUrlResponse.data.preview_url
+      const sendToDb = await addClientFolder(folderUrl,'idg',clientID)
+    }
+    catch(e) {
+      console.log(e)
+    }
+}
+
 const addClientFolder = async (url,folderName,clientID) =>{
   console.log("url desde add client",url)
   console.log("folder desde add client",folderName)
@@ -324,8 +444,11 @@ const createFoldersAfterUserRegistration = (clientID) => {
       `/clients/${clientID}/${clientID}_MISCELLANEOUS`,
       `/clients/${clientID}/${clientID}_MEDICAL`,
       `/clients/${clientID}/${clientID}_CONSENT`,
-      `/clients/${clientID}/${clientID}_LINKAGE_NAVIGATION`]
-      
+      `/clients/${clientID}/${clientID}_LINKAGE_NAVIGATION`,
+      `/clients/${clientID}/${clientID}_TICKLER_UPDATES`,
+      `/clients/${clientID}/${clientID}_SUPPORT_GROUPS`,
+      `/clients/${clientID}/${clientID}_IDG`
+    ]
     },
   })
     .then(function (response) {
@@ -354,7 +477,7 @@ const createClientSharedMainFolder =(clientID)=>{
       "path": `/clients/${clientID}`,
       "shared_link_policy": "anyone"
   }
-  }).then(res=>console.log("main folder shared:", res.statusText))
+  })
    .then((result) => {setTimeout(()=>{createClientIntakeFormSharedFolder(clientID)},10000)})
    .catch((error)=>console.log(error))
 }
@@ -377,7 +500,7 @@ const createClientIntakeFormSharedFolder=(clientID)=>{
       "shared_link_policy": "anyone"
   }
   })
-   .then(()=>createClientCbraSharedFolder(clientID))
+   .then((resx)=>setTimeout(()=>{createClientCbraSharedFolder(clientID)},10000))
    .then(res=>setTimeout(()=>{getIdAndFolderIntakeForm(clientID,'INTAKE_FORM')},15000))
    .catch((error)=>console.log(error))
 }
@@ -400,7 +523,7 @@ const createClientCbraSharedFolder=(clientID)=>{
   }
   })
   .then((resaction) => {
-    setTimeout(()=>{createClientActionPlansSharedFolder(clientID)},5000)
+    setTimeout(()=>{createClientActionPlansSharedFolder(clientID)},10000)
   })
   .then(response=>setTimeout(()=>{getIdAndFolderCBRA(clientID,'CBRA')},15000))
   .catch((error)=>console.log(error))
@@ -424,7 +547,7 @@ const createClientActionPlansSharedFolder=(clientID)=>{
       "shared_link_policy": "anyone"
   }
   })
-  .then((resmiscellaneous) => {setTimeout(()=>{createClientMiscellaneousSharedFolder(clientID)},5000)})
+  .then((resmiscellaneous) => {setTimeout(()=>{createClientMiscellaneousSharedFolder(clientID)},10000)})
   .then(res=>setTimeout(()=>{getIdAndFolderAP(clientID,'ACTION_PLANS')},15000))
   .catch((error)=>console.log(error))
 }
@@ -448,7 +571,7 @@ const createClientConsentSharedFolder=(clientID)=>{
       "shared_link_policy": "anyone"
   }
   })
-  .then((reslinkage) => setTimeout(()=>{createClientLinkageNavigationSharedFolder(clientID)},5000))
+  .then((reslinkage) => setTimeout(()=>{createClientLinkageNavigationSharedFolder(clientID)},10000))
   .then(res=>setTimeout(()=>{getIdAndFolderConsent(clientID,'CONSENT')},15000))
   .catch((error)=>console.log(error))
 }
@@ -470,7 +593,7 @@ const createClientMiscellaneousSharedFolder=(clientID)=>{
       "shared_link_policy": "anyone"
   }
   })
-  .then((resmedical) => {setTimeout(()=>{createClientMedicalSharedFolder(clientID)},5000)})
+  .then((resmedical) => {setTimeout(()=>{createClientMedicalSharedFolder(clientID)},10000)})
   .then(response=>setTimeout(()=>{getIdAndFolderMiscellaneous(clientID,'MISCELLANEOUS')},15000))
   .catch((error)=>console.log(error))
 }
@@ -492,7 +615,74 @@ const createClientLinkageNavigationSharedFolder=(clientID)=>{
       "shared_link_policy": "anyone"
   }
   })
+  .then((reslinkage) => {setTimeout(()=>{createClientTicklerUpdatesSharedFolder(clientID)},10000)})
   .then(res=>setTimeout(()=>{getIdAndFolderLinkage(clientID,'LINKAGE_NAVIGATION')},15000))
+  .catch((error)=>console.log(error))
+}
+
+const createClientTicklerUpdatesSharedFolder=(clientID)=>{
+  axios({
+    method:'post',
+    url:'https://api.dropboxapi.com/2/sharing/share_folder',
+    headers:{
+      'Content-Type':'application/json',
+      authorization: `Bearer ${ACCESS_TOKEN}`,
+    },
+    data:{
+      "access_inheritance": "inherit",
+      "acl_update_policy": "editors",
+      "force_async": false,
+      "member_policy": "anyone",
+      "path": `/clients/${clientID}/${clientID}_TICKLER_UPDATES`,
+      "shared_link_policy": "anyone" 
+  }
+  })
+  .then((reslinkage) => {setTimeout(()=>{createClientSupportGroupsSharedFolder(clientID)},10000)})
+  .then(res=>setTimeout(()=>{getIdAndFolderTicklerUpdates(clientID,'TICKLER_UPDATES')},15000))
+  .catch((error)=>console.log(error))
+}
+
+const createClientSupportGroupsSharedFolder=(clientID)=>{
+  axios({
+    method:'post',
+    url:'https://api.dropboxapi.com/2/sharing/share_folder',
+    headers:{
+      'Content-Type':'application/json',
+      authorization: `Bearer ${ACCESS_TOKEN}`,
+    },
+    data:{
+      "access_inheritance": "inherit",
+      "acl_update_policy": "editors",
+      "force_async": false,
+      "member_policy": "anyone",
+      "path": `/clients/${clientID}/${clientID}_SUPPORT_GROUPS`,
+      "shared_link_policy": "anyone"
+  }
+  })
+  .then((reslinkage) => {setTimeout(()=>{createClientIdgSharedFolder(clientID)},20000)})
+  .then(res=>setTimeout(()=>{getIdAndFolderSupportGroups(clientID,'SUPPORT_GROUPS')},25000))
+  .catch((error)=>console.log(error))
+}
+
+const createClientIdgSharedFolder=(clientID)=>{
+  console.log("running IDG")
+  axios({
+    method:'post',
+    url:'https://api.dropboxapi.com/2/sharing/share_folder',
+    headers:{
+      'Content-Type':'application/json',
+      authorization: `Bearer ${ACCESS_TOKEN}`,
+    },
+    data:{
+      "access_inheritance": "inherit",
+      "acl_update_policy": "editors",
+      "force_async": false,
+      "member_policy": "anyone",
+      "path": `/clients/${clientID}/${clientID}_IDG`,
+      "shared_link_policy": "anyone"
+  }
+  })
+  .then(res=>setTimeout(()=>{getIdAndFolderIdg(clientID,'IDG')},10000))
   .catch((error)=>console.log(error))
 }
 
@@ -513,7 +703,7 @@ const createClientMedicalSharedFolder=(clientID)=>{
       "shared_link_policy": "anyone"
   }
   })
-  .then((resconsent) => setTimeout(()=>{createClientConsentSharedFolder(clientID)},5000))
+  .then((resconsent) => setTimeout(()=>{createClientConsentSharedFolder(clientID)},10000))
   .then(res=>setTimeout(()=>{getIdAndFolderMedical(clientID,'MEDICAL')},15000))
   .catch((error)=>console.log(error))
 }
@@ -660,7 +850,7 @@ module.exports = {
             db.query(query)
               .then((data) => res.status(200).json(data.rows[0]))
               .then((response) => createFoldersAfterUserRegistration(clientID))
-              .then((resmain) => {setTimeout(()=>{createClientSharedMainFolder(clientID)},5000)})
+              .then((resmain) => {setTimeout(()=>{createClientSharedMainFolder(clientID)},10000)})
               .catch((e) => console.error(e.stack))
           }
         })
