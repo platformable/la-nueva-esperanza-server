@@ -12,12 +12,67 @@ module.exports= {
   getClientServicesActionPlan: async (req,res)=>{
     let { clientid } = await req.params;
     const query= {
-      text:'select * from services_action_plan where clientid =$1',
+      //text:'select * from services_action_plan where clientid =$1',
+      text:`
+      select clients.clientid as clientid,
+clients.clientfirstname,
+clients.clientlastname,
+clients.clienthcwid,
+clients.clienthcwname,
+clients.clienthcwlastname,
+clients.clientdatecreated,
+clients.linkage_navigation_folder_url ,
+	services_action_plan.clientFirstName,
+    services_action_plan.clientLastName,
+    services_action_plan.planStartDate,
+    services_action_plan.userFirstName,
+    services_action_plan.userLastName,
+    services_action_plan.goal1ServiceCategory,
+    services_action_plan.goal1Summary,
+    services_action_plan.goal1Details,
+    services_action_plan.goal1TargetDate,
+    services_action_plan.goal1ActionStep1,
+    services_action_plan.goal1ActionStep2,
+    services_action_plan.goal1ActionStep3,
+    services_action_plan.goal2ServiceCategory,
+    services_action_plan.goal2Summary,
+    services_action_plan.goal2Details,
+    services_action_plan.goal2TargetDate,
+    services_action_plan.goal2ActionStep1,
+    services_action_plan.goal2ActionStep2,
+    services_action_plan.goal2ActionStep3,
+    services_action_plan.goal3ServiceCategory,
+    services_action_plan.goal3Summary,
+    services_action_plan.goal3Details,
+    services_action_plan.goal3TargetDate,
+    services_action_plan.goal3ActionStep1,
+    services_action_plan.goal3ActionStep2,
+    services_action_plan.goal3ActionStep3,
+    services_action_plan.comments,
+    services_action_plan.clientSignature,
+    services_action_plan.clientSignatureDate,
+    services_action_plan.HCWSignature,
+    services_action_plan.HCWSignatureDate,
+    services_action_plan.supervisorSignature,
+	services_action_plan.goal1completed ,
+	services_action_plan.goal2completed ,
+	services_action_plan.goal3completed,
+	services_action_plan.goal1completiondate  ,
+	services_action_plan.goal2completiondate ,
+	services_action_plan.goal3completiondate,
+    progress_note.id as progressnoteid
+	from clients 
+	full outer join services_action_plan on clients.clientid = services_action_plan.clientid
+	full outer join progress_note  on clients.clientid = progress_note.clientid
+where clients.clientid =$1
+      `,
       values:[clientid]
     }
       const allData = await db.query(query);
       const response = allData.rows;
       console.log("response", response);
+      let data;
+      
       res.json(response);
   },
   createServicesActionPlan: async (req,res)=> {
@@ -333,5 +388,67 @@ module.exports= {
     }
 
 
-    }
+    },
+    updateSAPFormFromProgressNote: async (req, res) => {
+      console.log("req.body",req.body)
+      
+      for (const property in req.body.clientData) {
+        if(req.body.clientData[property]===true){
+          req.body.clientData[property]=1
+        }
+        if(req.body.clientData[property]===false){
+          req.body.clientData[property]=0
+        }
+        if(req.body.clientData[property]===""){
+          req.body.clientData[property]=null
+        }
+       
+      } 
+      let {
+        clientId,
+        goal1Completed,
+        goal2Completed,
+        goal3Completed,
+        goal1CompletionDate,
+        goal2CompletionDate,
+        goal3CompletionDate,
+      } = req.body.clientData;
+
+      console.log(req.body)
+  
+      try {
+        const query = await {
+          name: "update-sap-from-progress-note",
+          text: `update services_action_plan set 
+          clientId=$1,
+            goal1Completed=$2,
+            goal2Completed=$3,
+            goal3Completed=$4,
+            goal1CompletionDate=$5,
+            goal2CompletionDate=$6,
+            goal3CompletionDate=$7 where clientId=$1`,
+          values: [
+            clientId,
+            goal1Completed,
+            goal2Completed,
+            goal3Completed,
+            goal1CompletionDate,
+            goal2CompletionDate,
+            goal3CompletionDate,
+          ],
+        };
+        db
+          .query(query)
+          .then((response) =>{
+           console.log("response sap update",response)
+            res.status(200).send(response)
+          }
+          )
+          .then(response=>console.log("sap updated successfully"))
+          .catch((e) => res.send(e.stack));
+      } catch (error) {
+        res.json("an error ocurred");
+        console.log("error message:", error);
+      }
+    },
 }

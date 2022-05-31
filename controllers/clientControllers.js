@@ -548,25 +548,42 @@ module.exports = {
   getClientProfileData: async (req,res)=>{
     let {clientid} = req.params
 
-
+    for (const property in req.body.clientData) {
+      if(req.body.clientData[property]===true){
+        req.body.clientData[property]=1
+      }
+      if(req.body.clientData[property]===false){
+        req.body.clientData[property]=0
+      }
+      if(req.body.clientData[property]===""){
+        req.body.clientData[property]=null
+      }
+    } 
       const query = {
       text: `
       select clients.clientid,
-      clients.clientfirstname,
+      clients.clientfirstname ,
       clients.clientlastname ,
-      clients.clienthcwname,
-      clients.clienthcwlastname,
-      clients.clientdatecreated, 
+      clients.clienthcwid ,
+      clients.clienthcwname ,
+      clients.clienthcwlastname ,
+      clients.clientdatecreated ,
       msa_form.clientid as msaClientId, 
-      msa_form.id as msaFormID,
-      msa_form.airsintakeform as msaFormAIRSINTAKEFORM,
-      msa_form.comprehensiveriskbehaviorassessment as msaformcomprehensiveriskbehavrioassesment,
-      progress_note.id as progressNoteid,
-      services_action_plan.id as servicesactionplanid
+            msa_form.id as msaFormID,
+            msa_form.airsintakeform as msaFormAIRSINTAKEFORM,
+            msa_form.comprehensiveriskbehaviorassessment as msaformcomprehensiveriskbehavrioassesment,
+      services_action_plan.clientid as servicesactionplanid,
+      services_action_plan.goal1completed ,
+      services_action_plan.goal2completed ,
+      services_action_plan.goal3completed,
+      services_action_plan.goal1completiondate  ,
+      services_action_plan.goal2completiondate ,
+      services_action_plan.goal3completiondate,
+      progress_note.id as progress_note_id  
       from clients 
       full outer join msa_form on clients.clientid=msa_form.clientid 
-      full outer join services_action_plan on services_action_plan.clientid = clients.clientid
-      full outer join progress_note on progress_note.clientid = clients.clientid 
+      full outer join services_action_plan on clients.clientid = services_action_plan.clientid
+      full outer join progress_note on clients.clientid = progress_note.clientid 
       where clients.clientid=$1`,
       values: [clientid],
     };

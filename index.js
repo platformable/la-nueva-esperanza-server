@@ -84,11 +84,11 @@ app.get("/test", async (req,res)=>{
       },
     })
     const getFolderUrlResponse = await getUrl
-  const folderUrl=  await getFolderUrlResponse.data.preview_url
-  const resultUrl= await res.send(folderUrl)
-  console.log(folderUrl)
+    const folderUrl=  await getFolderUrlResponse.data.preview_url
+    const resultUrl= await res.send(folderUrl)
+    console.log(folderUrl)
 
-  const sendToDb = await addClientFolder(folderUrl,"cbra",clientID)
+    const sendToDb = await addClientFolder(folderUrl,"cbra",clientID)
   }
   catch(e) {
     console.log(e)
@@ -98,9 +98,6 @@ app.get("/test", async (req,res)=>{
 
 
 const addClientFolder = async (url,folderName,clientID) =>{
-console.log("url desde add client",url)
-console.log("folder desde add client",folderName)
-console.log("id desde add client",clientID)
       try {
         const query = await {
           name: "update-last-login",
