@@ -1,6 +1,7 @@
 const db = require("../dbConnect");
 const { Dropbox } = require("dropbox");
 const axios = require("axios");
+const res = require("express/lib/response");
 
 
 var ACCESS_TOKEN = process.env.DROPBOX_ACCESS_TK;
@@ -407,27 +408,14 @@ const getIdAndFolderIdg = async (clientID,folderName)=>{
     }
 }
 
-const addClientFolder = async (url,folderName,clientID) =>{
-  console.log("url desde add client",url)
-  console.log("folder desde add client",folderName)
-  console.log("id desde add client",clientID)
-        try {
-          const query = await {
-            text: `update clients set ${folderName}_folder_url=$1 where clientid=$2`,
-            values: [url, clientID.toUpperCase()],
-          };
-          db
-            .query(query)
-            .then((response) => console.log("update client sucess",response.rowCount))
-            .catch((e) => console.log(e));
-        } catch (error) {
-          console.log("error message de addClientFolder:", error);
-        }
-    }
 
 
-const createFoldersAfterUserRegistration = (clientID) => {
-  axios({
+
+const createFoldersAfterUserRegistration = async (clientID) => {
+
+  try {
+
+ const getData= axios({
     method: "post",
     url: `https://api.dropboxapi.com/2/files/create_folder_batch`,
     headers: {
@@ -438,7 +426,7 @@ const createFoldersAfterUserRegistration = (clientID) => {
       autorename: false,
       force_async: false,
       paths:[`/clients/${clientID}`,
-      `/clients/${clientID}/${clientID}_INTAKE_FORM`,
+      `/clients/${clientID}/${clientID}_INTAKE`,
       `/clients/${clientID}/${clientID}_CBRA`,
       `/clients/${clientID}/${clientID}_ACTION_PLANS`,
       `/clients/${clientID}/${clientID}_MISCELLANEOUS`,
@@ -451,18 +439,21 @@ const createFoldersAfterUserRegistration = (clientID) => {
     ]
     },
   })
-    .then(function (response) {
-      console.log("dropbox response: sucess");
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+  const dataResponse = await getData 
+  console.log("dataResponse.statusText",dataResponse.statusText)
+  //const dataStatus = await dataResponse.statusText==='OK' ? ()=> {setTimeout(createClientSharedMainFolder(clientID,'intake'),5000)}: console.log("create folder error",dataResponse.status)
+const dataStatus = await dataResponse.statusText==='OK' ? createClientSharedMainFolder(clientID,'intake'): console.log("create folder error",dataResponse.status)
+
+  } catch(e){
+console.log("an error ocurred createClientfolders", e)
+  }
 };
 
 
-const createClientSharedMainFolder =(clientID)=>{
+const createClientSharedMainFolder = async (clientID,folderName)=>{
 
-  axios({
+  try {
+  const getData= await axios({
     method:'post',
     url:'https://api.dropboxapi.com/2/sharing/share_folder',
     headers:{
@@ -474,12 +465,17 @@ const createClientSharedMainFolder =(clientID)=>{
       "acl_update_policy": "editors",
       "force_async": false,
       "member_policy": "anyone",
-      "path": `/clients/${clientID}`,
+      "path": `/clients/${clientID}/${clientID}_${folderName.toUpperCase()}`,
       "shared_link_policy": "anyone"
   }
   })
-   .then((result) => {setTimeout(()=>{createClientIntakeFormSharedFolder(clientID)},10000)})
-   .catch((error)=>console.log(error))
+  const dataResponse = await getData 
+  console.log("dataResponse.",dataResponse)
+  const dataStatus = await dataResponse.statusText==='OK' ? addClientFolder(dataResponse.data.preview_url,folderName,clientID): console.log("create folder error",dataResponse.status)
+  }  catch(e){
+    console.log("an error ocurred sharing ", e)
+      }
+
 }
 
 
@@ -850,8 +846,17 @@ module.exports = {
           
             db.query(query)
               .then((data) => res.status(200).json(data.rows[0]))
-              .then((response) => createFoldersAfterUserRegistration(clientID))
-              .then((resmain) => {setTimeout(()=>{createClientSharedMainFolder(clientID)},10000)})
+              .then((response1) => createClientSharedMainFolder(clientID,'intake'))
+              .then((response2) => createClientSharedMainFolder(clientID,'cbra'))
+              .then((response3) => createClientSharedMainFolder(clientID,'action_plans'))
+              .then((response3) => createClientSharedMainFolder(clientID,'consent'))
+              .then((response3) => createClientSharedMainFolder(clientID,'idg'))
+              .then((response3) => createClientSharedMainFolder(clientID,'linkage_navigation'))
+              .then((response3) => createClientSharedMainFolder(clientID,'medical'))
+              .then((response3) => createClientSharedMainFolder(clientID,'miscellaneous'))
+              .then((response3) => createClientSharedMainFolder(clientID,'support_groups'))
+              .then((response3) => createClientSharedMainFolder(clientID,'tickler_updates'))
+        /*       .then((resmain) => {setTimeout(()=>{createClientSharedMainFolder(clientID)},10000)}) */
               .catch((e) => console.error(e.stack))
           }
         })
@@ -859,3 +864,61 @@ module.exports = {
     }
   },
 };
+
+
+const getIdAndFolderUrl = async (clientID,folderName)=>{
+  try {
+    const getFolderId = await axios({
+      method: "post",
+      url: `https://api.dropboxapi.com/2/files/get_metadata`,
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${process.env.DROPBOX_ACCESS_TK}`,
+      },
+      data: {  
+          "include_deleted": false,
+          "include_has_explicit_shared_members": false,
+          "include_media_info": false,
+          "path": `/clients/${clientID}/${clientID}_${folderName}`
+      },
+    })
+    const getFolderIdResponse = await getFolderId
+    const folderID=  getFolderIdResponse.data.shared_folder_id
+  
+     const getUrl= await axios({
+        method: "post",
+        url: `https://api.dropboxapi.com/2/sharing/get_folder_metadata`,
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${process.env.DROPBOX_ACCESS_TK}`,
+        },
+        data: {
+        "shared_folder_id":folderID
+        },
+      })
+      const getFolderUrlResponse = await getUrl
+      const folderUrl=  await getFolderUrlResponse.data.preview_url
+      const sendToDb = await addClientFolder(folderUrl,folderName,clientID)
+    }
+    catch(e) {
+      console.log(e)
+    }
+}
+
+const addClientFolder = async (url,folderName,clientID) =>{
+  console.log("url desde add client",url)
+  console.log("folder desde add client",folderName)
+  console.log("id desde add client",clientID)
+        try {
+          const query = await {
+            text: `update clients set ${folderName}_folder_url=$1 where clientid=$2`,
+            values: [url, clientID.toUpperCase()],
+          };
+          db
+            .query(query)
+            .then((response) => console.log("update client sucess",response.rowCount))
+            .catch((e) => console.log(e));
+        } catch (error) {
+          console.log("error message de addClientFolder:", error);
+        }
+    }
