@@ -769,6 +769,7 @@ module.exports = {
       services_action_plan.goal1completiondate  ,
       services_action_plan.goal2completiondate ,
       services_action_plan.goal3completiondate,
+      services_action_plan.planstartdate,
       progress_note.id as progress_note_id  
       from clients 
       full outer join msa_form on clients.clientid=msa_form.clientid 
