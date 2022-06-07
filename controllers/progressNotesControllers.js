@@ -8,12 +8,7 @@ module.exports= {
       
         const query = {
           text: `
-          select clients.clientid,
-          clients.clientfirstname,
-          clients.clientlastname, 
-          clients.clienthcwid,
-          clients.clienthcwname,
-          clients.clienthcwlastname, 
+          select clients.*, 
           services_action_plan.goal1servicecategory,
           services_action_plan.goal1summary,
           services_action_plan.goal1targetdate,
@@ -58,9 +53,16 @@ module.exports= {
           msa_form.lneclientreferralform,
           msa_form.lneclientreferralformdate,
           msa_form.lnehnseligibilityform,
-          msa_form.lnehnseligibilityformdate
-          from clients inner join services_action_plan on 
-          clients.clientid = services_action_plan.clientid inner join msa_form on msa_form.clientid = clients.clientid  where clients.clientid=$1`,
+          msa_form.lnehnseligibilityformdate,
+          progress_note.progressnotedate as lastprogressnotedate,
+          progress_note.goal1completed as goal1completed,
+          progress_note.goal2completed as goal2completed,
+          progress_note.goal3completed as goal3completed
+          from clients 
+          full outer join services_action_plan on  clients.clientid = services_action_plan.clientid 
+          full outer join msa_form on msa_form.clientid = clients.clientid  
+          full outer join progress_note on progress_note.clientid = clients.clientid
+          where clients.clientid=$1 order by id asc limit 1`,
           values: [clientid],
         };
         try {

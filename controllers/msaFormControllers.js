@@ -22,7 +22,11 @@ module.exports = {
     let { clientid } = await req.params;
 
     const query = {
-      text: "select * from msa_form inner join clients on msa_form.clientid =clients.clientid where clients.clientid=$1",
+      text: `select msa_form.*,progress_note.id as progressnoteid,progress_note.progressnotedate as progressnotedate from msa_form 
+      inner join clients on msa_form.clientid =clients.clientid 
+      full outer join progress_note on progress_note.clientid = clients.clientid  
+      where clients.clientid=$1 order by id asc
+      limit 1`,
       values: [clientid],
     };
     try {
@@ -35,7 +39,7 @@ module.exports = {
     }
   },
   createMsaForm: async (req, res) => {
-   
+   console.log(req.body)
 
     for (const property in req.body.clientData) {
       if(req.body.clientData[property]===true){
@@ -99,6 +103,39 @@ module.exports = {
       LNEClientReferralFormDate,
       LNEHNSEligibilityForm,
       LNEHNSEligibilityFormDate,
+
+      ProgressNote ,
+ProgressNoteDate,
+StatusChangesForm ,
+StatusChangesFormDate ,
+ComprehensiveRiskBehaviorAssessmentUpdates,
+ComprehensiveRiskBehaviorAssessmentUpdatesDate ,
+M11QForm ,
+M11QFormDate ,
+CD4VLReports,
+CD4VLReportsDate ,
+InitialTreatmentAdherenceIntake ,
+InitialTreatmentAdherenceIntakeDate ,
+TreatmentAdherenceUpdates,
+TreatmentAdherenceUpdatesDate ,
+AirsDrugRegimen ,
+AirsDrugRegimenDate,
+AirsHIVMedicalProvider,
+AirsHIVMedicalProviderDate,
+AIRSHIVStatusHistory ,
+AIRSHIVStatusHistoryDate ,
+LinkageRetentionAdherenceForms,
+LinkageRetentionAdherenceFormsDate ,
+InternalReferralInformation ,
+InternalReferralInformationDate ,
+HNSEligibilityForm ,
+HNSEligibilityFormDate ,
+HNSReadinessForm ,
+HNSReadinessFormDate ,
+SupportGroups,
+SupportGroupsDate ,
+IDGForm ,
+IDGFormDate 
     } = req.body.clientData;
 
 
@@ -156,7 +193,46 @@ module.exports = {
           LNEClientReferralForm,
           LNEClientReferralFormDate,
           LNEHNSEligibilityForm,
-          LNEHNSEligibilityFormDate) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40,$41,$42,$43,$44,$45,$46,$47,$48,$49) RETURNING *`,
+          LNEHNSEligibilityFormDate,
+ProgressNote ,
+ProgressNoteDate,
+StatusChangesForm ,
+StatusChangesFormDate ,
+ComprehensiveRiskBehaviorAssessmentUpdates,
+ComprehensiveRiskBehaviorAssessmentUpdatesDate ,
+M11QForm ,
+M11QFormDate ,
+CD4VLReports,
+CD4VLReportsDate ,
+InitialTreatmentAdherenceIntake ,
+InitialTreatmentAdherenceIntakeDate ,
+TreatmentAdherenceUpdates,
+TreatmentAdherenceUpdatesDate ,
+AirsDrugRegimen ,
+AirsDrugRegimenDate,
+AirsHIVMedicalProvider,
+AirsHIVMedicalProviderDate,
+AIRSHIVStatusHistory ,
+AIRSHIVStatusHistoryDate ,
+LinkageRetentionAdherenceForms,
+LinkageRetentionAdherenceFormsDate ,
+InternalReferralInformation ,
+InternalReferralInformationDate ,
+HNSEligibilityForm ,
+HNSEligibilityFormDate ,
+HNSReadinessForm ,
+HNSReadinessFormDate ,
+SupportGroups,
+SupportGroupsDate ,
+IDGForm ,
+IDGFormDate 
+) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,
+            $21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40,
+            $41,$42,$43,$44,$45,$46,$47,$48,$49,
+            $50,$51,$52,$53,$54,$55,$56,$57 ,$58,$59,
+            $60,$61,$62,$63,$64,$65,$66,$67,$68,$69,$70,$71,$72,$73,$74,$75,$76,$77,$78,$79,
+            $80,$81) 
+            RETURNING *`,
           values:[
             dateFormReviewed,
             clientId,
@@ -206,7 +282,39 @@ module.exports = {
             LNEClientReferralForm,
             LNEClientReferralFormDate,
             LNEHNSEligibilityForm,
-            LNEHNSEligibilityFormDate]
+            LNEHNSEligibilityFormDate,
+            ProgressNote ,
+            ProgressNoteDate,
+            StatusChangesForm ,
+            StatusChangesFormDate ,
+            ComprehensiveRiskBehaviorAssessmentUpdates,
+            ComprehensiveRiskBehaviorAssessmentUpdatesDate ,
+            M11QForm ,
+            M11QFormDate ,
+            CD4VLReports,
+            CD4VLReportsDate ,
+            InitialTreatmentAdherenceIntake ,
+            InitialTreatmentAdherenceIntakeDate ,
+            TreatmentAdherenceUpdates,
+            TreatmentAdherenceUpdatesDate ,
+            AirsDrugRegimen ,
+            AirsDrugRegimenDate,
+            AirsHIVMedicalProvider,
+            AirsHIVMedicalProviderDate,
+            AIRSHIVStatusHistory ,
+            AIRSHIVStatusHistoryDate ,
+            LinkageRetentionAdherenceForms,
+            LinkageRetentionAdherenceFormsDate ,
+            InternalReferralInformation ,
+            InternalReferralInformationDate ,
+            HNSEligibilityForm ,
+            HNSEligibilityFormDate ,
+            HNSReadinessForm ,
+            HNSReadinessFormDate ,
+            SupportGroups,
+            SupportGroupsDate ,
+            IDGForm ,
+            IDGFormDate ]
 
       }
 
@@ -241,12 +349,15 @@ module.exports = {
       .catch(err=>console.log(err))
       
     } catch (error) {
+      console.log(error)
       res.status(400).json({
         "message":"an error ocurred"
       })
     }
   },
   updateMsaForm: async (req, res) => {
+    console.log("update del msa")
+    console.log(req.body)
     
     for (const property in req.body.clientData) {
       if(req.body.clientData[property]===true){
@@ -310,6 +421,39 @@ module.exports = {
       LNEClientReferralFormDate,
       LNEHNSEligibilityForm,
       LNEHNSEligibilityFormDate,
+      ProgressNote ,
+ProgressNoteDate,
+StatusChangesForm ,
+StatusChangesFormDate ,
+ComprehensiveRiskBehaviorAssessmentUpdates,
+ComprehensiveRiskBehaviorAssessmentUpdatesDate ,
+M11QForm ,
+M11QFormDate ,
+CD4VLReports,
+CD4VLReportsDate ,
+InitialTreatmentAdherenceIntake ,
+InitialTreatmentAdherenceIntakeDate ,
+TreatmentAdherenceUpdates,
+TreatmentAdherenceUpdatesDate ,
+AirsDrugRegimen ,
+AirsDrugRegimenDate,
+AirsHIVMedicalProvider,
+AirsHIVMedicalProviderDate,
+AIRSHIVStatusHistory ,
+AIRSHIVStatusHistoryDate ,
+LinkageRetentionAdherenceForms,
+LinkageRetentionAdherenceFormsDate ,
+InternalReferralInformation ,
+InternalReferralInformationDate ,
+HNSEligibilityForm ,
+HNSEligibilityFormDate ,
+HNSReadinessForm ,
+HNSReadinessFormDate ,
+SupportGroups,
+SupportGroupsDate ,
+IDGForm ,
+IDGFormDate ,
+
     } = req.body.clientData;
 
     try {
@@ -364,7 +508,41 @@ module.exports = {
         LNEClientReferralForm=$46,
         LNEClientReferralFormDate=$47,
         LNEHNSEligibilityForm=$48,
-        LNEHNSEligibilityFormDate=$49 where clientId=$2`,
+        LNEHNSEligibilityFormDate=$49, 
+ProgressNote=$50 ,
+ProgressNoteDate=$51,
+StatusChangesForm=$52 ,
+StatusChangesFormDate=$53 ,
+ComprehensiveRiskBehaviorAssessmentUpdates=$54,
+ComprehensiveRiskBehaviorAssessmentUpdatesDate=$55 ,
+M11QForm=$56 ,
+M11QFormDate=$57 ,
+CD4VLReports=$58,
+CD4VLReportsDate=$59 ,
+InitialTreatmentAdherenceIntake=$60,
+InitialTreatmentAdherenceIntakeDate=$61,
+TreatmentAdherenceUpdates=$62,
+TreatmentAdherenceUpdatesDate=$63,
+AirsDrugRegimen=$64,
+AirsDrugRegimenDate=$65,
+AirsHIVMedicalProvider=$66,
+AirsHIVMedicalProviderDate=$67,
+AIRSHIVStatusHistory=$68,
+AIRSHIVStatusHistoryDate=$69,
+LinkageRetentionAdherenceForms=$70,
+LinkageRetentionAdherenceFormsDate=$71,
+InternalReferralInformation=$72,
+InternalReferralInformationDate=$73,
+
+HNSEligibilityForm=$74,
+HNSEligibilityFormDate=$75,
+HNSReadinessForm=$76,
+HNSReadinessFormDate=$77,
+SupportGroups=$78,
+SupportGroupsDate=$79,
+IDGForm=$80,
+IDGFormDate=$81
+where clientId=$2`,
         values: [dateFormReviewed,
           clientId,
           clientFirstName,
@@ -413,7 +591,40 @@ module.exports = {
           LNEClientReferralForm,
           LNEClientReferralFormDate,
           LNEHNSEligibilityForm,
-          LNEHNSEligibilityFormDate],
+          LNEHNSEligibilityFormDate,
+        ProgressNote ,
+          ProgressNoteDate,
+          StatusChangesForm ,
+          StatusChangesFormDate ,
+          ComprehensiveRiskBehaviorAssessmentUpdates,
+          ComprehensiveRiskBehaviorAssessmentUpdatesDate ,
+          M11QForm ,
+          M11QFormDate ,
+          CD4VLReports,
+          CD4VLReportsDate ,
+          InitialTreatmentAdherenceIntake ,
+          InitialTreatmentAdherenceIntakeDate ,
+          TreatmentAdherenceUpdates,
+          TreatmentAdherenceUpdatesDate ,
+          AirsDrugRegimen ,
+          AirsDrugRegimenDate,
+          AirsHIVMedicalProvider,
+          AirsHIVMedicalProviderDate,
+          AIRSHIVStatusHistory ,
+          AIRSHIVStatusHistoryDate ,
+          LinkageRetentionAdherenceForms,
+          LinkageRetentionAdherenceFormsDate ,
+          InternalReferralInformation ,
+          InternalReferralInformationDate ,
+          HNSEligibilityForm ,
+          HNSEligibilityFormDate ,
+          HNSReadinessForm ,
+          HNSReadinessFormDate ,
+          SupportGroups,
+          SupportGroupsDate ,
+          IDGForm ,
+          IDGFormDate ,
+        ],
       };
       db
         .query(query)
@@ -422,14 +633,16 @@ module.exports = {
           res.status(200).send(response)
         }
         )
-        .catch((e) => res.send(e.stack));
+
     } catch (error) {
       res.json("an error ocurred");
       console.log("error message:", error);
     }
   },
   updateDESMsaForm: async (req, res) => {
- console.log("comenzando update")
+
+
+ console.log("comenzando update",req.body)
 
     for (const property in req.body.clientData) {
       if(req.body.clientData[property]===true){
@@ -556,6 +769,102 @@ module.exports = {
     LNEHNSEligibilityFormPDF,
     LNEHNSEligibilityFormScan,
     LNEHNSEligibilityFormUploadDate,
+
+    ProgressNote,
+    ProgressNoteDate, 
+    ProgressNoteUploadDate, 
+    ProgressNoteScan, 
+    ProgressNotePDF,
+
+    StatusChangesForm, 
+    StatusChangesFormDate, 
+    StatusChangesFormUploadDate, 
+    StatusChangesFormPDF,
+
+    ComprehensiveRiskBehaviorAssessmentUpdates,
+    ComprehensiveRiskBehaviorAssessmentUpdatesDate, 
+    ComprehensiveRiskBehaviorAssessmentUpdatesUploadDate, 
+    ComprehensiveRiskBehaviorAssessmentUpdatesFormScan,  
+    ComprehensiveRiskBehaviorAssessmentUpdatesPDF,
+    
+    M11QForm, 
+    M11QFormDate, 
+    M11QFormUploadDate, 
+    M11QFormScan, 
+    M11QFormPDF,
+    
+    CD4VLReports,
+    CD4VLReportsDate, 
+    CD4VLReportsUploadDate, 
+    CD4VLReportsScan, 
+    CD4VLReportsPDF,
+    
+    InitialTreatmentAdherenceIntake, 
+    InitialTreatmentAdherenceIntakeDate, 
+    InitialTreatmentAdherenceIntakeUploadDate, 
+    InitialTreatmentAdherenceIntakeScan, 
+    InitialTreatmentAdherenceIntakePDF, 
+    
+    TreatmentAdherenceUpdates,
+    TreatmentAdherenceUpdatesDate, 
+    TreatmentAdherenceUpdatesUploadDate,
+    TreatmentAdherenceUpdatesScan, 
+    TreatmentAdherenceUpdatesPDF,
+
+
+    AIRSDrugRegimen,
+    AIRSDrugRegimenDate,
+    AIRSDrugRegimenPDF,
+    AIRSDrugRegimenScan,
+    AIRSDrugRegimenUploadDate, 
+
+    AIRSHIVMedicalProvider,
+    AIRSHIVMedicalProviderDate,
+    AIRSHIVMedicalProviderPDF, 
+    AIRSHIVMedicalProviderScan, 
+    AIRSHIVMedicalProviderUploadDate,
+
+    AIRSHIVStatusHistory,
+    AIRSHIVStatusHistoryDate,
+    AIRSHIVStatusHistoryPDF, 
+    AIRSHIVStatusHistoryScan, 
+    AIRSHIVStatusHistoryUploadDate,
+
+    LinkageRetentionAdherenceForms,
+    LinkageRetentionAdherenceFormsDate,
+    LinkageRetentionAdherenceFormsPDF,
+    LinkageRetentionAdherenceFormsScan,
+    LinkageRetentionAdherenceFormsUploadDate,
+
+    InternalReferralInformation,
+    InternalReferralInformationDate,
+    InternalReferralInformationPDF,
+    InternalReferralInformationScan,
+    InternalReferralInformationUploadDate,
+
+    HNSEligibilityForm,
+    HNSEligibilityFormDate,
+    HNSEligibilityFormPDF,
+    HNSEligibilityFormScan,
+    HNSEligibilityFormUploadDate,
+    
+    HNSReadinessForm,
+    HNSReadinessFormDate,
+    HNSReadinessFormUploadDate,
+    HNSReadinessFormScan,
+    HNSReadinessFormPDF,
+    
+    SupportGroups,
+    SupportGroupsDate,
+    SupportGroupsUploadDate, 
+    SupportGroupsScan, 
+    SupportGroupsPDF, 
+    
+    IDGForm, 
+    IDGFormDate, 
+    IDGFormUploadDate, 
+    IDGFormScan, 
+    IDGFormPDF
     } = req.body.clientData;
 
     try {
@@ -672,7 +981,104 @@ module.exports = {
     LNEHNSEligibilityFormDate=$108,
     LNEHNSEligibilityFormPDF=$109,
     LNEHNSEligibilityFormScan=$110,
-    LNEHNSEligibilityFormUploadDate=$111 where clientId=$2`,
+    LNEHNSEligibilityFormUploadDate=$111, 
+    
+    ProgressNote=$112,
+    ProgressNoteDate=$113, 
+    ProgressNoteUploadDate=$114, 
+    ProgressNoteScan=$115, 
+    ProgressNotePDF=$116,
+
+    StatusChangesForm=$117, 
+    StatusChangesFormDate =$118, 
+    StatusChangesFormUploadDate=$119, 
+    StatusChangesFormPDF=$120,
+
+    ComprehensiveRiskBehaviorAssessmentUpdates=$121,
+    ComprehensiveRiskBehaviorAssessmentUpdatesDate=$122, 
+    ComprehensiveRiskBehaviorAssessmentUpdatesUploadDate=$123, 
+    ComprehensiveRiskBehaviorAssessmentUpdatesFormScan=$124,  
+    ComprehensiveRiskBehaviorAssessmentUpdatesPDF=$125,
+    
+    M11QForm=$126, 
+    M11QFormDate=$127, 
+    M11QFormUploadDate=$128, 
+    M11QFormScan=$129, 
+    M11QFormPDF=$130,
+    
+    CD4VLReports=$131,
+    CD4VLReportsDate=$132, 
+    CD4VLReportsUploadDate=$133, 
+    CD4VLReportsScan=$134, 
+    CD4VLReportsPDF=$135,
+    
+    InitialTreatmentAdherenceIntake=$136, 
+    InitialTreatmentAdherenceIntakeDate=$137, 
+    InitialTreatmentAdherenceIntakeUploadDate=$138, 
+    InitialTreatmentAdherenceIntakeScan=$139, 
+    InitialTreatmentAdherenceIntakePDF=$140, 
+    
+    TreatmentAdherenceUpdates=$141,
+    TreatmentAdherenceUpdatesDate=$142, 
+    TreatmentAdherenceUpdatesUploadDate=$143,
+    TreatmentAdherenceUpdatesScan=$144, 
+    TreatmentAdherenceUpdatesPDF=$145,
+
+
+    AIRSDrugRegimen=$146,
+    AIRSDrugRegimenDate=$147,
+    AIRSDrugRegimenPDF=$148,
+    AIRSDrugRegimenScan=$149,
+    AIRSDrugRegimenUploadDate=$150, 
+
+    AIRSHIVMedicalProvider=$151,
+    AIRSHIVMedicalProviderDate=$152,
+    AIRSHIVMedicalProviderPDF=$153, 
+    AIRSHIVMedicalProviderScan=$154, 
+    AIRSHIVMedicalProviderUploadDate=$155,
+
+    AIRSHIVStatusHistory=$156,
+    AIRSHIVStatusHistoryDate=$157,
+    AIRSHIVStatusHistoryPDF=$158, 
+    AIRSHIVStatusHistoryScan=$159, 
+    AIRSHIVStatusHistoryUploadDate=$160,
+
+    LinkageRetentionAdherenceForms=$161,
+    LinkageRetentionAdherenceFormsDate=$162,
+    LinkageRetentionAdherenceFormsPDF=$163,
+    LinkageRetentionAdherenceFormsScan=$164,
+    LinkageRetentionAdherenceFormsUploadDate=$165,
+
+    InternalReferralInformation=$166,
+    InternalReferralInformationDate=$167,
+    InternalReferralInformationPDF=$168,
+    InternalReferralInformationScan=$169,
+    InternalReferralInformationUploadDate=$170,
+
+    HNSEligibilityForm=$171,
+    HNSEligibilityFormDate=$172,
+    HNSEligibilityFormPDF=$173,
+    HNSEligibilityFormScan=$174,
+    HNSEligibilityFormUploadDate=$175,
+    
+    HNSReadinessForm=$176,
+    HNSReadinessFormDate=$177,
+    HNSReadinessFormUploadDate =$178,
+    HNSReadinessFormScan=$179,
+    HNSReadinessFormPDF=$180,
+    
+    SupportGroups=$181,
+    SupportGroupsDate=$182,
+    SupportGroupsUploadDate=$183, 
+    SupportGroupsScan=$184, 
+    SupportGroupsPDF=$185, 
+    
+    IDGForm=$186, 
+    IDGFormDate=$187, 
+    IDGFormUploadDate=$188, 
+    IDGFormScan=$189, 
+    IDGFormPDF=$190
+    where clientId=$2`,
         values: [ 
     dateFormReviewed,
     clientId,
@@ -784,7 +1190,102 @@ module.exports = {
     LNEHNSEligibilityFormDate,
     LNEHNSEligibilityFormPDF,
     LNEHNSEligibilityFormScan,
-    LNEHNSEligibilityFormUploadDate
+    LNEHNSEligibilityFormUploadDate,
+    ProgressNote,
+    ProgressNoteDate, 
+    ProgressNoteUploadDate, 
+    ProgressNoteScan, 
+    ProgressNotePDF,
+
+    StatusChangesForm, 
+    StatusChangesFormDate, 
+    StatusChangesFormUploadDate, 
+    StatusChangesFormPDF,
+
+    ComprehensiveRiskBehaviorAssessmentUpdates,
+    ComprehensiveRiskBehaviorAssessmentUpdatesDate, 
+    ComprehensiveRiskBehaviorAssessmentUpdatesUploadDate, 
+    ComprehensiveRiskBehaviorAssessmentUpdatesFormScan,  
+    ComprehensiveRiskBehaviorAssessmentUpdatesPDF,
+    
+    M11QForm, 
+    M11QFormDate, 
+    M11QFormUploadDate, 
+    M11QFormScan, 
+    M11QFormPDF,
+    
+    CD4VLReports,
+    CD4VLReportsDate, 
+    CD4VLReportsUploadDate, 
+    CD4VLReportsScan, 
+    CD4VLReportsPDF,
+    
+    InitialTreatmentAdherenceIntake, 
+    InitialTreatmentAdherenceIntakeDate, 
+    InitialTreatmentAdherenceIntakeUploadDate, 
+    InitialTreatmentAdherenceIntakeScan, 
+    InitialTreatmentAdherenceIntakePDF, 
+    
+    TreatmentAdherenceUpdates,
+    TreatmentAdherenceUpdatesDate, 
+    TreatmentAdherenceUpdatesUploadDate,
+    TreatmentAdherenceUpdatesScan, 
+    TreatmentAdherenceUpdatesPDF,
+
+
+    AIRSDrugRegimen,
+    AIRSDrugRegimenDate,
+    AIRSDrugRegimenPDF,
+    AIRSDrugRegimenScan,
+    AIRSDrugRegimenUploadDate, 
+
+    AIRSHIVMedicalProvider,
+    AIRSHIVMedicalProviderDate,
+    AIRSHIVMedicalProviderPDF, 
+    AIRSHIVMedicalProviderScan, 
+    AIRSHIVMedicalProviderUploadDate,
+
+    AIRSHIVStatusHistory,
+    AIRSHIVStatusHistoryDate,
+    AIRSHIVStatusHistoryPDF, 
+    AIRSHIVStatusHistoryScan, 
+    AIRSHIVStatusHistoryUploadDate,
+
+    LinkageRetentionAdherenceForms,
+    LinkageRetentionAdherenceFormsDate,
+    LinkageRetentionAdherenceFormsPDF,
+    LinkageRetentionAdherenceFormsScan,
+    LinkageRetentionAdherenceFormsUploadDate,
+
+    InternalReferralInformation,
+    InternalReferralInformationDate,
+    InternalReferralInformationPDF,
+    InternalReferralInformationScan,
+    InternalReferralInformationUploadDate,
+
+    HNSEligibilityForm,
+    HNSEligibilityFormDate,
+    HNSEligibilityFormPDF,
+    HNSEligibilityFormScan,
+    HNSEligibilityFormUploadDate,
+    
+    HNSReadinessForm,
+    HNSReadinessFormDate,
+    HNSReadinessFormUploadDate,
+    HNSReadinessFormScan,
+    HNSReadinessFormPDF,
+    
+    SupportGroups,
+    SupportGroupsDate,
+    SupportGroupsUploadDate, 
+    SupportGroupsScan, 
+    SupportGroupsPDF, 
+    
+    IDGForm, 
+    IDGFormDate, 
+    IDGFormUploadDate, 
+    IDGFormScan, 
+    IDGFormPDF
   ],
       }
       db
@@ -800,7 +1301,7 @@ module.exports = {
           res.send(e.stack)
         });
     } catch (error) {
-      console.log("error message:", error);
+      console.log("error message del update msa des:", error);
       res.send("an error ocurred while trying to update msa form");
       
     }
@@ -858,6 +1359,7 @@ module.exports = {
       LNEClientReferralFormDate,
       LNEHNSEligibilityForm,
       LNEHNSEligibilityFormDate,
+      progressNoteDate
     } = req.body.clientData;
 
     try {
@@ -900,7 +1402,8 @@ module.exports = {
         LNEClientReferralForm=$34,
         LNEClientReferralFormDate=$35,
         LNEHNSEligibilityForm=$36,
-        LNEHNSEligibilityFormDate=$37 where clientId=$1`,
+        LNEHNSEligibilityFormDate=$37,
+        progressNoteDate=$38 where clientId=$1`,
         values: [
           clientId,
           AIRSCollateralInformation,
@@ -938,7 +1441,8 @@ module.exports = {
           LNEClientReferralForm,
           LNEClientReferralFormDate,
           LNEHNSEligibilityForm,
-          LNEHNSEligibilityFormDate
+          LNEHNSEligibilityFormDate,
+          progressNoteDate
         ],
       };
       db

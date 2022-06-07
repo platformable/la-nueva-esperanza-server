@@ -451,7 +451,7 @@ console.log("an error ocurred createClientfolders", e)
 
 
 const createClientSharedMainFolder = async (clientID,folderName)=>{
-
+console.log("creating",folderName)
   try {
   const getData= await axios({
     method:'post',
@@ -470,8 +470,7 @@ const createClientSharedMainFolder = async (clientID,folderName)=>{
   }
   })
   const dataResponse = await getData 
-  console.log("dataResponse.",dataResponse)
-  const dataStatus = await dataResponse.statusText==='OK' ? addClientFolder(dataResponse.data.preview_url,folderName,clientID): console.log("create folder error",dataResponse.status)
+  const dataStatus = await dataResponse.statusText==='OK' ? addClientFolder(dataResponse.data.preview_url,folderName,clientID): createClientSharedMainFolder(clientID,folderName)
   }  catch(e){
     console.log("an error ocurred sharing ", e)
       }
@@ -755,9 +754,9 @@ module.exports = {
       clients.clienthcwlastname ,
       clients.clientdatecreated ,
       msa_form.clientid as msaClientId, 
-            msa_form.id as msaFormID,
-            msa_form.airsintakeform as msaFormAIRSINTAKEFORM,
-            msa_form.comprehensiveriskbehaviorassessment as msaformcomprehensiveriskbehavrioassesment,
+      msa_form.id as msaFormID,
+      msa_form.airsintakeform as msaFormAIRSINTAKEFORM,
+      msa_form.comprehensiveriskbehaviorassessment as msaformcomprehensiveriskbehavrioassesment,
       services_action_plan.clientid as servicesactionplanid,
       services_action_plan.goal1completed ,
       services_action_plan.goal2completed ,
@@ -766,7 +765,8 @@ module.exports = {
       services_action_plan.goal2completiondate ,
       services_action_plan.goal3completiondate,
       services_action_plan.planstartdate,
-      progress_note.id as progress_note_id  
+      progress_note.id as progress_note_id,
+      progress_note.progressnotedate as progressnotedate  
       from clients 
       full outer join msa_form on clients.clientid=msa_form.clientid 
       full outer join services_action_plan on clients.clientid = services_action_plan.clientid
@@ -849,14 +849,23 @@ module.exports = {
               .then((response1) => createClientSharedMainFolder(clientID,'intake'))
               .then((response2) => createClientSharedMainFolder(clientID,'cbra'))
               .then((response3) => createClientSharedMainFolder(clientID,'action_plans'))
-              .then((response3) => createClientSharedMainFolder(clientID,'consent'))
-              .then((response3) => createClientSharedMainFolder(clientID,'idg'))
-              .then((response3) => createClientSharedMainFolder(clientID,'linkage_navigation'))
-              .then((response3) => createClientSharedMainFolder(clientID,'medical'))
-              .then((response3) => createClientSharedMainFolder(clientID,'miscellaneous'))
-              .then((response3) => createClientSharedMainFolder(clientID,'support_groups'))
-              .then((response3) => createClientSharedMainFolder(clientID,'tickler_updates'))
-        /*       .then((resmain) => {setTimeout(()=>{createClientSharedMainFolder(clientID)},10000)}) */
+              .then((response4) => createClientSharedMainFolder(clientID,'consent'))
+              .then((response5) => createClientSharedMainFolder(clientID,'idg'))
+              .then((response6) => createClientSharedMainFolder(clientID,'linkage_navigation'))
+              .then((response7) => createClientSharedMainFolder(clientID,'medical'))
+              .then((response8) => createClientSharedMainFolder(clientID,'miscellaneous'))
+              .then((response9) => createClientSharedMainFolder(clientID,'support_groups'))
+              .then((response10) => createClientSharedMainFolder(clientID,'tickler_updates'))
+           /*    .then((response1) => setTimeout(createClientSharedMainFolder(clientID,'intake')),1000)
+              .then((response2) => setTimeout(createClientSharedMainFolder(clientID,'cbra')),10000)
+              .then((response3) => setTimeout(createClientSharedMainFolder(clientID,'action_plans')),15000)
+              .then((response4) => setTimeout(createClientSharedMainFolder(clientID,'consent')),20000)
+              .then((response5) => setTimeout(createClientSharedMainFolder(clientID,'idg')),25000)
+              .then((response6) => setTimeout(createClientSharedMainFolder(clientID,'linkage_navigation')),30000)
+              .then((response7) => setTimeout(createClientSharedMainFolder(clientID,'medical')),35000)
+              .then((response8) => setTimeout(createClientSharedMainFolder(clientID,'miscellaneous')),40000)
+              .then((response9) => setTimeout(createClientSharedMainFolder(clientID,'support_groups')),45000)
+              .then((response10) => setTimeout(createClientSharedMainFolder(clientID,'tickler_updates')),50000) */
               .catch((e) => console.error(e.stack))
           }
         })
