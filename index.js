@@ -134,7 +134,11 @@ app.get("/testurl",(req,res)=>{
     .catch((error)=> { console.log(error)})
 }) 
 
-
+app.get("/date", (req,res)=>{
+  db.query("select msa_form.airsfinancialinformationdate from msa_form where clientfirstname ='Rosa'")
+  .then(response=>res.send(response.rows[0]))
+  .catch((error)=> { console.log(error)})
+})
 
 /* PORT */
 

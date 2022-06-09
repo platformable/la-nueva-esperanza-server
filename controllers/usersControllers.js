@@ -11,10 +11,10 @@ module.exports = {
     }
   },
   createUser: async (req, res) => {
-    const {user_id, name, lastname, userrole, email, dateaccountactivated } = req.body;
+    const {user_id, name, lastname, userrole, email, dateaccountactivated,useractivestatus } = req.body;
     const text =
-      "INSERT INTO users(user_id,name,lastname,userrole,useremail,dateaccountactivated) VALUES($1,$2,$3,$4,$5,$6) RETURNING *";
-    const values = [user_id,name, lastname, userrole, email, dateaccountactivated];
+      "INSERT INTO users(user_id,name,lastname,userrole,useremail,dateaccountactivated,useractivestatus) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *";
+    const values = [user_id,name, lastname, userrole, email, dateaccountactivated,useractivestatus];
     // callback
     db.query(text, values, (err, res) => {
       if (err) {
@@ -70,12 +70,12 @@ module.exports = {
     }
   },
   updateUser: async (req, res) => {
-    const { name,lastname,userrole,useremail} = req.body;
+    const { name,lastname,userrole,useremail,useractivestatus} = req.body;
     try {
       const query = await {
         name: "update-user",
-        text: `update users set name=$1,lastname=$2,userrole=$3,useremail=$4 where useremail=$5`,
-        values: [name,lastname,userrole,useremail,useremail],
+        text: `update users set name=$1,lastname=$2,userrole=$3,useremail=$4 ,useractivestatus =$5 where useremail=$6`,
+        values: [name,lastname,userrole,useremail,useractivestatus,useremail],
       };
       db
         .query(query)
