@@ -9,6 +9,11 @@ var dbx = new Dropbox({ accessToken: ACCESS_TOKEN });
 
 
 module.exports= {
+  getClientsServicesActionPlan: async (req,res)=>{
+db.query(`select * from services_action_plan`)
+.then(response=>res.json(response.rows))
+.catch(error=>console.log(error))
+  },
   getClientServicesActionPlan: async (req,res)=>{
     let { clientid } = await req.params;
     const query= {

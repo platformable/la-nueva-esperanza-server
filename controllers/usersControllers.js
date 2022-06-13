@@ -12,6 +12,7 @@ module.exports = {
   },
   createUser: async (req, res) => {
     const {user_id, name, lastname, userrole, email, dateaccountactivated,useractivestatus } = req.body;
+  
     const text =
       "INSERT INTO users(user_id,name,lastname,userrole,useremail,dateaccountactivated,useractivestatus) VALUES($1,$2,$3,$4,$5,$6,$7) RETURNING *";
     const values = [user_id,name, lastname, userrole, email, dateaccountactivated,useractivestatus];

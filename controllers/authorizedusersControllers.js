@@ -14,6 +14,7 @@ module.exports = {
     },
     post: async (req,res)=>{
         let {name,lastname,role,email,isactive} = req.body
+        console.log(req.body)
 /*         if(isactive===true){
           isactive=1
         } else {
