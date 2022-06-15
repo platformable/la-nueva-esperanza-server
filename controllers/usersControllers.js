@@ -71,7 +71,14 @@ module.exports = {
     }
   },
   updateUser: async (req, res) => {
-    const { name,lastname,userrole,useremail,useractivestatus} = req.body;
+    let { name,lastname,userrole,useremail,useractivestatus} = req.body;
+
+ /*    if(useractivestatus==="true"){
+      useractivestatus="Active"
+    } else {
+      useractivestatus="No Active"
+    } */
+
     try {
       const query = await {
         name: "update-user",
@@ -92,4 +99,5 @@ module.exports = {
       console.log("error message:", error);
     }
   },
+
 };
