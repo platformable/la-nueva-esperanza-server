@@ -63,7 +63,7 @@ console.log("req.body",req.body)
       },
     delete: async (req,res) =>{
         console.log("delete route")
-        console.log("req.body:", req)
+        console.log("req.body:", req.body)
         const {id} = req.body
         console.log("id: ", id)
         const query = {

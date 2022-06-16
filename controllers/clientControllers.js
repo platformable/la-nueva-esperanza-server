@@ -757,6 +757,8 @@ module.exports = {
       msa_form.id as msaFormID,
       msa_form.airsintakeform as msaFormAIRSINTAKEFORM,
       msa_form.comprehensiveriskbehaviorassessment as msaformcomprehensiveriskbehavrioassesment,
+      msa_form.hnseligibilityform as msahnselegibilityform,
+      msa_form.hnsreadinessform as msaformhnsreadinessform,
       services_action_plan.clientid as servicesactionplanid,
       services_action_plan.goal1completed ,
       services_action_plan.goal2completed ,

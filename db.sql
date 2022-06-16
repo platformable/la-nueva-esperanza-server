@@ -192,3 +192,148 @@ LNEReferralInformation bit,
 LNEClientReferralForm bit,
 LNEHNSEligibilityForm bit,
 )
+
+
+
+AIRSIntakeFormReviewed
+AIRSIntakeFormIssues
+ComprehensiveRiskBehaviorAssessmentIssues
+ComprehensiveRiskBehaviorAssessmentReviewed 
+HNSEligibilityFormReviewed 
+HNSEligibilityFormIssues 
+HNSReadinessFormReviewed 
+HNSReadinessFormIssues 
+ServiceActionPlanReview
+ServiceActionPlanIssues
+ProgressNoteReviewed
+ProgressNoteIssues
+StatusChangesFormReviewed
+StatusChangesFormIssues
+ComprehensiveRiskBehaviorAssessmentUpdatesReviewed
+ComprehensiveRiskBehaviorAssessmentUpdatesIssues
+M11QFormReviewed 
+M11QFormIssues
+CD4VLReportsReviewed 
+CD4VLReportsIssues
+InitialTreatmentAdherenceIntakeReviewed 
+InitialTreatmentAdherenceIntakeIssues 
+TreatmentAdherenceUpdatesReviewed 
+TreatmentAdherenceUpdatesIssues
+AIRSCollateralInformationReviewed 
+AIRSCollateralInformationIssues  
+AirsDrugRegimenReviewed  
+AirsDrugRegimenIssues 
+AIRSFinancialInformationReviewed 
+AIRSFinancialInformationIssues 
+AIRSHIVAIDSRiskHistoryReviewed 
+AIRSHIVAIDSRiskHistoryIssues 
+AirsHIVMedicalProviderReviewed 
+AirsHIVMedicalProviderIssues 
+AIRSHIVStatusHistoryReviewed 
+AIRSHIVStatusHistoryIssues 
+AIRSHCVHistoryReviewed 
+AIRSHCVHistoryIssues 
+AIRSHousingInformationReviewed 
+AIRSHousingInformationIssues 
+AIRSInsuranceInformationReviewed 
+AIRSInsuranceInformationIssues 
+AIRSSubstanceUseHistoryReviewed 
+AIRSSubstanceUseHistoryIssues 
+LNEClientRightsReviewed 
+LNEClientRightsIssues 
+LNEClientGrievancePolicyProcedureReviewed 
+LNEClientGrievancePolicyProcedureIssues
+LNEProgramRulesReviewed 
+LNEProgramRulesIssues 
+LNEEmergencyContactConsentReviewed 
+LNEEmergencyContactConsentIssues 
+LNEConsentForReleaseOfConfidentialInformationReviewed 
+LNEConsentForReleaseOfConfidentialInformationIssues 
+HIPAAConsentFormReviewed 
+HIPAAConsentFormIssues 
+NYCDOHMHNoticeOfPrivacyPracticesReviewed 
+NYCDOHMHNoticeOfPrivacyPracticesIssues 
+LinkageRetentionAdherenceFormsReviewed 
+LinkageRetentionAdherenceFormsIssues 
+InternalReferralInformationReviewed 
+InternalReferralInformationIssues 
+IdentificationReviewed 
+IdentificationIssues 
+SupportGroupsReviewed 
+SupportGroupsIssues 
+IDGFormReviewed 
+IDGFormIssues 
+
+
+
+
+
+ALTER TABLE msa_form
+ADD AIRSIntakeFormReviewed bit,
+ADD AIRSIntakeFormIssues bit,
+ADD ComprehensiveRiskBehaviorAssessmentIssues bit,
+ADD ComprehensiveRiskBehaviorAssessmentReviewed  bit,
+ADD HNSEligibilityFormReviewed  bit,
+ADD HNSEligibilityFormIssues  bit,
+ADD HNSReadinessFormReviewed  bit,
+ADD HNSReadinessFormIssues  bit,
+ADD ServiceActionPlanReview bit,
+ADD ServiceActionPlanIssues bit,
+ADD ProgressNoteReviewed bit,
+ADD ProgressNoteIssues bit,
+ADD StatusChangesFormReviewed bit,
+ADD StatusChangesFormIssues bit,
+ADD ComprehensiveRiskBehaviorAssessmentUpdatesReviewed bit,
+ADD ComprehensiveRiskBehaviorAssessmentUpdatesIssues bit,
+ADD M11QFormReviewed  bit,
+ADD M11QFormIssues bit,
+ADD CD4VLReportsReviewed  bit,
+ADD CD4VLReportsIssues bit,
+ADD InitialTreatmentAdherenceIntakeReviewed  bit,
+ADD InitialTreatmentAdherenceIntakeIssues  bit,
+ADD TreatmentAdherenceUpdatesReviewed  bit,
+ADD TreatmentAdherenceUpdatesIssues bit,
+ADD AIRSCollateralInformationReviewed  bit,
+ADD AIRSCollateralInformationIssues   bit,
+ADD AirsDrugRegimenReviewed   bit,
+ADD AirsDrugRegimenIssues  bit,
+ADD AIRSFinancialInformationReviewed  bit,
+ADD AIRSFinancialInformationIssues  bit,
+ADD AIRSHIVAIDSRiskHistoryReviewed  bit,
+ADD AIRSHIVAIDSRiskHistoryIssues  bit,
+ADD AirsHIVMedicalProviderReviewed  bit,
+ADD AirsHIVMedicalProviderIssues  bit,
+ADD AIRSHIVStatusHistoryReviewed  bit,
+ADD AIRSHIVStatusHistoryIssues  bit,
+ADD AIRSHCVHistoryReviewed  bit,
+ADD AIRSHCVHistoryIssues  bit,
+ADD AIRSHousingInformationReviewed  bit,
+ADD AIRSHousingInformationIssues  bit,
+ADD AIRSInsuranceInformationReviewed  bit,
+ADD AIRSInsuranceInformationIssues  bit,
+ADD AIRSSubstanceUseHistoryReviewed  bit,
+ADD AIRSSubstanceUseHistoryIssues  bit,
+ADD LNEClientRightsReviewed  bit,
+ADD LNEClientRightsIssues  bit,
+ADD LNEClientGrievancePolicyProcedureReviewed  bit,
+ADD LNEClientGrievancePolicyProcedureIssues bit,
+ADD LNEProgramRulesReviewed  bit,
+ADD LNEProgramRulesIssues  bit,
+ADD LNEEmergencyContactConsentReviewed  bit,
+ADD LNEEmergencyContactConsentIssues  bit,
+ADD LNEConsentForReleaseOfConfidentialInformationReviewed  bit,
+ADD LNEConsentForReleaseOfConfidentialInformationIssues  bit,
+ADD HIPAAConsentFormReviewed  bit,
+ADD HIPAAConsentFormIssues  bit,
+ADD NYCDOHMHNoticeOfPrivacyPracticesReviewed  bit,
+ADD NYCDOHMHNoticeOfPrivacyPracticesIssues  bit,
+ADD LinkageRetentionAdherenceFormsReviewed  bit,
+ADD LinkageRetentionAdherenceFormsIssues  bit,
+ADD InternalReferralInformationReviewed  bit,
+ADD InternalReferralInformationIssues  bit,
+ADD IdentificationReviewed  bit,
+ADD IdentificationIssues  bit,
+ADD SupportGroupsReviewed  bit,
+ADD SupportGroupsIssues  bit,
+ADD IDGFormReviewed  bit,
+ADD IDGFormIssues  bit,
