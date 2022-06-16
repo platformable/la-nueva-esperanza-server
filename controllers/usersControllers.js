@@ -26,10 +26,11 @@ module.exports = {
     });
   },
   delete: async (req, res) => {
-    const { id } = req.body;
+    const { user_id } = req.body;
+    console.log(req.body)
     const query = {
       text: "DELETE from users where user_id=$1",
-      values: [id],
+      values: [user_id],
     };
     // promise
     db.query(query)

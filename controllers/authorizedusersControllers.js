@@ -64,11 +64,11 @@ console.log("req.body",req.body)
     delete: async (req,res) =>{
         console.log("delete route")
         console.log("req.body:", req.body)
-        const {id} = req.body
+        const {email} = req.body
         console.log("id: ", id)
         const query = {
-            text: 'DELETE from authorizedusers where id=$1',
-            values: [id],
+            text: 'DELETE from authorizedusers where email=$1',
+            values: [email],
           }
           // promise
           db
