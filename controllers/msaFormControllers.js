@@ -640,8 +640,6 @@ where clientId=$2`,
     }
   },
   updateDESMsaForm: async (req, res) => {
-
-
  console.log("comenzando update",req.body)
 
     for (const property in req.body.clientData) {
@@ -1306,6 +1304,455 @@ where clientId=$2`,
       
     }
   },
+  updateSupervisorMsaForm: async (req, res) => {
+
+   
+       for (const property in req.body.clientData) {
+         if(req.body.clientData[property]===true){
+           req.body.clientData[property]=1
+         }
+         if(req.body.clientData[property]===false){
+           req.body.clientData[property]=0
+         }
+         if(req.body.clientData[property]===""){
+           req.body.clientData[property]=null
+         }
+       } 
+
+       let {
+       clientId,
+       AIRSIntakeFormUploadDate,
+       AIRSIntakeFormReviewed,
+       AIRSIntakeFormIssues,
+
+       ComprehensiveRiskBehaviorAssessmentUploadDate,
+       ComprehensiveRiskBehaviorAssessmentReviewed,
+       ComprehensiveRiskBehaviorAssessmentIssues,
+
+       ServiceActionPlanUploadDate,
+       ServiceActionPlanReviewed,
+       ServiceActionPlanIssues,
+
+
+       AIRSCollateralInformationReviewed,
+       AIRSCollateralInformationIssues,
+       AIRSCollateralInformationUploadDate,
+
+
+       AIRSFinancialInformationReviewed,
+       AIRSFinancialInformationIssues,
+       AIRSFinancialInformationUploadDate,
+
+
+       AIRSHIVAIDSRiskHistoryReviewed,
+       AIRSHIVAIDSRiskHistoryIssues,
+       AIRSHIVAIDSRiskHistoryUploadDate,
+
+
+       AIRSHCVHistoryReviewed,
+       AIRSHCVHistoryIssues,
+       AIRSHCVHistoryUploadDate,
+
+
+       AIRSHousingInformationReviewed,
+       AIRSHousingInformationIssues,
+       AIRSHousingInformationUploadDate,
+
+
+       AIRSInsuranceInformationReviewed,
+       AIRSInsuranceInformationIssues,
+       AIRSInsuranceInformationUploadDate,
+
+
+       AIRSSubstanceUseHistoryReviewed,
+       AIRSSubstanceUseHistoryIssues,
+       AIRSSubstanceUseHistoryUploadDate,
+
+
+       LNEClientRightsReviewed,
+       LNEClientRightsIssues,
+       LNEClientRightsUploadDate,
+
+       LNEClientGrievancePolicyProcedureReviewed,
+       LNEClientGrievancePolicyProcedureIssues,
+       LNEClientGrievancePolicyProcedureUploadDate,
+
+
+       LNEProgramRulesReviewed,
+       LNEProgramRulesIssues,
+       LNEProgramRulesUploadDate,
+
+
+       LNEEmergencyContactConsentReviewed,
+       LNEEmergencyContactConsentIssues,
+       LNEEmergencyContactConsentUploadDate,
+
+
+       LNEConsentForReleaseOfConfidentialInformationReviewed,
+       LNEConsentForReleaseOfConfidentialInformationIssues,
+       LNEConsentForReleaseOfConfidentialInformationUploadDate,
+
+
+       HIPPAConsentFormReviewed,
+       HIPPAConsentFormIssues,
+       HIPPAConsentFormUploadDate,
+
+
+       NYCDOHMHNoticeOfPrivacyPracticesReviewed,
+       NYCDOHMHNoticeOfPrivacyPracticesIssues,
+       NYCDOHMHNoticeOfPrivacyPracticesUploadDate,
+
+
+       LNEOutreachRetentionTrackingFormReviewed,
+       LNEOutreachRetentionTrackingFormIssues,
+       LNEOutreachRetentionTrackingFormUploadDate,
+
+
+       LNEReferralInformationReviewed,
+       LNEReferralInformationIssues,
+       LNEReferralInformationUploadDate,
+
+
+       LNEClientReferralFormReviewed,
+       LNEClientReferralFormIssues,
+       LNEClientReferralFormUploadDate,
+
+
+       LNEHNSEligibilityFormReviewed,
+       LNEHNSEligibilityFormIssues,
+       LNEHNSEligibilityFormUploadDate,
+   
+
+       ProgressNoteReviewed,
+       ProgressNoteIssues,
+       ProgressNoteUploadDate, 
+   
+
+       StatusChangesFormReviewed,
+       StatusChangesFormIssues, 
+       StatusChangesFormUploadDate, 
+
+       ComprehensiveRiskBehaviorAssessmentUpdatesReviewed,
+       ComprehensiveRiskBehaviorAssessmentUpdatesIssues,
+       ComprehensiveRiskBehaviorAssessmentUpdatesUploadDate, 
+       
+
+       M11QFormReviewed,
+       M11QFormIssues,
+       M11QFormUploadDate, 
+       
+       CD4VLReportsReviewed,
+       CD4VLReportsIssues,
+       CD4VLReportsUploadDate, 
+
+       InitialTreatmentAdherenceIntakeReviewed,
+       InitialTreatmentAdherenceIntakeIssues, 
+       InitialTreatmentAdherenceIntakeUploadDate,
+       
+       TreatmentAdherenceUpdatesReviewed,
+       TreatmentAdherenceUpdatesIssues,
+       TreatmentAdherenceUpdatesUploadDate,
+   
+       AIRSDrugRegimenReviewed,
+       AIRSDrugRegimenIssues,
+       AIRSDrugRegimenUploadDate, 
+   
+       AIRSHIVMedicalProviderReviewed,
+       AIRSHIVMedicalProviderIssues,
+       AIRSHIVMedicalProviderUploadDate,
+   
+       AIRSHIVStatusHistoryReviewed,
+       AIRSHIVStatusHistoryIssues,
+       AIRSHIVStatusHistoryUploadDate,
+   
+       LinkageRetentionAdherenceFormsReviewed,
+       LinkageRetentionAdherenceFormsIssues,
+       LinkageRetentionAdherenceFormsUploadDate,
+   
+
+       InternalReferralInformationReviewed,
+       InternalReferralInformationIssues,
+       InternalReferralInformationUploadDate,
+   
+
+       HNSEligibilityFormReviewed,
+       HNSEligibilityFormIssues,
+       HNSEligibilityFormUploadDate,
+       
+
+       HNSReadinessFormReviewed,
+       HNSReadinessFormIssues,
+       HNSReadinessFormUploadDate,
+       
+
+       SupportGroupsReviewed,
+       SupportGroupsIssues,
+       SupportGroupsUploadDate,
+       
+
+       IDGFormReviewed,
+       IDGFormIssues,
+       IDGFormUploadDate,
+       } = req.body.clientData;
+
+/*        console.log(req.body.clientData)
+       const test = new Date(AIRSIntakeFormUploadDate)
+       console.log(test)
+       console.log(typeof test) */
+
+   console.log("airsintakeformuploaddate",AIRSIntakeFormUploadDate)
+   console.log("airsintakeformuploaddate",typeof AIRSIntakeFormUploadDate)
+       try {
+         const query = await {
+           name: "update-msa_form-supervisor",
+           text: `update msa_form set 
+       clientId =$1,
+       AIRSIntakeFormUploadDate=$2,
+       AIRSIntakeFormReviewed=$3,
+       AIRSIntakeFormIssues=$4,
+       ComprehensiveRiskBehaviorAssessmentUploadDate=$5,
+       ComprehensiveRiskBehaviorAssessmentReviewed=$6,
+       ComprehensiveRiskBehaviorAssessmentIssues=$7,
+       ServiceActionPlanUploadDate=$8,
+       ServiceActionPlanReviewed=$9,
+       ServiceActionPlanIssues=$10,
+       AIRSCollateralInformationReviewed=$11,
+       AIRSCollateralInformationIssues=$12,
+       AIRSCollateralInformationUploadDate=$13,
+       AIRSFinancialInformationReviewed=$14,
+       AIRSFinancialInformationIssues=$15,
+       AIRSFinancialInformationUploadDate=$16,
+       AIRSHIVAIDSRiskHistoryReviewed=$17,
+       AIRSHIVAIDSRiskHistoryIssues=$18,
+       AIRSHIVAIDSRiskHistoryUploadDate=$19,
+       AIRSHCVHistoryReviewed=$20,
+       AIRSHCVHistoryIssues=$21,
+       AIRSHCVHistoryUploadDate=$22,
+       AIRSHousingInformationReviewed=$23,
+       AIRSHousingInformationIssues=$24,
+       AIRSHousingInformationUploadDate=$25,
+       AIRSInsuranceInformationReviewed=$26,
+       AIRSInsuranceInformationIssues=$27,
+       AIRSInsuranceInformationUploadDate=$28,
+       AIRSSubstanceUseHistoryReviewed=$29,
+       AIRSSubstanceUseHistoryIssues=$30,
+       AIRSSubstanceUseHistoryUploadDate=$31,
+       LNEClientRightsReviewed=$32,
+       LNEClientRightsIssues=$33,
+       LNEClientRightsUploadDate=$34,
+       LNEClientGrievancePolicyProcedureReviewed=$35,
+       LNEClientGrievancePolicyProcedureIssues=$36,
+       LNEClientGrievancePolicyProcedureUploadDate=$37,
+       LNEProgramRulesReviewed=$38,
+       LNEProgramRulesIssues=$39,
+       LNEProgramRulesUploadDate=$40,
+       LNEEmergencyContactConsentReviewed=$41,
+       LNEEmergencyContactConsentIssues=$42,
+       LNEEmergencyContactConsentUploadDate=$43,
+       LNEConsentForReleaseOfConfidentialInformationReviewed=$44,
+       LNEConsentForReleaseOfConfidentialInformationIssues=$45,
+       LNEConsentForReleaseOfConfidentialInformationUploadDate=$46,
+       HIPPAConsentFormReviewed=$47,
+       HIPPAConsentFormIssues=$48,
+       HIPPAConsentFormUploadDate=$49,
+       NYCDOHMHNoticeOfPrivacyPracticesReviewed=$50,
+       NYCDOHMHNoticeOfPrivacyPracticesIssues=$51,
+       NYCDOHMHNoticeOfPrivacyPracticesUploadDate=$52,
+       LNEOutreachRetentionTrackingFormReviewed=$53,
+       LNEOutreachRetentionTrackingFormIssues=$54,
+       LNEOutreachRetentionTrackingFormUploadDate=$55,
+       LNEReferralInformationReviewed=$56,
+       LNEReferralInformationIssues=$57,
+       LNEReferralInformationUploadDate=$58,
+       LNEClientReferralFormReviewed=$59,
+       LNEClientReferralFormIssues=$60,
+       LNEClientReferralFormUploadDate=$61,
+       LNEHNSEligibilityFormReviewed=$62,
+       LNEHNSEligibilityFormIssues=$63,
+       LNEHNSEligibilityFormUploadDate=$64,
+       ProgressNoteReviewed=$65,
+       ProgressNoteIssues=$66,
+       ProgressNoteUploadDate=$67, 
+       StatusChangesFormReviewed=$68,
+       StatusChangesFormIssues=$69, 
+       StatusChangesFormUploadDate=$70, 
+       ComprehensiveRiskBehaviorAssessmentUpdatesReviewed=$71,
+       ComprehensiveRiskBehaviorAssessmentUpdatesIssues=$72,
+       ComprehensiveRiskBehaviorAssessmentUpdatesUploadDate=$73, 
+       M11QFormReviewed=$74,
+       M11QFormIssues=$75,
+       M11QFormUploadDate=$76,
+       CD4VLReportsReviewed=$77,
+       CD4VLReportsIssues=$78,
+       CD4VLReportsUploadDate=$79, 
+       InitialTreatmentAdherenceIntakeReviewed=$80,
+       InitialTreatmentAdherenceIntakeIssues=$81, 
+       InitialTreatmentAdherenceIntakeUploadDate=$82,
+       TreatmentAdherenceUpdatesReviewed=$83,
+       TreatmentAdherenceUpdatesIssues=$84,
+       TreatmentAdherenceUpdatesUploadDate=$85,
+       AIRSDrugRegimenReviewed=$86,
+       AIRSDrugRegimenIssues=$87,
+       AIRSDrugRegimenUploadDate=$88, 
+       AIRSHIVMedicalProviderReviewed=$89,
+       AIRSHIVMedicalProviderIssues=$90,
+       AIRSHIVMedicalProviderUploadDate=$91,
+       AIRSHIVStatusHistoryReviewed=$92,
+       AIRSHIVStatusHistoryIssues=$93,
+       AIRSHIVStatusHistoryUploadDate=$94,
+       LinkageRetentionAdherenceFormsReviewed=$95,
+       LinkageRetentionAdherenceFormsIssues=$96,
+       LinkageRetentionAdherenceFormsUploadDate=$97,
+       InternalReferralInformationReviewed=$98,
+       InternalReferralInformationIssues=$99,
+       InternalReferralInformationUploadDate=$100,
+       HNSEligibilityFormReviewed=$101,
+       HNSEligibilityFormIssues=$102,
+       HNSEligibilityFormUploadDate=$103,
+       HNSReadinessFormReviewed=$104,
+       HNSReadinessFormIssues=$105,
+       HNSReadinessFormUploadDate=$106,
+        SupportGroupsReviewed=$107,
+       SupportGroupsIssues=$108,
+       SupportGroupsUploadDate=$109,
+       IDGFormReviewed=$110,
+       IDGFormIssues=$111,
+       IDGFormUploadDate=$112
+       where clientId=$1`,
+           values: [ 
+       clientId,
+       AIRSIntakeFormUploadDate,
+       AIRSIntakeFormReviewed,
+       AIRSIntakeFormIssues,
+       ComprehensiveRiskBehaviorAssessmentUploadDate,
+       ComprehensiveRiskBehaviorAssessmentReviewed,
+       ComprehensiveRiskBehaviorAssessmentIssues,
+       ServiceActionPlanUploadDate,
+       ServiceActionPlanReviewed,
+       ServiceActionPlanIssues,
+       AIRSCollateralInformationReviewed,
+       AIRSCollateralInformationIssues,
+       AIRSCollateralInformationUploadDate,
+       AIRSFinancialInformationReviewed,
+       AIRSFinancialInformationIssues,
+       AIRSFinancialInformationUploadDate,
+       AIRSHIVAIDSRiskHistoryReviewed,
+       AIRSHIVAIDSRiskHistoryIssues,
+       AIRSHIVAIDSRiskHistoryUploadDate,
+       AIRSHCVHistoryReviewed,
+       AIRSHCVHistoryIssues,
+       AIRSHCVHistoryUploadDate,
+       AIRSHousingInformationReviewed,
+       AIRSHousingInformationIssues,
+       AIRSHousingInformationUploadDate,
+       AIRSInsuranceInformationReviewed,
+       AIRSInsuranceInformationIssues,
+       AIRSInsuranceInformationUploadDate,
+       AIRSSubstanceUseHistoryReviewed,
+       AIRSSubstanceUseHistoryIssues,
+       AIRSSubstanceUseHistoryUploadDate,
+       LNEClientRightsReviewed,
+       LNEClientRightsIssues,
+       LNEClientRightsUploadDate,
+       LNEClientGrievancePolicyProcedureReviewed,
+       LNEClientGrievancePolicyProcedureIssues,
+       LNEClientGrievancePolicyProcedureUploadDate,
+       LNEProgramRulesReviewed,
+       LNEProgramRulesIssues,
+       LNEProgramRulesUploadDate,
+       LNEEmergencyContactConsentReviewed,
+       LNEEmergencyContactConsentIssues,
+       LNEEmergencyContactConsentUploadDate,
+       LNEConsentForReleaseOfConfidentialInformationReviewed,
+       LNEConsentForReleaseOfConfidentialInformationIssues,
+       LNEConsentForReleaseOfConfidentialInformationUploadDate,
+       HIPPAConsentFormReviewed,
+       HIPPAConsentFormIssues,
+       HIPPAConsentFormUploadDate,
+       NYCDOHMHNoticeOfPrivacyPracticesReviewed,
+       NYCDOHMHNoticeOfPrivacyPracticesIssues,
+       NYCDOHMHNoticeOfPrivacyPracticesUploadDate,
+       LNEOutreachRetentionTrackingFormReviewed,
+       LNEOutreachRetentionTrackingFormIssues,
+       LNEOutreachRetentionTrackingFormUploadDate,
+       LNEReferralInformationReviewed,
+       LNEReferralInformationIssues,
+       LNEReferralInformationUploadDate,
+       LNEClientReferralFormReviewed,
+       LNEClientReferralFormIssues,
+       LNEClientReferralFormUploadDate,
+       LNEHNSEligibilityFormReviewed,
+       LNEHNSEligibilityFormIssues,
+       LNEHNSEligibilityFormUploadDate,
+       ProgressNoteReviewed,
+       ProgressNoteIssues,
+       ProgressNoteUploadDate, 
+       StatusChangesFormReviewed,
+       StatusChangesFormIssues, 
+       StatusChangesFormUploadDate, 
+       ComprehensiveRiskBehaviorAssessmentUpdatesReviewed,
+       ComprehensiveRiskBehaviorAssessmentUpdatesIssues,
+       ComprehensiveRiskBehaviorAssessmentUpdatesUploadDate, 
+       M11QFormReviewed,
+       M11QFormIssues,
+       M11QFormUploadDate,
+       CD4VLReportsReviewed,
+       CD4VLReportsIssues,
+       CD4VLReportsUploadDate, 
+       InitialTreatmentAdherenceIntakeReviewed,
+       InitialTreatmentAdherenceIntakeIssues, 
+       InitialTreatmentAdherenceIntakeUploadDate,
+       TreatmentAdherenceUpdatesReviewed,
+       TreatmentAdherenceUpdatesIssues,
+       TreatmentAdherenceUpdatesUploadDate,
+       AIRSDrugRegimenReviewed,
+       AIRSDrugRegimenIssues,
+       AIRSDrugRegimenUploadDate, 
+       AIRSHIVMedicalProviderReviewed,
+       AIRSHIVMedicalProviderIssues,
+       AIRSHIVMedicalProviderUploadDate,
+       AIRSHIVStatusHistoryReviewed,
+       AIRSHIVStatusHistoryIssues,
+       AIRSHIVStatusHistoryUploadDate,
+       LinkageRetentionAdherenceFormsReviewed,
+       LinkageRetentionAdherenceFormsIssues,
+       LinkageRetentionAdherenceFormsUploadDate,
+       InternalReferralInformationReviewed,
+       InternalReferralInformationIssues,
+       InternalReferralInformationUploadDate,
+       HNSEligibilityFormReviewed,
+       HNSEligibilityFormIssues,
+       HNSEligibilityFormUploadDate,
+       HNSReadinessFormReviewed,
+       HNSReadinessFormIssues,
+       HNSReadinessFormUploadDate,
+      SupportGroupsReviewed,
+       SupportGroupsIssues,
+       SupportGroupsUploadDate,
+       IDGFormReviewed,
+       IDGFormIssues,
+       IDGFormUploadDate,
+      
+     ],
+         }
+         db
+           .query(query)
+           .then((response) =>{
+            
+             res.status(200).send(response)
+             console.log("msa form updated",response)
+           }
+           )
+           .catch((e) => {
+             console.log(e)
+             res.send(e.stack)
+           });
+       } catch (error) {
+         console.log("error message del update msa supervisor:", error);
+         res.send("an error ocurred while trying to update msa form");
+         
+       }
+     },
   updateMsaFormFromProgressNote: async (req, res) => {
     console.log("req.body",req.body)
     

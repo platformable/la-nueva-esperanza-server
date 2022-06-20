@@ -9,6 +9,8 @@ router.get("/:clientid",controller.getClientMsaForm)
 router.put("/:clientid/update",controller.updateMsaForm)
 router.put("/:clientid/update_des_msa_form",controller.updateDESMsaForm)
 router.put("/:clientid/update_msa_form_from_progress_note",controller.updateMsaFormFromProgressNote)
+router.put("/:clientid/update_supervisor_msa_form",controller.updateSupervisorMsaForm)
+
 
 
 
