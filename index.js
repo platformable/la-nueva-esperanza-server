@@ -141,7 +141,6 @@ app.get("/mail", (req,res)=>{
       console.log("email sent")
     }
   })
-
 })
 
 app.get("/testurl",(req,res)=>{

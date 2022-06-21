@@ -65,7 +65,7 @@ console.log("req.body",req.body)
         console.log("delete route")
         console.log("req.body:", req.body)
         const {email} = req.body
-        console.log("id: ", id)
+    
         const query = {
             text: 'DELETE from authorizedusers where email=$1',
             values: [email],

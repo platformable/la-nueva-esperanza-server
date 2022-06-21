@@ -1,7 +1,7 @@
 const db = require("../dbConnect");
 const { Dropbox } = require("dropbox");
 const axios = require("axios");
-
+let nodemailer = require("nodemailer");
 
 var ACCESS_TOKEN = process.env.DROPBOX_ACCESS_TK;
 var dbx = new Dropbox({ accessToken: ACCESS_TOKEN });
@@ -15,6 +15,7 @@ db.query(`select * from services_action_plan`)
 .catch(error=>console.log(error))
   },
   getClientServicesActionPlan: async (req,res)=>{
+    console.log("get client sap")
     let { clientid } = await req.params;
     const query= {
       //text:'select * from services_action_plan where clientid =$1',
@@ -27,6 +28,7 @@ clients.clienthcwname,
 clients.clienthcwlastname,
 clients.clientdatecreated,
 clients.linkage_navigation_folder_url ,
+clients.clienthcwemail,
 	services_action_plan.clientFirstName,
     services_action_plan.clientLastName,
     services_action_plan.planStartDate,
@@ -91,6 +93,7 @@ where clients.clientid =$1
     result.clienthcwname=x.clienthcwname
     result.clienthcwlastname=x.clienthcwlastname
     result.clientdatecreated=x.clientdatecreated
+    result.clienthcwemail=x.clienthcwemail
     result.linkage_navigation_folder_url=x.linkage_navigation_folder_url
     result.planstartdate=x.planstartdate
     result.userfirstname=x.userfirstname
@@ -299,7 +302,7 @@ where clients.clientid =$1
     },
     updateClientServicesActionPlan: async (req,res)=>{
       
-
+console.log(req.body)
       for (const property in req.body.clientData) {
         if(req.body.clientData[property]===true){
           req.body.clientData[property]=1
@@ -313,6 +316,8 @@ where clients.clientid =$1
       } 
 
       let {
+        role,
+        clientHCWEmail,
         clientId,
         clientFirstName,
         clientLastName,
@@ -347,22 +352,33 @@ where clients.clientid =$1
         supervisorSignature
       } = req.body.clientData;
 
+const sendMessageToHCW =()=>{
+  let mailTrasporter = nodemailer.createTransport({
+    service:'gmail',
+    auth:{
+      user:process.env.NODEMAILEREMAIL,
+      pass:process.env.EMAILPASSWORD
+    }
+  })
 
-     /*  if(HCWSignature=== "" || null || undefined){
-        HCWSignature=0
-      } else {
-        HCWSignature=1
-      }
-      if(clientSignature=== "" || null || undefined){
-        clientSignature=0
-      }else {
-        clientSignature=1
-      }
-      if(supervisorSignature==="" || null || undefined){
-        supervisorSignature=0
-      }else {
-        supervisorSignature=1
-      } */
+  let details = {
+    from:"accounts@platformable.com",
+    //to: clientHCWEmail,
+    to:[clientHCWEmail,'garbanm@gmail.com'],
+    subject:"Supervisor has reviewed a client",
+    text:`The supervisor has reviewed the Service Action Plan for client ${clientId}. This may include signing the supervisor signature for the Action Plan.
+    Please review the changes and discuss with your client, if needed.`
+  }
+
+  mailTrasporter.sendMail(details,(err)=>{
+    
+    if(err){
+      console.log(err)
+    } else {
+      console.log("email sent")
+    }
+  })
+}
 
       try {
         
@@ -440,6 +456,7 @@ where clients.clientid =$1
         db.query(query)
         .then((data) => {
           console.log("sucess")
+          sendMessageToHCW()
           res.status(200).json(data.rows[0])
         })
         .catch((e) => console.error(e.stack));
