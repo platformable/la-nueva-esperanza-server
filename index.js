@@ -10,7 +10,9 @@ const port = process.env.PORT || 5500
 const axios = require('axios')
 const db = require("./dbConnect");
 const { Pool,Client } = require('pg')
-const { user } = require('pg/lib/defaults')
+//const { user } = require('pg/lib/defaults')
+
+let nodemailer = require("nodemailer");
 
 const client = new Client(
   {
@@ -112,6 +114,35 @@ const addClientFolder = async (url,folderName,clientID) =>{
         console.log("error message de addClientFolder:", error);
       }
   }
+
+
+app.get("/mail", (req,res)=>{
+
+  let mailTrasporter = nodemailer.createTransport({
+    service:'gmail',
+    auth:{
+      user:"alexei@platformable.com",
+      pass:"heqeetlgokmzjspz"
+    }
+  })
+
+  let details = {
+    from:"accounts@platformable.com",
+    to:"garban.valdeon@gmail.com",
+    subject:"hello from nodemailer test",
+    text:"this is the content of first test of nodemailer"
+  }
+
+  mailTrasporter.sendMail(details,(err)=>{
+    
+    if(err){
+      console.log(err)
+    } else {
+      console.log("email sent")
+    }
+  })
+
+})
 
 app.get("/testurl",(req,res)=>{
   let sharedFolderUrl;
