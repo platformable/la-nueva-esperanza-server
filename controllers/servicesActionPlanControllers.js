@@ -364,7 +364,7 @@ const sendMessageToHCW =()=>{
   let details = {
     from:"accounts@platformable.com",
     //to: clientHCWEmail,
-    to:[clientHCWEmail,'garbanm@gmail.com'],
+    to:[clientHCWEmail,'mark@platformable.com'],
     subject:"Supervisor has reviewed a client",
     text:`The supervisor has reviewed the Service Action Plan for client ${clientId}. This may include signing the supervisor signature for the Action Plan.
     Please review the changes and discuss with your client, if needed.`
