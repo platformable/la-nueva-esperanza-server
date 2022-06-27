@@ -46,6 +46,9 @@ app.use('/msa_forms', msaFormRoute)
 const progressNotes = require('./routes/progressNotes')
 app.use('/progress_notes',progressNotes)
 
+const manageServices = require('./routes/manageServices')
+app.use('/manage_services',manageServices)
+
 
 app.get("/test", async (req,res)=>{
   var clientID = 'g1234e'
@@ -116,13 +119,13 @@ const addClientFolder = async (url,folderName,clientID) =>{
   }
 
 
-app.get("/mail", (req,res)=>{
+/* app.get("/mail", (req,res)=>{
 
   let mailTrasporter = nodemailer.createTransport({
     service:'gmail',
     auth:{
       user:"alexei@platformable.com",
-      pass:"heqeetlgokmzjspz"
+      pass:process.env.EMAILPASSWORD
     }
   })
 
@@ -141,7 +144,7 @@ app.get("/mail", (req,res)=>{
       console.log("email sent")
     }
   })
-})
+}) */
 
 app.get("/testurl",(req,res)=>{
   let sharedFolderUrl;
