@@ -49,6 +49,11 @@ app.use('/progress_notes',progressNotes)
 const manageServices = require('./routes/manageServices')
 app.use('/manage_services',manageServices)
 
+const monitorFunding = require('./routes/monitorFunding')
+app.use('/monitor_funding',monitorFunding)
+
+
+
 
 app.get("/test", async (req,res)=>{
   var clientID = 'g1234e'

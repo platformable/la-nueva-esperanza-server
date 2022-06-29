@@ -77,7 +77,7 @@ where clients.clientid =$1
     }
       const allData = await db.query(query);
       const response = allData.rows;
-      console.log("response", response);
+      
 
 
     
