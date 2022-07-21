@@ -74,8 +74,8 @@ const connectDropboxAndCreateFolders=(DBXCLIENT_ID,res)=>{
   function backup(res) {
 	
 	
-	execute(`PGPASSWORD="${process.env.DATABASEPASSWORD}" pg_dump -U ${process.env.DATABASEUSERNAME} -d ${process.env.DATABASENAME} -h ${process.env.DATABASEHOST} -p ${process.env.DATABASEPORT} > ${fileName}`)
-	//execute(`pg_dump -U qsshyzhiglxylw -h ec2-52-21-136-176.compute-1.amazonaws.com -d d9hq8njskmgc15 > db_dump.sql`)
+	execute(`PGPASSWORD="${process.env.DATABASEPASSWORD}" pg_dump -U ${process.env.DATABASEUSERNAME} -d ${process.env.DATABASENAME} -h ${process.env.DATABASEHOST}  > ${fileName}`)
+
 	.then(async (response) => {
 	
 		
