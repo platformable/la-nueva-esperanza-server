@@ -29,13 +29,13 @@ order by clients.id asc `)
             const newData=data.forEach(client=>{
                 const newClient={}
                 newClient.progressnotes=[]
-                const clientID=client.id
+                const clientID=client.clientid
 
-               const checkUser = checkIfUserIsOnTheFinalArray(client.id)
+               const checkUser = checkIfUserIsOnTheFinalArray(clientID)
                if(checkUser !==-1){
                    newClients[checkUser].progressnotes.push(client.progressnotedate)
                } else {
-                newClient.id=client.id
+                newClient.id=client.clientid
                 newClient.clientfirstname=client.clientfirstname,
                 newClient.clientlastname=client.clientlastname
 /*                 newClient.clientssn=client.clientssn */
@@ -46,9 +46,9 @@ order by clients.id asc `)
                 newClient.clienthcwlastname=client.clienthcwlastname
                 newClient.clientdatecreated=client.clientdatecreated
                 newClient.services_action_plan_id=client.services_action_plan_id
-                newClient.goal1completed=client.goal1completed
-                newClient.goal2completed=client.goal2completed
-                newClient.goal3completed=client.goal3completed
+                newClient.goal1completed=client.goal1completed === null ? 0:client.goal1completed
+                newClient.goal2completed=client.goal2completed === null ? 0:client.goal2completed
+                newClient.goal3completed=client.goal3completed === null ? 0:client.goal3completed
   /*               newClient.msa_form_id=client.msa_form_id
                 newClient.cbra_folder_url=client.cbra_folder_url
                 newClient.intake_folder_url=client.intake_folder_url

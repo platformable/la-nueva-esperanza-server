@@ -5,7 +5,7 @@ var cors = require('cors')
 const app = express()
 app.use(express.json());
 app.use(cors())
-app.use(urlencoded({extended:true}))
+app.use(urlencoded({extended:false}))
 const port = process.env.PORT || 5500
 const axios = require('axios')
 const db = require("./dbConnect");
@@ -52,10 +52,13 @@ app.use('/manage_services',manageServices)
 const monitorFunding = require('./routes/monitorFunding')
 app.use('/monitor_funding',monitorFunding)
 
+const dbBackup = require('./routes/dbBackup')
+app.use('/backup',dbBackup)
 
 
 
-app.get("/test", async (req,res)=>{
+
+/* app.get("/test", async (req,res)=>{
   var clientID = 'g1234e'
   var folderName="cbra"
   let sharedFolderId;
@@ -104,10 +107,10 @@ app.get("/test", async (req,res)=>{
     console.log(e)
   }
 
-})
+}) */
 
 
-const addClientFolder = async (url,folderName,clientID) =>{
+/* const addClientFolder = async (url,folderName,clientID) =>{
       try {
         const query = await {
           name: "update-last-login",
@@ -121,7 +124,7 @@ const addClientFolder = async (url,folderName,clientID) =>{
       } catch (error) {
         console.log("error message de addClientFolder:", error);
       }
-  }
+  } */
 
 
 /* app.get("/mail", (req,res)=>{
@@ -151,7 +154,7 @@ const addClientFolder = async (url,folderName,clientID) =>{
   })
 }) */
 
-app.get("/testurl",(req,res)=>{
+/* app.get("/testurl",(req,res)=>{
   let sharedFolderUrl;
   var clientID = 'g1234e'
   var folderName="intake_form"
@@ -176,10 +179,12 @@ app.get("/date", (req,res)=>{
   db.query("select msa_form.airsfinancialinformationdate from msa_form where clientfirstname ='Rosa'")
   .then(response=>res.send(response.rows[0]))
   .catch((error)=> { console.log(error)})
-})
+}) */
 
 /* PORT */
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+
