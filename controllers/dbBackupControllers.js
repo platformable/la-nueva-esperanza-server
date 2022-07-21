@@ -74,7 +74,7 @@ const connectDropboxAndCreateFolders=(DBXCLIENT_ID,res)=>{
   function backup(res) {
 	
 	
-	execute(`PGPASSWORD="${process.env.DATABASEPASSWORD}" pg_dump -U ${process.env.DATABASEUSERNAME} -d ${process.env.DATABASENAME} -h ${process.env.DATABASEHOST}  > ${fileName}`)
+	execute(`PGPASSWORD="${process.env.DATABASEPASSWORD}" pg_dump -U ${process.env.DATABASEUSERNAME} -d ${process.env.DATABASENAME} -h ${process.env.DATABASEHOST} -p ${process.env.DATABASEPORT} > ${fileName}`)
 
 	.then(async (response) => {
 	
@@ -82,7 +82,7 @@ const connectDropboxAndCreateFolders=(DBXCLIENT_ID,res)=>{
 //		res.send("yes")
 uploadDbBackupToDropbox(res)
 	}).catch(err => {
-		res.send("no")
+		res.json({message:"an error courred",error:err})
 		console.log("error",err);
 	})
 }
