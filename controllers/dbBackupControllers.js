@@ -111,6 +111,7 @@ const  uploadDbBackupToDropbox = async (res)=>{
         file_name:response.data.name,
         path_display:response.data.path_display,
         file_id:response.data.id,
+        access_token:tokenFromRefresh
 
 	  })})
 	  .catch(error=>{
