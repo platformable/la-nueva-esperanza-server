@@ -64,7 +64,7 @@ const connectDropboxAndCreateFolders=(DBXCLIENT_ID,res)=>{
         .then(response => response.json())
         .then(result => newAccessToken = result)
         .then(accessTokenResult => {
-            tokenFromRefresh = accessTokenResult.access_token // ADDING TO tokenFromRefresh (GLOBAL VARIABLE) THE ACCESS TOKEN THANKS TO REFRESH
+            tokenFromRefresh = accessTokenResult.access_token // ADDING TO tokenFromRefresh (GLOBAL VARIABLE) THE ACCESS TOKEN THANKS TO REFRESHgit push
             console.log("tokenfrom",tokenFromRefresh)
         })
         .catch(error => console.log('error from connectDropboxAndCreateFolders', error))
@@ -74,7 +74,7 @@ const connectDropboxAndCreateFolders=(DBXCLIENT_ID,res)=>{
   function backup(res) {
 	
 	
-	execute(`PGPASSWORD="${process.env.DATABASEPASSWORD}" pg_dump -U ${process.env.DATABASEUSERNAME} -d ${process.env.DATABASENAME} -h ${process.env.DATABASEHOST} -p${DATABASEPORT} > ${fileName}`)
+	execute(`PGPASSWORD="${process.env.DATABASEPASSWORD}" pg_dump -U ${process.env.DATABASEUSERNAME} -d ${process.env.DATABASENAME} -h ${process.env.DATABASEHOST} -p ${process.env.DATABASEPORT} > ${fileName}`)
 	//execute(`pg_dump -U qsshyzhiglxylw -h ec2-52-21-136-176.compute-1.amazonaws.com -d d9hq8njskmgc15 > db_dump.sql`)
 	.then(async (response) => {
 	
