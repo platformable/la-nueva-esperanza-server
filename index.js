@@ -55,6 +55,9 @@ app.use('/monitor_funding',monitorFunding)
 const dbBackup = require('./routes/dbBackup')
 app.use('/backup',dbBackup)
 
+const accessToken = require('./routes/dropboxAccessToken')
+app.use('/access_token',accessToken)
+
 
 
 
