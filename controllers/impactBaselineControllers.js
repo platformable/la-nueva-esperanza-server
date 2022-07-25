@@ -21,7 +21,7 @@ module.exports= {
             serviceActionPlanId,
             impactFormStartDate ,
 barrierHIVPrimaryCare ,
-barrierAccessingMedications ,
+barrierAccessingMedications,
 medicationAdherence,
 CD4ViralLoad ,
 lastHIVTest,
@@ -33,7 +33,7 @@ mentalHealthIssues ,
 unstableHousing ,
 foodInsecurity ,
 legalIssues ,
-unstableEmployment ,
+unstableEmployment,
         } = req.body.clientData
 
         const query ={
@@ -81,8 +81,6 @@ unstableEmployment ,
                 db.query(query)
                 .then((data) => {
                   res.status(200).json({message:"impact_baseline saved successfully"})})
-               
-                .catch((e) => console.error(e.stack))
         } catch(e){
             res.send(e)
         }
