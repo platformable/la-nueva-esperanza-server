@@ -827,7 +827,8 @@ module.exports = {
       clientHCWLastname,
       clientID,
       clientDateCreated,
-      clientHCWemail
+      clientHCWemail,
+      clientCategory
     } = req.body;
 
     const nameCapitalized =
@@ -853,7 +854,7 @@ module.exports = {
             res.status(409).send("Client is already registered");
           } else {
             const query = {
-              text: "INSERT INTO clients(clientfirstname,clientlastname,clientssn,clientactive,clienthcwid,clienthcwname,clienthcwlastname,clientid,clientdatecreated,clienthcwemail) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *",
+              text: "INSERT INTO clients(clientfirstname,clientlastname,clientssn,clientactive,clienthcwid,clienthcwname,clienthcwlastname,clientid,clientdatecreated,clienthcwemail,clientcategory) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *",
               values: [
                 nameCapitalized,
                 lastnameCapitalized,
@@ -864,7 +865,8 @@ module.exports = {
                 clientHCWLastname,
                 clientID,
                 clientDateCreated,
-                clientHCWemail
+                clientHCWemail,
+                clientCategory
               ],
             };
           

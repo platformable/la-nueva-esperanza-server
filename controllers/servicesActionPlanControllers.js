@@ -290,7 +290,8 @@ where clients.clientid =$1
             .then((data) => {
               response_id=data.rows[0].id
               response_clientId=data.rows[0].clientid
-              res.status(200).json(data.rows[0])
+              //res.status(200).json(data.rows[0])
+              res.status(200).json({message:"service action plan saved successfully",service_action_plan_id:data.rows[0].id})
             })
             .then(res=>updateClientProfileWithSAP())
             .then(newResponse=>updateClientMSAForm())
