@@ -88,7 +88,8 @@ module.exports= {
               req.body.clientData[property]=null
             }
           } 
-        let {clientId,
+        let {
+            clientId,
             clientFirstName,
             clientLastName,
             clientHCWID,
@@ -250,7 +251,7 @@ module.exports= {
         try {
                 db.query(query)
                 .then((data) => {
-                  console.log("data de pn: ", data)
+      
                   res.status(200).json({message:"progress note saved successfully",progress_note_id:data.rows[0].id})})
                
                 .catch((e) => console.error(e.stack))
