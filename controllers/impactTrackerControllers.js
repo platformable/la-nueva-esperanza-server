@@ -1,0 +1,75 @@
+const db = require('../dbConnect')
+const axios = require('axios')
+
+
+module.exports= {
+   
+    createNewImpactTracker: async (req,res)=> {
+console.log(req.body.impactTracker)
+
+       
+        try {
+            for (const property in req.body.impactTracker) {
+                if(req.body.impactTracker[property]==='true'){
+                  req.body.impactTracker[property]=1
+                }
+                if(req.body.impactTracker[property]==='false'){
+                  req.body.impactTracker[property]=0
+                }
+                if(req.body.impactTracker[property]===""){
+                  req.body.impactTracker[property]=null
+                }
+              } 
+             let {
+                clientId,
+                progressNoteId,
+                impactFormStartDate,
+                barrierHIVPrimaryCare,
+                CD4Count,
+                ViralLoadCount,
+                unsafeSexualBehavior,
+                substanceAbuse ,
+                unstableHousing ,
+                legalIssues ,
+                unstableEmployment ,
+            } = req.body.impactTracker
+    
+            const query ={
+                text:`
+                insert into impact_tracker(
+                clientId,
+                progressNoteId,
+                impactFormStartDate,
+                barrierHIVPrimaryCare,
+                CD4Count,
+                ViralLoadCount,
+                unsafeSexualBehavior,
+                substanceAbuse ,
+                unstableHousing ,
+                legalIssues ,
+                unstableEmployment ,
+                ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *`,
+                values:[
+                    clientId,
+                    progressNoteId,
+                    impactFormStartDate,
+                    barrierHIVPrimaryCare,
+                    CD4Count,
+                    ViralLoadCount,
+                    unsafeSexualBehavior,
+                    substanceAbuse ,
+                    unstableHousing ,
+                    legalIssues ,
+                    unstableEmployment ,
+                ]
+            }
+                db.query(query)
+                .then((data) => {
+                  res.status(200).json({message:"impact_tracker saved successfully"})})
+        } catch(e){
+            res.send(e)
+        }
+        
+
+    }
+}
