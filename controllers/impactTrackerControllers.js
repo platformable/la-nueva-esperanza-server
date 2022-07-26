@@ -22,23 +22,23 @@ console.log(req.body.impactTracker)
               } 
              let {
                 clientId,
-                progressNoteId,
+                progress_note_id,
                 impactFormStartDate,
                 barrierHIVPrimaryCare,
                 CD4Count,
-                ViralLoadCount,
+                viralLoadCount,
                 unsafeSexualBehavior,
                 substanceAbuse ,
                 unstableHousing ,
                 legalIssues ,
-                unstableEmployment ,
+                unstableEmployment
             } = req.body.impactTracker
     
             const query ={
                 text:`
                 insert into impact_tracker(
                 clientId,
-                progressNoteId,
+                progressnoteid,
                 impactFormStartDate,
                 barrierHIVPrimaryCare,
                 CD4Count,
@@ -47,15 +47,15 @@ console.log(req.body.impactTracker)
                 substanceAbuse ,
                 unstableHousing ,
                 legalIssues ,
-                unstableEmployment ,
+                unstableEmployment 
                 ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *`,
                 values:[
                     clientId,
-                    progressNoteId,
+                    progress_note_id,
                     impactFormStartDate,
                     barrierHIVPrimaryCare,
                     CD4Count,
-                    ViralLoadCount,
+                    viralLoadCount,
                     unsafeSexualBehavior,
                     substanceAbuse ,
                     unstableHousing ,
@@ -66,6 +66,7 @@ console.log(req.body.impactTracker)
                 db.query(query)
                 .then((data) => {
                   res.status(200).json({message:"impact_tracker saved successfully"})})
+                  console.log("impact_tracker saved successfully")
         } catch(e){
             res.send(e)
         }
