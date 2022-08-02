@@ -5,25 +5,13 @@ const axios = require('axios')
 module.exports= {
    
     createNewIssue: async (req,res)=> {
-        console.log("req",req.body)
 
-       console.log("comenzando a agregar un issue")
         try {
-            for (const property in req.body.issueFounded) {
-                if(req.body.impactBaseline[property]==='true'){
-                  req.body.impactBaseline[property]=1
-                }
-                if(req.body.impactBaseline[property]==='false'){
-                  req.body.impactBaseline[property]=0
-                }
-                if(req.body.impactBaseline[property]===""){
-                  req.body.impactBaseline[property]=null
-                }
-              } 
+    
              let {
                 clientId,
                 hcw,
-                datelastupdated,
+                lastdateupdated,
                 description,
                 msaform
             } = req.body.issueFounded
@@ -34,14 +22,14 @@ module.exports= {
                 insert into issues(
                 clientId,
                 hcw,
-                datelastupdated,
+                lastdateupdated,
                 description,
                 msaform
                 ) VALUES($1,$2,$3,$4,$5) RETURNING *`,
                 values:[
                     clientId,
                     hcw,
-                    datelastupdated,
+                    lastdateupdated,
                     description,
                     msaform
                 ]
