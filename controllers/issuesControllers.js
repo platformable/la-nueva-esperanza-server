@@ -5,7 +5,6 @@ const axios = require('axios')
 module.exports= {
    
     createNewIssue: async (req,res)=> {
-console.log(req.body.impactBaseline)
 
        
         try {
@@ -23,7 +22,7 @@ console.log(req.body.impactBaseline)
              let {
                 clientId,
                 hcw,
-                datelastuploaded,
+                datelastupdated,
                 description,
                 msaform
             } = req.body.issueFounded
@@ -34,14 +33,14 @@ console.log(req.body.impactBaseline)
                 insert into issues(
                 clientId,
                 hcw,
-                datelastuploaded,
+                datelastupdated,
                 description,
                 msaform
                 ) VALUES($1,$2,$3,$4,$5) RETURNING *`,
                 values:[
                     clientId,
                     hcw,
-                    datelastuploaded,
+                    datelastupdated,
                     description,
                     msaform
                 ]
