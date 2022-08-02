@@ -64,6 +64,9 @@ app.use('/impact_baseline',impactBaseline)
 const impactTracker = require('./routes/impactTracker')
 app.use('/impact_tracker',impactTracker)
 
+const issues = require('./routes/issues')
+app.use('/impact_tracker',issues)
+
 
 
 
