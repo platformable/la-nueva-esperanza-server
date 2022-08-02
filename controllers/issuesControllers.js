@@ -5,6 +5,7 @@ const axios = require('axios')
 module.exports= {
    
     createNewIssue: async (req,res)=> {
+        console.log("req.body",req.body)
 
         try {
     
@@ -36,9 +37,13 @@ module.exports= {
             }
                 db.query(query)
                 .then((data) => {
-                  res.status(200).json({message:"issue saved successfully"})})
+                  res.status(200).json({message:"issue saved successfully"})}
+                  )
+                  .then(response=>console.log("sucess")) 
+                
         } catch(e){
             res.send(e)
+            console.log("error",e)
         }
         
 
