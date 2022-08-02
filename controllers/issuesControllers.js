@@ -5,8 +5,9 @@ const axios = require('axios')
 module.exports= {
    
     createNewIssue: async (req,res)=> {
+        console.log("req",req.body)
 
-       
+       console.log("comenzando a agregar un issue")
         try {
             for (const property in req.body.issueFounded) {
                 if(req.body.impactBaseline[property]==='true'){
