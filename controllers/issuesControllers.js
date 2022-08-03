@@ -4,7 +4,7 @@ let nodemailer = require("nodemailer");
 
 
 
-const sendMessageToHcw =(hcw,email,client)=>{
+const sendMessageToHcw =(hcw,email,clientId,description)=>{
   let mailTrasporter = nodemailer.createTransport({
     service:'gmail',
     auth:{
@@ -71,7 +71,7 @@ module.exports= {
                 .then((data) => {
                   res.status(200).json({message:"issue saved successfully"})}
                   )
-                  .then(response=>sendMessageToHcw(hcw,hcwemail,clientId)) 
+                  .then(response=>sendMessageToHcw(hcw,hcwemail,clientId,description)) 
                 
         } catch(e){
             res.send(e)
