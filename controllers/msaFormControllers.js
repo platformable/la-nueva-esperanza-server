@@ -22,10 +22,15 @@ module.exports = {
     let { clientid } = await req.params;
 
     const query = {
-      text: `select msa_form.*,progress_note.id as progressnoteid,progress_note.progressnotedate as progressnotedate from msa_form 
+      // text: `select msa_form.*,progress_note.id as progressnoteid,progress_note.progressnotedate as progressnotedate from msa_form 
+      // inner join clients on msa_form.clientid =clients.clientid 
+      // full outer join progress_note on progress_note.clientid = clients.clientid  
+      // where clients.clientid=$1 order by id asc
+      // limit 1`,
+      text:`select msa_form.*,clients.*,progress_note.id as progressnoteid,progress_note.progressnotedate as progressnotedate from msa_form 
       inner join clients on msa_form.clientid =clients.clientid 
       full outer join progress_note on progress_note.clientid = clients.clientid  
-      where clients.clientid=$1 order by id asc
+      where clients.clientid=$1 
       limit 1`,
       values: [clientid],
     };

@@ -45,7 +45,5 @@ module.exports= {
             res.send(e)
             console.log("error",e)
         }
-        
-
     }
 }
