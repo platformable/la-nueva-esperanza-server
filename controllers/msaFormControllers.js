@@ -930,15 +930,23 @@ where clientId=$2`,
     lnehnseligibilityformissues,
     lnehnseligibilityformreviewed,
     hnsreadinessformissues,
+    hnsreadinessformreviewed,
     hnseligibilityformreviewed,
+    hnseligibilityformissues,
     supportgroupsissues,
     supportgroupsreviewed,
     idgformissues,
-    idgformreviewed  
+    idgformreviewed,
+    internalreferralinformationreviewed,
+    internalreferralinformationissues,
+    airsinsuranceinformationreviewed,
+    airsinsuranceinformationissues   
     } = req.body.clientData;
 
 
-    console.log("airstintakeformreviewed",airsintakeformreviewed)
+
+
+console.log("initialtreatmentadherenceintakeissues",initialtreatmentadherenceintakeissues)
 
     try {
       const query = await {
@@ -1212,11 +1220,17 @@ where clientId=$2`,
     lnehnseligibilityformissues=$247,
     lnehnseligibilityformreviewed=$248,
     hnsreadinessformissues=$249,
-    hnseligibilityformreviewed=$250,
-    supportgroupsissues=$251,
-    supportgroupsreviewed=$252,
-    idgformissues=$253,
-    idgformreviewed=$254  
+    hnsreadinessformreviewed=$250,
+    hnseligibilityformreviewed=$251,
+    hnseligibilityformissues=$252,
+    supportgroupsissues=$253,
+    supportgroupsreviewed=$254,
+    idgformissues=$255,
+    idgformreviewed=$256,
+    internalreferralinformationreviewed=$257,
+    internalreferralinformationissues=$258,
+    airsinsuranceinformationreviewed=$259,
+    airsinsuranceinformationissues=$260    
     where clientId=$2`,
         values: [ 
     dateFormReviewed,
@@ -1485,11 +1499,17 @@ where clientId=$2`,
     lnehnseligibilityformissues,
     lnehnseligibilityformreviewed,
     hnsreadinessformissues,
+    hnsreadinessformreviewed,
     hnseligibilityformreviewed,
+    hnseligibilityformissues,
     supportgroupsissues,
     supportgroupsreviewed,
     idgformissues,
-    idgformreviewed  
+    idgformreviewed, 
+    internalreferralinformationreviewed,
+    internalreferralinformationissues,
+    airsinsuranceinformationreviewed,
+    airsinsuranceinformationissues  
   ],
       }
       db
@@ -1639,7 +1659,7 @@ where clientId=$2`,
        StatusChangesFormUploadDate, 
 
        ComprehensiveRiskBehaviorAssessmentUpdatesReviewed,
-       ComprehensiveRiskBehaviorAssessmentUpdatesIssues,
+       ComprehensiveRiskBehaviorAssessmentUpdatesFormIssues,
        ComprehensiveRiskBehaviorAssessmentUpdatesUploadDate, 
        
 
@@ -1701,13 +1721,16 @@ where clientId=$2`,
        IDGFormUploadDate,
        } = req.body.clientData;
 
+ 
+       
+       console.log(req.body.clientData)
+
 /*        console.log(req.body.clientData)
        const test = new Date(AIRSIntakeFormUploadDate)
        console.log(test)
        console.log(typeof test) */
 
-   console.log("airsintakeformuploaddate",AIRSIntakeFormUploadDate)
-   console.log("airsintakeformuploaddate",typeof AIRSIntakeFormUploadDate)
+
        try {
          const query = await {
            name: "update-msa_form-supervisor",
@@ -1783,7 +1806,7 @@ where clientId=$2`,
        StatusChangesFormIssues=$69, 
        StatusChangesFormUploadDate=$70, 
        ComprehensiveRiskBehaviorAssessmentUpdatesReviewed=$71,
-       ComprehensiveRiskBehaviorAssessmentUpdatesIssues=$72,
+       comprehensiveriskbehaviorassessmentupdatesissues=$72,
        ComprehensiveRiskBehaviorAssessmentUpdatesUploadDate=$73, 
        M11QFormReviewed=$74,
        M11QFormIssues=$75,
@@ -1897,7 +1920,7 @@ where clientId=$2`,
        StatusChangesFormIssues, 
        StatusChangesFormUploadDate, 
        ComprehensiveRiskBehaviorAssessmentUpdatesReviewed,
-       ComprehensiveRiskBehaviorAssessmentUpdatesIssues,
+       ComprehensiveRiskBehaviorAssessmentUpdatesFormIssues,
        ComprehensiveRiskBehaviorAssessmentUpdatesUploadDate, 
        M11QFormReviewed,
        M11QFormIssues,
@@ -1946,7 +1969,7 @@ where clientId=$2`,
            .then((response) =>{
             
              res.status(200).send(response)
-             console.log("msa form updated",response)
+           //  console.log("msa form updated",response)
            }
            )
            .catch((e) => {

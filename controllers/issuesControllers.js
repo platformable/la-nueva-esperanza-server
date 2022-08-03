@@ -18,7 +18,10 @@ const sendMessageToHcw =(hcw,email,clientId,description)=>{
     //to: clientHCWEmail,
     to:[email,'alexei@platformable.com'],
     subject:"An issue has been found",
-    text:`Hi ${hcw}, Supervisor has identified this issue: "${description}" for client ${clientId}`
+    text:`Hi ${hcw}, Supervisor has identified this issue: "${description}."
+    
+    Client:${clientId}
+    `
   }
 
   mailTrasporter.sendMail(details,(err)=>{
