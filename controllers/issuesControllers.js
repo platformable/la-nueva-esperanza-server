@@ -1,6 +1,35 @@
 const db = require('../dbConnect')
 const axios = require('axios')
+let nodemailer = require("nodemailer");
 
+
+
+const sendMessageToHcw =(hcw,email,client)=>{
+  let mailTrasporter = nodemailer.createTransport({
+    service:'gmail',
+    auth:{
+      user:process.env.NODEMAILEREMAIL,
+      pass:process.env.EMAILPASSWORD
+    }
+  })
+
+  let details = {
+    from:"accounts@platformable.com",
+    //to: clientHCWEmail,
+    to:[email,'alexei@platformable'],
+    subject:"An issue has been found",
+    text:`Hi ${hcw}, Supervisor has identified this issue: "${description}" for client ${clientId}`
+  }
+
+  mailTrasporter.sendMail(details,(err)=>{
+    
+    if(err){
+      console.log(err)
+    } else {
+      console.log("email sent")
+    }
+  })
+}
 
 module.exports= {
    
@@ -14,7 +43,8 @@ module.exports= {
                 hcw,
                 lastdateupdated,
                 description,
-                msaform
+                msaform,
+                hcwemail
             } = req.body.issueFounded
     
 
@@ -25,21 +55,23 @@ module.exports= {
                 hcw,
                 lastdateupdated,
                 description,
-                msaform
-                ) VALUES($1,$2,$3,$4,$5) RETURNING *`,
+                msaform,
+                hcwemail
+                ) VALUES($1,$2,$3,$4,$5,$6) RETURNING *`,
                 values:[
                     clientId,
                     hcw,
                     lastdateupdated,
                     description,
-                    msaform
+                    msaform,
+                    hcwemail
                 ]
             }
                 db.query(query)
                 .then((data) => {
                   res.status(200).json({message:"issue saved successfully"})}
                   )
-                  .then(response=>console.log("sucess")) 
+                  .then(response=>sendMessageToHcw(hcw,hcwemail,clientId)) 
                 
         } catch(e){
             res.send(e)
