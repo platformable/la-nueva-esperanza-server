@@ -946,7 +946,7 @@ where clientId=$2`,
 
 
 
-console.log("initialtreatmentadherenceintakeissues",initialtreatmentadherenceintakeissues)
+
 
     try {
       const query = await {

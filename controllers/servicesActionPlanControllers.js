@@ -363,9 +363,9 @@ const sendMessageToHCW =()=>{
   })
 
   let details = {
-    from:"accounts@platformable.com",
+    from:"lne-app@platformable.com",
     //to: clientHCWEmail,
-    to:[clientHCWEmail,'mark@platformable.com'],
+    to:[clientHCWEmail],
     subject:"Supervisor has reviewed a client",
     text:`The supervisor has reviewed the Service Action Plan for client ${clientId}. This may include signing the supervisor signature for the Action Plan.
     Please review the changes and discuss with your client, if needed.`
@@ -492,6 +492,7 @@ const sendMessageToHCW =()=>{
         goal1CompletionDate,
         goal2CompletionDate,
         goal3CompletionDate,
+        hwcsignature
       } = req.body.clientData;
 
       console.log(req.body)
@@ -506,7 +507,8 @@ const sendMessageToHCW =()=>{
             goal3Completed=$4,
             goal1CompletionDate=$5,
             goal2CompletionDate=$6,
-            goal3CompletionDate=$7 where clientId=$1`,
+            goal3CompletionDate=$7,
+            hwcsignature=$8 where clientId=$1`,
           values: [
             clientId,
             goal1Completed,
@@ -515,6 +517,7 @@ const sendMessageToHCW =()=>{
             goal1CompletionDate,
             goal2CompletionDate,
             goal3CompletionDate,
+            hwcsignature
           ],
         };
         db

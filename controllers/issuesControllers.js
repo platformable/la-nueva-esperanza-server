@@ -14,13 +14,13 @@ const sendMessageToHcw =(hcw,email,clientId,description)=>{
   })
 
   let details = {
-    from:"accounts@platformable.com",
+    from:"lne-app@platformable.com",
     //to: clientHCWEmail,
     to:[email,'alexei@platformable.com'],
     subject:"An issue has been found",
     text:`Hi ${hcw}, Supervisor has identified this issue: "${description}."
     
-    Client:${clientId}
+Client:${clientId}
     `
   }
 
