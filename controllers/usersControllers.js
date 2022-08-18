@@ -27,7 +27,7 @@ module.exports = {
   },
   delete: async (req, res) => {
     const { user_id } = req.body;
-    console.log(req.body)
+    console.log("delete userid",user_id)
     const query = {
       text: "DELETE from users where user_id=$1",
       values: [user_id],
