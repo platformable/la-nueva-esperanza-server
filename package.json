@@ -11,11 +11,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@getvim/execute": "^1.0.0",
     "axios": "^0.26.1",
+    "buffer": "^6.0.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
-    "pg": "^8.7.3"
+    "node-cron": "^3.0.1",
+    "node-fetch": "^2.6.7",
+    "nodemailer": "^6.7.5",
+    "pg": "^8.7.3",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "dropbox": "^10.27.0",

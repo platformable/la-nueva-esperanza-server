@@ -13,16 +13,17 @@ module.exports = {
             }
     },
     post: async (req,res)=>{
-        let {name,lastname,role,email,isactive} = req.body
-/*         if(isactive===true){
-          isactive=1
+        let {name,lastname,userRole,email,isactive} = req.body
+    
+        if(isactive==="true"){
+          isactive="Active"
         } else {
-          isactive=0
-        } */
+          isactive="No Active"
+        }
         const dateaccountactivated = new Date()
         const query = {
           text: 'INSERT INTO authorizedusers (name,lastname,role,email,isactive,dateaccountactivated) VALUES($1,$2,$3,$4,$5,$6) RETURNING *',
-          values: [name,lastname,role,email,isactive,dateaccountactivated],
+          values: [name,lastname,userRole,email,isactive,dateaccountactivated],
         }
         // promise
         db
@@ -31,8 +32,13 @@ module.exports = {
           .catch(e => console.error(e.stack))
     },
     updateUser: async (req, res) => {
-        const {id,name,lastname,role,email,isactive} = req.body;
-
+        let {id,name,lastname,role,email,isactive} = req.body;
+        if(isactive==="true"){
+          isactive="Active"
+        } else {
+          isactive="No Active"
+        }
+console.log("req.body",req.body)
         try {
           const query = await {
             name: "update-user",
@@ -41,26 +47,28 @@ module.exports = {
           };
           db
             .query(query)
-            .then((response) =>
+            .then((response) =>{
+              console.log(response)
               res.json({
                 data: response.rowCount,
                 status: 200,
               })
+            }
             )
-            .catch((e) => res.send(e.stack));
+          
         } catch (error) {
-          res.json("an error ocurred");
+          res.send(e.stack)
           console.log("error message:", error);
         }
       },
     delete: async (req,res) =>{
         console.log("delete route")
-        console.log("req.body:", req)
-        const {id} = req.body
-        console.log("id: ", id)
+        console.log("req.body:", req.body)
+        const {email} = req.body
+    
         const query = {
-            text: 'DELETE from authorizedusers where id=$1',
-            values: [id],
+            text: 'DELETE from authorizedusers where email=$1',
+            values: [email],
           }
           // promise
           db
@@ -79,5 +87,31 @@ module.exports = {
                 }
             })
             .catch(e => console.error(e.stack))
+    },
+    updateUserActiveStatus: async(req,res)=>{
+      let {useractivestatus,useremail} = req.body
+      console.log(req.body)
+     
+      try {
+        const query = await {
+          name: "update-user-from-user_edits",
+          text: `update authorizedusers set isactive=$1,email=$2 where email=$2`,
+          values: [useractivestatus,useremail],
+        };
+        db
+          .query(query)
+          .then((response) =>{
+            console.log(response)
+            res.json({
+              data: response.rowCount,
+              status: 200,
+            })}
+          )
+          .then(x=> console.log("success"))
+      } catch (error) {
+       res.send(error.stack)
+        console.log("error message:", error);
+      }
+  
     }
 }
