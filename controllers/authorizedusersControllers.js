@@ -13,17 +13,17 @@ module.exports = {
             }
     },
     post: async (req,res)=>{
-        let {name,lastname,userRole,email,isactive} = req.body
-    
+        let {name,lastname,role,email,isactive} = req.body
+    /* 
         if(isactive==="true"){
           isactive="Active"
         } else {
           isactive="No Active"
-        }
+        } */
         const dateaccountactivated = new Date()
         const query = {
           text: 'INSERT INTO authorizedusers (name,lastname,role,email,isactive,dateaccountactivated) VALUES($1,$2,$3,$4,$5,$6) RETURNING *',
-          values: [name,lastname,userRole,email,isactive,dateaccountactivated],
+          values: [name,lastname,role,email,isactive,dateaccountactivated],
         }
         // promise
         db
@@ -33,15 +33,14 @@ module.exports = {
     },
     updateUser: async (req, res) => {
         let {id,name,lastname,role,email,isactive} = req.body;
-        if(isactive==="true"){
+   /*      if(isactive==="true"){
           isactive="Active"
         } else {
           isactive="No Active"
-        }
-console.log("req.body",req.body)
+        } */
+console.log("req.body authusers",req.body)
         try {
           const query = await {
-            name: "update-user",
             text: `update authorizedusers set id=$1, name=$2, lastname=$3, role=$4, email=$5, isactive=$6 where id=$1`,
             values: [id,name,lastname,role,email,isactive],
           };
