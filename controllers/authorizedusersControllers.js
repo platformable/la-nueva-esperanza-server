@@ -76,7 +76,7 @@ console.log("req.body authusers",req.body)
                 if(data.rowCount=1){
                     res.send({
                         status:"OK",
-                        response:"User deleted"
+                        message:"User deleted"
                     })
                 } else {
                     res.send({
