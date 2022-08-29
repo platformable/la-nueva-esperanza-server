@@ -67,6 +67,9 @@ app.use('/impact_tracker',impactTracker)
 const issues = require('./routes/issues')
 app.use('/issues',issues)
 
+const suppliesDistributed = require('./routes/suppliesDistributed')
+app.use('/supplies_distributed',suppliesDistributed)
+
 
 
 

@@ -851,7 +851,7 @@ module.exports = {
       db.query(query1)
         .then((data) => {
           if (data.rows.length > 0) {
-            res.status(409).send("Client is already registered");
+            res.status(400).send("Client is already registered");
           } else {
             const query = {
               text: "INSERT INTO clients(clientfirstname,clientlastname,clientssn,clientactive,clienthcwid,clienthcwname,clienthcwlastname,clientid,clientdatecreated,clienthcwemail,clientcategory) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *",
