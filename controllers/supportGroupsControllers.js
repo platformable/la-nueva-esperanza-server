@@ -39,7 +39,7 @@ module.exports= {
             }
                 db.query(query)
                 .then((data) => {
-                  res.status(200).json({message:"supportGroups saved successfully",status:'OK'})}
+                  res.status(200).json({message:"supportGroups saved successfully",statusText:'OK'})}
                   )
                 
         } catch(e){
