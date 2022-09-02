@@ -70,6 +70,9 @@ app.use('/issues',issues)
 const suppliesDistributed = require('./routes/suppliesDistributed')
 app.use('/supplies_distributed',suppliesDistributed)
 
+const supportGroups = require('./routes/supportGroups')
+app.use('/support_groups',supportGroups)
+
 
 
 
