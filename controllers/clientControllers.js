@@ -754,11 +754,11 @@ module.exports = {
     let {clientid} = req.params
 
     for (const property in req.body.clientData) {
-      if(req.body.clientData[property]===true){
-        req.body.clientData[property]=1
+      if(req.body.clientData[property]==='1'){
+        req.body.clientData[property]=true
       }
-      if(req.body.clientData[property]===false){
-        req.body.clientData[property]=0
+      if(req.body.clientData[property]==='0'){
+        req.body.clientData[property]=false
       }
       if(req.body.clientData[property]===""){
         req.body.clientData[property]=null
@@ -767,12 +767,16 @@ module.exports = {
       const query = {
       text: `
       select clients.clientid,
+      clients.id,
       clients.clientfirstname ,
       clients.clientlastname ,
       clients.clienthcwid ,
       clients.clienthcwname ,
       clients.clienthcwlastname ,
       clients.clientdatecreated ,
+      clients.clientcategory,
+      clients.clientactive,
+      clients.clienthcwemail,
       msa_form.clientid as msaClientId, 
       msa_form.id as msaFormID,
       msa_form.airsintakeform as msaFormAIRSINTAKEFORM,
@@ -899,6 +903,73 @@ module.exports = {
         .catch((e) => console.log(e));
     }
   },
+  updateClient:async(req,res)=>{
+    console.log("req.body",req.body)
+
+    let { 
+      id,
+      clientFirstName,
+      clientLastName,
+      clientSSN,
+      clientDateCreated,
+      clientActive,
+      clientHCWID,
+      clientHCWName,
+      clientHCWLastname,
+      clientID,
+      clientHCWemail,
+      clientCategory,
+    } = req.body
+
+    try {
+      const query = await {
+        name: "update-user",
+        text: `update clients set 
+        clientFirstName =$1,
+        clientLastName =$2,
+        clientSSN =$3,
+        clientDateCreated =$4,
+        clientActive =$5,
+        clientHCWID =$6,
+        clientHCWName =$7,
+        clientHCWLastname =$8,
+        clientID =$9,
+        clientHCWemail =$10,
+        clientCategory =$11,
+        id=$12
+        where id=$12`,
+        values: [clientFirstName,
+          clientLastName,
+          clientSSN,
+          clientDateCreated,
+          clientActive,
+          clientHCWID,
+          clientHCWName,
+          clientHCWLastname,
+          clientID,
+          clientHCWemail,
+          clientCategory,id]
+      };
+      db
+        .query(query)
+        .then((response) =>
+          {
+            console.log("sucess")
+            res.send({
+            status: 200,
+            statusText:'OK'
+          })}
+        )
+        
+    } catch (error) {
+      res.json("an error ocurred");
+      console.log("error message:", error);
+    }
+
+
+
+
+  }
 };
 
 

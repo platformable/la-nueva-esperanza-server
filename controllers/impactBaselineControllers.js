@@ -3,7 +3,29 @@ const axios = require('axios')
 
 
 module.exports= {
-   
+  getClientBaselineByClientId:async (req,res)=>{
+
+    let { id } = await req.params;
+console.log(req.params)
+
+const query = {
+  text: `select * from impact_baseline where clientid=$1`,
+  values:[id]
+}
+
+try {
+  const allData = await db.query(query);
+  const response = allData.rows;
+
+  res.send(response[0])
+} catch(e){
+console.log(e)
+}
+
+
+
+
+  },
     createNewImpactBaseline: async (req,res)=> {
 console.log(req.body.impactBaseline)
 
