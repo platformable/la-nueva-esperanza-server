@@ -17,7 +17,7 @@ try {
   const allData = await db.query(query);
   const response = allData.rows;
 
-  res.send(response[0])
+  res.send(response)
 } catch(e){
 console.log(e)
 }
