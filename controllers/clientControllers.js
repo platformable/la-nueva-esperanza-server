@@ -750,6 +750,19 @@ module.exports = {
       res.send("an error ocurred");
     }
   },
+  getClientsForDashboardPage:async(req,res)=>{
+    const text = `select clients.*, msa_form.id as msaformid from clients 
+    full outer join msa_form on clients.clientid = msa_form.clientid`
+
+    try {
+      const allData = await db.query(text);
+      const response = allData.rows;
+      console.log("response client dash")
+      res.send(response);
+    } catch (e) {
+      res.send("an error ocurred");
+    }
+  },
   getClientProfileData: async (req,res)=>{
     let {clientid} = req.params
 
