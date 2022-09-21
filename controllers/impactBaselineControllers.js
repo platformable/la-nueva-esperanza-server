@@ -31,7 +31,7 @@ console.log(req.body.impactBaseline)
 
        
         try {
-            for (const property in req.body.impactBaseline) {
+           /*  for (const property in req.body.impactBaseline) {
                 if(req.body.impactBaseline[property]==='true'){
                   req.body.impactBaseline[property]=1
                 }
@@ -41,7 +41,7 @@ console.log(req.body.impactBaseline)
                 if(req.body.impactBaseline[property]===""){
                   req.body.impactBaseline[property]=null
                 }
-              } 
+              }  */
              let {
                 clientId,
   serviceActionPlanId,
@@ -52,7 +52,9 @@ console.log(req.body.impactBaseline)
   substanceAbuse,
   legalIssues,
   unstableEmployment,
-  unstableHousing
+  unstableHousing,
+  cd4Count,
+  viralLoadCount
             } = req.body.impactBaseline
     
     console.log(
@@ -65,7 +67,9 @@ console.log(req.body.impactBaseline)
         substanceAbuse,
         legalIssues,
         unstableEmployment,
-        unstableHousing
+        unstableHousing,
+        cd4Count,
+        viralLoadCount
     )
             const query ={
                 text:`
@@ -79,7 +83,9 @@ console.log(req.body.impactBaseline)
                 substanceAbuse,
                 legalIssues,
                 unstableEmployment,
-                unstableHousing
+                unstableHousing,
+                cd4Count,
+                viralLoadCount
                 ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *`,
                 values:[
                 clientId,
@@ -91,7 +97,9 @@ console.log(req.body.impactBaseline)
                 substanceAbuse,
                 legalIssues,
                 unstableEmployment,
-                unstableHousing
+                unstableHousing,
+                cd4Count,
+                viralLoadCount
                 ]
             }
                 db.query(query)

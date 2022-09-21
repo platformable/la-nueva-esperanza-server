@@ -752,7 +752,7 @@ module.exports = {
   },
   getClientsForDashboardPage:async(req,res)=>{
     const text = `select clients.*, msa_form.id as msaformid from clients 
-    full outer join msa_form on clients.clientid = msa_form.clientid`
+    full outer join msa_form on clients.clientid = msa_form.clientid where clients.clientid is not null`
 
     try {
       const allData = await db.query(text);
@@ -982,6 +982,25 @@ module.exports = {
 
 
 
+  },
+  deleteClient:async(req,res)=>{
+    console.log(req.body)
+    const { id } = req.body;
+    const query = {
+      text: "DELETE from clients where id=$1",
+      values: [id],
+    };
+    // promise
+    db.query(query)
+      .then((data) => {
+   console.log("success")
+          res.send({
+            status: "OK",
+            message: "User deleted",
+          });
+     
+      })
+      .catch((e) => console.error(e.stack));
   }
 };
 
