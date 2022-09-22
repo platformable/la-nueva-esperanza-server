@@ -77,8 +77,7 @@ const connectDropboxAndCreateFolders=(DBXCLIENT_ID,res)=>{
 	execute(`PGPASSWORD="${process.env.DATABASEPASSWORD}" pg_dump -U ${process.env.DATABASEUSERNAME} -d ${process.env.DATABASENAME} -h ${process.env.DATABASEHOST} -p ${process.env.DATABASEPORT} > ${fileName}`)
 
 	.then(async (response) => {
-	
-		
+
 //		res.send("yes")
 uploadDbBackupToDropbox(res)
 	}).catch(err => {
@@ -124,9 +123,17 @@ const  uploadDbBackupToDropbox = async (res)=>{
 
 
 module.exports = {
+
     createBackupFromClientSide: async (req,res)=>{
         connectDropboxAndCreateFolders(DBXCLIENT_ID,res)
         backup(res)
+    },
+     autoBackup:async(req,res)=>{
+
+console.log("starting backup")
+        cron.schedule('*/2 * * * *', () => {
+        console.log('running a task every two minutes');
+        });
     }
 
 }

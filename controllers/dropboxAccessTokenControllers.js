@@ -2,7 +2,6 @@ const db = require("../dbConnect");
 const { Dropbox } = require("dropbox");
 const axios = require("axios");
 
-const {execute} = require('@getvim/execute')
 const dotenv=require('dotenv')
 const cron = require('node-cron')
 const fs = require('fs');

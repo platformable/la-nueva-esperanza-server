@@ -28,6 +28,7 @@ module.exports = {
   delete: async (req, res) => {
     const { user_id } = req.body;
     console.log(req.body)
+    console.log("delete user_id",user_id)
     const query = {
       text: "DELETE from users where user_id=$1",
       values: [user_id],
@@ -35,17 +36,12 @@ module.exports = {
     // promise
     db.query(query)
       .then((data) => {
-        if ((data.rowCount = 1)) {
+   
           res.send({
             status: "OK",
-            response: "User deleted",
+            message: "User deleted",
           });
-        } else {
-          res.send({
-            status: "FAIL",
-            response: "An error ocurred",
-          });
-        }
+     
       })
       .catch((e) => console.error(e.stack));
   },
