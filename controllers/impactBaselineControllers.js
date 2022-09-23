@@ -106,15 +106,15 @@ module.exports = {
   updateClientBaselineByClientId: async (req, res) => {
     let { 
       id,
-      barrierHIVPrimaryCare,
-      CD4ViralLoad,
-      unsafeSexualBehavior,
-      substanceAbuse,
-      legalIssues,
-      unstableEmployment,
-      unstableHousing,
-      CD4Count,
-      viralLoadCount} = req.body;
+      barrierhivprimarycare,
+      cd4viralload,
+      unsafesexualbehavior,
+      substanceabuse,
+      legalissues,
+      unstableemployment,
+      unstablehousing,
+      cd4count,
+      viralloadcount} = req.body;
 
       console.log(req.body)
 
@@ -132,15 +132,15 @@ module.exports = {
           viralLoadCount=$9,
           id=$10 where id=$10`,
         values: [
-          barrierHIVPrimaryCare,
-          CD4ViralLoad,
-          unsafeSexualBehavior,
-          substanceAbuse,
-          legalIssues,
-          unstableEmployment,
-          unstableHousing,
-          CD4Count,
-          viralLoadCount,id],
+          barrierhivprimarycare,
+          cd4viralload,
+          unsafesexualbehavior,
+          substanceabuse,
+          legalissues,
+          unstableemployment,
+          unstablehousing,
+          cd4count,
+          viralloadcount,id],
       };
       db
         .query(query)
