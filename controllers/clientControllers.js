@@ -750,6 +750,18 @@ module.exports = {
       res.send("an error ocurred");
     }
   },
+  getClientsForServicesPage: async (req, res) => {
+    try {
+      const allData = await db.query(`select clients.*, progress_note.progressnotedate  as progressnotedate,services_action_plan.planstartdate as sapstartdate 
+      from clients 
+      full outer join progress_note  on clients.clientid = progress_note.clientid
+      full outer join services_action_plan on clients.clientid = services_action_plan.clientid`);
+      const response = allData.rows;
+      res.send(response);
+    } catch (e) {
+      res.send("an error ocurred");
+    }
+  },
   getClientsForDashboardPage:async(req,res)=>{
     const text = `select clients.*, msa_form.id as msaformid from clients 
     full outer join msa_form on clients.clientid = msa_form.clientid where clients.clientid is not null`

@@ -5,6 +5,7 @@ const controller = require('../controllers/clientControllers')
 
 router.get("/",controller.getClients)
 router.get("/dashboard_page",controller.getClientsForDashboardPage)
+router.get("/services_page",controller.getClientsForServicesPage)
 router.get("/:clientid",controller.getClientById)
 router.get("/:clientid/profile",controller.getClientProfileData)
 
