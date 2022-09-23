@@ -103,4 +103,56 @@ module.exports = {
       res.send(e);
     }
   },
+  updateClientBaselineByClientId: async (req, res) => {
+    let { 
+      id,
+      barrierHIVPrimaryCare,
+      CD4ViralLoad,
+      unsafeSexualBehavior,
+      substanceAbuse,
+      legalIssues,
+      unstableEmployment,
+      unstableHousing,
+      CD4Count,
+      viralLoadCount} = req.body;
+
+    try {
+      const query = await {
+        name: "update-impact baseline",
+        text: `update impact_baseline set 
+        barrierHIVPrimaryCare=$1,
+          CD4ViralLoad=$2,
+          unsafeSexualBehavior=$3,
+          substanceAbuse=$4,
+          legalIssues=$5,
+          unstableEmployment=$6,
+          unstableHousing=$7,
+          CD4Count=$8,
+          viralLoadCount=$9,
+          id=$10 where id=$10`,
+        values: [
+          barrierHIVPrimaryCare,
+          CD4ViralLoad,
+          unsafeSexualBehavior,
+          substanceAbuse,
+          legalIssues,
+          unstableEmployment,
+          unstableHousing,
+          CD4Count,
+          viralLoadCount,id],
+      };
+      db
+        .query(query)
+        .then((response) =>
+          res.send({
+            data: response.rowCount,
+            status: 200,
+            statusText:'OK'
+          })
+        )
+    } catch (error) {
+      res.send({message:"an error ocurred", error:error});
+      console.log("error message:", error);
+    }
+  },
 };
