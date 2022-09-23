@@ -106,13 +106,13 @@ module.exports= {
         const query = await {
           name: "update-user",
           text: `update impact_tracker set 
-          barrierhivprimarycare,=$1,
-          cd4count,=$2,
-          viralloadcount,=$3,
-          unsafesexualbehavior,=$4,
-          substanceabuse ,=$5,
-          unstablehousing ,=$6,
-          legalissues ,=$7,
+          barrierhivprimarycare=$1,
+          cd4count=$2,
+          viralloadcount=$3,
+          unsafesexualbehavior=$4,
+          substanceabuse=$5,
+          unstablehousing=$6,
+          legalissues=$7,
           unstableemployment=$8,
           id=$9 where id=$9`,
           values: [
