@@ -16,18 +16,6 @@ module.exports= {
       const allData = await db.query(query);
       const response = allData.rows;
 
-    /*   const newObject=[]
-      newObject[0]=response[0].barrierhivprimarycare
-      newObject[1]=response[0].viralLoadCount
-      newObject[2]=response[0].CD4Count
-      newObject[3]=response[0].impactformstartdate
-      newObject[4]=response[0].legalissues
-      newObject[5]=response[0].substanceabuse
-      newObject[6]=response[0].unsafesexualbehavior
-      newObject[7]=response[0].unstableemployment
-      newObject[8]=response[0].unstablehousing */
-
-
       console.log("response",response)
 
       res.send(response);
@@ -105,37 +93,37 @@ module.exports= {
     updateImpactTracker: async (req, res) => {
       let { 
         id,
-        barrierHIVPrimaryCare,
-        CD4Count,
-        viralLoadCount,
-        unsafeSexualBehavior,
-        substanceAbuse ,
-        unstableHousing ,
-        legalIssues ,
-        unstableEmployment} = req.body;
+        barrierhivprimarycare,
+        CD4count,
+        viralloadcount,
+        unsafesexualbehavior,
+        substanceabuse ,
+        unstablehousing ,
+        legalissues ,
+        unstableemployment} = req.body;
   
       try {
         const query = await {
           name: "update-user",
           text: `update impact_tracker set 
-          barrierHIVPrimaryCare=$1,
-          CD4Count=$2,
-          viralLoadCount=$3,
-          unsafeSexualBehavior=$4,
-          substanceAbuse=$5,
-          unstableHousing=$6,
-          legalIssues=$7,
-          unstableEmployment=$8,
+          barrierhivprimarycare,=$1,
+          CD4count,=$2,
+          viralloadcount,=$3,
+          unsafesexualbehavior,=$4,
+          substanceabuse ,=$5,
+          unstablehousing ,=$6,
+          legalissues ,=$7,
+          unstableemployment=$8,
           id=$9 where id=$9`,
           values: [
-            barrierHIVPrimaryCare,
-            CD4Count,
-            viralLoadCount,
-            unsafeSexualBehavior,
-            substanceAbuse ,
-            unstableHousing ,
-            legalIssues ,
-            unstableEmployment,id],
+            barrierhivprimarycare,
+        CD4count,
+        viralloadcount,
+        unsafesexualbehavior,
+        substanceabuse ,
+        unstablehousing ,
+        legalissues ,
+        unstableemployment,id],
         };
         db
           .query(query)
