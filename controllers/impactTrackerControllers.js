@@ -16,6 +16,20 @@ module.exports= {
       const allData = await db.query(query);
       const response = allData.rows;
 
+    /*   const newObject=[]
+      newObject[0]=response[0].barrierhivprimarycare
+      newObject[1]=response[0].viralLoadCount
+      newObject[2]=response[0].CD4Count
+      newObject[3]=response[0].impactformstartdate
+      newObject[4]=response[0].legalissues
+      newObject[5]=response[0].substanceabuse
+      newObject[6]=response[0].unsafesexualbehavior
+      newObject[7]=response[0].unstableemployment
+      newObject[8]=response[0].unstablehousing */
+
+
+      console.log("response",response)
+
       res.send(response);
     } catch (e) {
       console.log(e);
@@ -24,7 +38,7 @@ module.exports= {
     createNewImpactTracker: async (req,res)=> {
        
         try {
-            for (const property in req.body.impactTracker) {
+            /* for (const property in req.body.impactTracker) {
                 if(req.body.impactTracker[property]==='true'){
                   req.body.impactTracker[property]=1
                 }
@@ -34,7 +48,7 @@ module.exports= {
                 if(req.body.impactTracker[property]===""){
                   req.body.impactTracker[property]=null
                 }
-              } 
+              }  */
              let {
                 clientId,
                 progress_note_id,
