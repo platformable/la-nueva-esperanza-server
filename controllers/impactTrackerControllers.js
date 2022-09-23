@@ -3,13 +3,30 @@ const axios = require('axios')
 
 
 module.exports= {
-   
-    createNewImpactTracker: async (req,res)=> {
-console.log(req.body.impactTracker)
+  getImpactTrackerByClientId: async (req, res) => {
+    let { id } = await req.params;
+    console.log(req.params);
 
+    const query = {
+      text: `select * from impact_tracker where clientid=$1`,
+      values: [id],
+    };
+
+    try {
+      const allData = await db.query(query);
+      const response = allData.rows;
+
+      console.log("response",response)
+
+      res.send(response);
+    } catch (e) {
+      console.log(e);
+    }
+  },
+    createNewImpactTracker: async (req,res)=> {
        
         try {
-            for (const property in req.body.impactTracker) {
+            /* for (const property in req.body.impactTracker) {
                 if(req.body.impactTracker[property]==='true'){
                   req.body.impactTracker[property]=1
                 }
@@ -19,7 +36,7 @@ console.log(req.body.impactTracker)
                 if(req.body.impactTracker[property]===""){
                   req.body.impactTracker[property]=null
                 }
-              } 
+              }  */
              let {
                 clientId,
                 progress_note_id,
@@ -60,7 +77,7 @@ console.log(req.body.impactTracker)
                     substanceAbuse ,
                     unstableHousing ,
                     legalIssues ,
-                    unstableEmployment ,
+                    unstableEmployment,
                 ]
             }
                 db.query(query)
@@ -72,5 +89,54 @@ console.log(req.body.impactTracker)
         }
         
 
-    }
+    },
+    updateImpactTracker: async (req, res) => {
+      let { 
+        id,
+        barrierhivprimarycare,
+        CD4count,
+        viralloadcount,
+        unsafesexualbehavior,
+        substanceabuse ,
+        unstablehousing ,
+        legalissues ,
+        unstableemployment} = req.body;
+  
+      try {
+        const query = await {
+          name: "update-user",
+          text: `update impact_tracker set 
+          barrierhivprimarycare,=$1,
+          CD4count,=$2,
+          viralloadcount,=$3,
+          unsafesexualbehavior,=$4,
+          substanceabuse ,=$5,
+          unstablehousing ,=$6,
+          legalissues ,=$7,
+          unstableemployment=$8,
+          id=$9 where id=$9`,
+          values: [
+            barrierhivprimarycare,
+        CD4count,
+        viralloadcount,
+        unsafesexualbehavior,
+        substanceabuse ,
+        unstablehousing ,
+        legalissues ,
+        unstableemployment,id],
+        };
+        db
+          .query(query)
+          .then((response) =>
+            res.send({
+              data: response.rowCount,
+              status: 200,
+              statusText:'OK'
+            })
+          )
+      } catch (error) {
+        res.json("an error ocurred");
+        console.log("error message:", error);
+      }
+    },
 }
