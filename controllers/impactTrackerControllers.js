@@ -94,7 +94,7 @@ module.exports= {
       let { 
         id,
         barrierhivprimarycare,
-        CD4count,
+        cd4count,
         viralloadcount,
         unsafesexualbehavior,
         substanceabuse ,
@@ -107,7 +107,7 @@ module.exports= {
           name: "update-user",
           text: `update impact_tracker set 
           barrierhivprimarycare,=$1,
-          CD4count,=$2,
+          cd4count,=$2,
           viralloadcount,=$3,
           unsafesexualbehavior,=$4,
           substanceabuse ,=$5,
@@ -117,7 +117,7 @@ module.exports= {
           id=$9 where id=$9`,
           values: [
             barrierhivprimarycare,
-        CD4count,
+        cd4count,
         viralloadcount,
         unsafesexualbehavior,
         substanceabuse ,
@@ -135,7 +135,7 @@ module.exports= {
             })
           )
       } catch (error) {
-        res.json("an error ocurred");
+        res.send({message:"an error ocurred", error:error});
         console.log("error message:", error);
       }
     },
