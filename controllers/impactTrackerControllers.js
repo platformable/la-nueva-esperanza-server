@@ -140,12 +140,12 @@ module.exports= {
         db
           .query(query)
           .then((response) =>
-            res.json({
+            res.send({
               data: response.rowCount,
               status: 200,
+              statusText:'OK'
             })
           )
-          .catch((e) => res.send(e.stack));
       } catch (error) {
         res.json("an error ocurred");
         console.log("error message:", error);
