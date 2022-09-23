@@ -4,7 +4,7 @@ const axios = require("axios");
 module.exports = {
   getClientBaselineByClientId: async (req, res) => {
     let { id } = await req.params;
-    console.log(req.params);
+   
 
     const query = {
       text: `select * from impact_baseline where clientid=$1`,
@@ -17,11 +17,11 @@ module.exports = {
 
       res.send(response);
     } catch (e) {
-      console.log(e);
+      console.log("error",e);
     }
   },
   createNewImpactBaseline: async (req, res) => {
-    console.log(req.body.impactBaseline);
+    console.log("req.body.impactBaseline",req.body.impactBaseline);
 
     try {
       /*  for (const property in req.body.impactBaseline) {
@@ -116,9 +116,10 @@ module.exports = {
       CD4Count,
       viralLoadCount} = req.body;
 
+      console.log(req.body)
+
     try {
       const query = await {
-        name: "update-impact baseline",
         text: `update impact_baseline set 
         barrierHIVPrimaryCare=$1,
           CD4ViralLoad=$2,
@@ -151,8 +152,8 @@ module.exports = {
           })
         )
     } catch (error) {
-      res.send({message:"an error ocurred", error:error});
-      console.log("error message:", error);
+      res.send({message:"an error ocurre while trying to update impact baseline", error:error});
+      console.log("an error ocurre while trying to update impact baseline:", error);
     }
   },
 };
