@@ -135,7 +135,7 @@ module.exports= {
             })
           )
       } catch (error) {
-        res.json("an error ocurred");
+        res.send({message:"an error ocurred", error:error});
         console.log("error message:", error);
       }
     },
