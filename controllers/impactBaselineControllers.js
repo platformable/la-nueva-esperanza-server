@@ -46,7 +46,7 @@ module.exports = {
         legalIssues,
         unstableEmployment,
         unstableHousing,
-        cd4Count,
+        CD4Count,
         viralLoadCount,
       } = req.body.impactBaseline;
 
@@ -61,7 +61,7 @@ module.exports = {
         legalIssues,
         unstableEmployment,
         unstableHousing,
-        cd4Count,
+        CD4Count,
         viralLoadCount
       );
       const query = {
@@ -77,9 +77,9 @@ module.exports = {
                 legalIssues,
                 unstableEmployment,
                 unstableHousing,
-                cd4Count,
+                CD4Count,
                 viralLoadCount
-                ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *`,
+                ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING *`,
         values: [
           clientId,
           serviceActionPlanId,
@@ -91,12 +91,13 @@ module.exports = {
           legalIssues,
           unstableEmployment,
           unstableHousing,
-          cd4Count,
+          CD4Count,
           viralLoadCount,
         ],
       };
       db.query(query).then((data) => {
-        res.status(200).json({ message: "impact_baseline saved successfully" });
+        console.log("impact baseline sucess")
+        res.status(200).send({ message: "impact_baseline saved successfully",statusText:'OK' });
       });
     } catch (e) {
       res.send(e);

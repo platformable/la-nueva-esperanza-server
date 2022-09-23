@@ -22,8 +22,6 @@ module.exports= {
     }
   },
     createNewImpactTracker: async (req,res)=> {
-console.log(req.body.impactTracker)
-
        
         try {
             for (const property in req.body.impactTracker) {
@@ -77,7 +75,7 @@ console.log(req.body.impactTracker)
                     substanceAbuse ,
                     unstableHousing ,
                     legalIssues ,
-                    unstableEmployment ,
+                    unstableEmployment,
                 ]
             }
                 db.query(query)
@@ -89,5 +87,54 @@ console.log(req.body.impactTracker)
         }
         
 
-    }
+    },
+    updateImpactTracker: async (req, res) => {
+      let { 
+        id,
+        barrierHIVPrimaryCare,
+        CD4Count,
+        viralLoadCount,
+        unsafeSexualBehavior,
+        substanceAbuse ,
+        unstableHousing ,
+        legalIssues ,
+        unstableEmployment} = req.body;
+  
+      try {
+        const query = await {
+          name: "update-user",
+          text: `update impact_tracker set 
+          barrierHIVPrimaryCare=$1,
+          CD4Count=$2,
+          viralLoadCount=$3,
+          unsafeSexualBehavior=$4,
+          substanceAbuse=$5,
+          unstableHousing=$6,
+          legalIssues=$7,
+          unstableEmployment=$8,
+          id=$9 where id=$9`,
+          values: [
+            barrierHIVPrimaryCare,
+            CD4Count,
+            viralLoadCount,
+            unsafeSexualBehavior,
+            substanceAbuse ,
+            unstableHousing ,
+            legalIssues ,
+            unstableEmployment,id],
+        };
+        db
+          .query(query)
+          .then((response) =>
+            res.json({
+              data: response.rowCount,
+              status: 200,
+            })
+          )
+          .catch((e) => res.send(e.stack));
+      } catch (error) {
+        res.json("an error ocurred");
+        console.log("error message:", error);
+      }
+    },
 }
