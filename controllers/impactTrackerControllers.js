@@ -3,7 +3,24 @@ const axios = require('axios')
 
 
 module.exports= {
-   
+  getImpactTrackerByClientId: async (req, res) => {
+    let { id } = await req.params;
+    console.log(req.params);
+
+    const query = {
+      text: `select * from impact_tracker where clientid=$1`,
+      values: [id],
+    };
+
+    try {
+      const allData = await db.query(query);
+      const response = allData.rows;
+
+      res.send(response);
+    } catch (e) {
+      console.log(e);
+    }
+  },
     createNewImpactTracker: async (req,res)=> {
 console.log(req.body.impactTracker)
 
