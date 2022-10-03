@@ -20,7 +20,7 @@ db.query(`select * from services_action_plan`)
     const query= {
       //text:'select * from services_action_plan where clientid =$1',
       text:`
-      select clients.clientid as clientid,
+      select clients.id ,clients.clientid as clientid,
 clients.clientfirstname,
 clients.clientlastname,
 clients.clienthcwid,
@@ -79,13 +79,14 @@ where clients.clientid =$1
       const response = allData.rows;
       
 
-
+console.log("response",response)
     
       const mergeObjects=()=>{
         let result={}
         result.progressnotesid=[]
         
       const createObject=  response.forEach(x=>{
+    result.id=x.id
     result.clientId=x.clientid
     result.clientfirstname=x.clientfirstname
     result.clientlastname=x.clientlastname
@@ -134,7 +135,7 @@ where clients.clientid =$1
     result.progressnotesid.push(x.progressnoteid)
       
         })
-      res.json([result]);
+      res.send([result]);
 
       }
 
@@ -188,29 +189,19 @@ where clients.clientid =$1
             HCWSignature,
             HCWSignatureDate,
             supervisorSignature,
+            clientUniqueId
           } = req.body.clientData;
 
+          console.log(req.body.clientData)
 
-  /*         if(HCWSignature=== "" || null || undefined){
-            HCWSignature=0
-          } else {
-            HCWSignature=1
-          }
-          if(clientSignature=== "" || null || undefined){
-            clientSignature=0
-          }else {
-            clientSignature=1
-          }
-          if(supervisorSignature==="" || null || undefined){
-            supervisorSignature=0
-          }else {
-            supervisorSignature=1
-          } */
-    
         try {
         
             const query = {
-              text: `INSERT INTO services_action_plan (clientid, clientfirstname, clientlastname, planstartdate, userfirstname, userlastname, goal1servicecategory, goal1summary, goal1details, goal1targetdate, goal1actionstep1, goal1actionstep2, goal1actionstep3, goal2servicecategory, goal2summary, goal2details, goal2targetdate, goal2actionstep1, goal2actionstep2, goal2actionstep3, goal3servicecategory, goal3summary, goal3details, goal3targetdate, goal3actionstep1, goal3actionstep2, goal3actionstep3, comments, clientsignature, clientsignaturedate, hcwsignature,  supervisorsignature) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32) RETURNING *`,
+              text: `INSERT INTO services_action_plan (clientid, clientfirstname, clientlastname, planstartdate, userfirstname, userlastname, goal1servicecategory, goal1summary, goal1details, goal1targetdate, goal1actionstep1, goal1actionstep2, goal1actionstep3, 
+                goal2servicecategory, goal2summary, goal2details, goal2targetdate, goal2actionstep1, goal2actionstep2, goal2actionstep3, 
+                goal3servicecategory, goal3summary, goal3details, goal3targetdate, goal3actionstep1, goal3actionstep2, goal3actionstep3, 
+                comments, clientsignature, clientsignaturedate, hcwsignature,  supervisorsignature,clientUniqueId) 
+              VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33) RETURNING *`,
               values: [
                 clientId,
                 clientFirstName,
@@ -243,12 +234,11 @@ where clients.clientid =$1
                 clientSignature,
                 clientSignatureDate,
                 HCWSignature,
-                supervisorSignature
+                supervisorSignature,
+                clientUniqueId
               ],
             };
 
-          
-            
             let response_id=''
             let response_clientId=''
 
@@ -263,7 +253,7 @@ where clients.clientid =$1
   
                 db.query(queryToUpdateClientPrfileWithSAP)
                 .then((data) => {
-                  console.log("sucess")
+                  console.log("sucess update clients form after sap")
                 })
                 
                 .catch((e) => console.error(e.stack));
@@ -275,12 +265,12 @@ where clients.clientid =$1
             const updateClientMSAForm=()=>{
 
                 const queryToUpdateClientMSAForm = {
-                  text: `UPDATE msa_form SET ServiceActionPlan = $1,ServiceActionPlanDate=$2 WHERE clientid =$3`,
-                  values:[activateCheckboxOnMSAForm,new Date(),response_clientId]
+                  text: `UPDATE msa_form SET ServiceActionPlan = $1,ServiceActionPlanDate=$2 WHERE clientUniqueId =$3`,
+                  values:[activateCheckboxOnMSAForm,new Date(),clientUniqueId]
                 }
                 db.query(queryToUpdateClientMSAForm)
                 .then((data) => {
-                  console.log("msa updated")
+                  console.log("msa updated after sap")
                 })    
                 .catch((e) => console.error(e.stack));
              
@@ -350,7 +340,8 @@ console.log(req.body)
         clientSignature,
         clientSignatureDate,
         HCWSignature,
-        supervisorSignature
+        supervisorSignature,
+        clientUniqueId
       } = req.body.clientData;
 
 const sendMessageToHCW =()=>{
@@ -372,7 +363,6 @@ const sendMessageToHCW =()=>{
   }
 
   mailTrasporter.sendMail(details,(err)=>{
-    
     if(err){
       console.log(err)
     } else {
@@ -416,8 +406,9 @@ const sendMessageToHCW =()=>{
           clientsignature=$29, 
           clientsignaturedate=$30, 
           hcwsignature=$31,  
-          supervisorsignature=$32 
-          where clientId=$1`,
+          supervisorsignature=$32,
+          clientUniqueId=$33 
+          where clientUniqueId=$33`,
           values: [
             clientId,
             clientFirstName,
@@ -450,17 +441,18 @@ const sendMessageToHCW =()=>{
             clientSignature,
             clientSignatureDate,
             HCWSignature,
-            supervisorSignature
+            supervisorSignature,
+            clientUniqueId
           ],
         };
 
         db.query(query)
         .then((data) => {
-          console.log("sucess")
+          console.log("sucess update sap")
           sendMessageToHCW()
           res.status(200).json(data.rows[0])
         })
-        .catch((e) => console.error(e.stack));
+
       
       
     } catch (error) {

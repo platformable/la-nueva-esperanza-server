@@ -140,7 +140,9 @@ HNSReadinessFormDate ,
 SupportGroups,
 SupportGroupsDate ,
 IDGForm ,
-IDGFormDate 
+IDGFormDate,
+clientUniqueId
+ 
     } = req.body.clientData;
 
 
@@ -230,13 +232,14 @@ HNSReadinessFormDate ,
 SupportGroups,
 SupportGroupsDate ,
 IDGForm ,
-IDGFormDate 
+IDGFormDate,
+clientUniqueId 
 ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,
             $21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40,
             $41,$42,$43,$44,$45,$46,$47,$48,$49,
             $50,$51,$52,$53,$54,$55,$56,$57 ,$58,$59,
             $60,$61,$62,$63,$64,$65,$66,$67,$68,$69,$70,$71,$72,$73,$74,$75,$76,$77,$78,$79,
-            $80,$81) 
+            $80,$81,$82) 
             RETURNING *`,
           values:[
             dateFormReviewed,
@@ -319,7 +322,8 @@ IDGFormDate
             SupportGroups,
             SupportGroupsDate ,
             IDGForm ,
-            IDGFormDate ]
+            IDGFormDate,
+            clientUniqueId ]
 
       }
 
@@ -355,7 +359,7 @@ IDGFormDate
       
     } catch (error) {
       console.log(error)
-      res.status(400).json({
+      res.status(400).send({
         "message":"an error ocurred"
       })
     }
@@ -458,6 +462,7 @@ SupportGroups,
 SupportGroupsDate ,
 IDGForm ,
 IDGFormDate ,
+clientUniqueId
 
     } = req.body.clientData;
 
@@ -546,8 +551,9 @@ HNSReadinessFormDate=$77,
 SupportGroups=$78,
 SupportGroupsDate=$79,
 IDGForm=$80,
-IDGFormDate=$81
-where clientId=$2`,
+IDGFormDate=$81,
+clientUniqueId=$82
+where clientUniqueId=$82`,
         values: [dateFormReviewed,
           clientId,
           clientFirstName,
@@ -629,6 +635,7 @@ where clientId=$2`,
           SupportGroupsDate ,
           IDGForm ,
           IDGFormDate ,
+          clientUniqueId
         ],
       };
       db
@@ -640,7 +647,7 @@ where clientId=$2`,
         )
 
     } catch (error) {
-      res.json("an error ocurred");
+      res.send({statusText:'FAIL',message:'an error ocurrer when trying to update the msa form'});
       console.log("error message:", error);
     }
   },
@@ -940,12 +947,9 @@ where clientId=$2`,
     internalreferralinformationreviewed,
     internalreferralinformationissues,
     airsinsuranceinformationreviewed,
-    airsinsuranceinformationissues   
+    airsinsuranceinformationissues,
+    clientUniqueId   
     } = req.body.clientData;
-
-
-
-
 
 
     try {
@@ -1230,8 +1234,9 @@ where clientId=$2`,
     internalreferralinformationreviewed=$257,
     internalreferralinformationissues=$258,
     airsinsuranceinformationreviewed=$259,
-    airsinsuranceinformationissues=$260    
-    where clientId=$2`,
+    airsinsuranceinformationissues=$260,
+    clientUniqueId=$261    
+    where clientUniqueId=$261`,
         values: [ 
     dateFormReviewed,
     clientId,
@@ -1509,7 +1514,8 @@ where clientId=$2`,
     internalreferralinformationreviewed,
     internalreferralinformationissues,
     airsinsuranceinformationreviewed,
-    airsinsuranceinformationissues  
+    airsinsuranceinformationissues,
+    clientUniqueId  
   ],
       }
       db
@@ -1719,6 +1725,7 @@ where clientId=$2`,
        IDGFormReviewed,
        IDGFormIssues,
        IDGFormUploadDate,
+       clientUniqueId
        } = req.body.clientData;
 
  
@@ -1846,8 +1853,9 @@ where clientId=$2`,
        SupportGroupsUploadDate=$109,
        IDGFormReviewed=$110,
        IDGFormIssues=$111,
-       IDGFormUploadDate=$112
-       where clientId=$1`,
+       IDGFormUploadDate=$112,
+       clientUniqueId=$113
+       where clientUniqueId=$113`,
            values: [ 
        clientId,
        AIRSIntakeFormUploadDate,
@@ -1961,6 +1969,7 @@ where clientId=$2`,
        IDGFormReviewed,
        IDGFormIssues,
        IDGFormUploadDate,
+       clientUniqueId
       
      ],
          }
@@ -1968,17 +1977,14 @@ where clientId=$2`,
            .query(query)
            .then((response) =>{
             
-             res.status(200).send(response)
+             res.status(200).send({statusText:"OK"})
            //  console.log("msa form updated",response)
            }
            )
-           .catch((e) => {
-             console.log(e)
-             res.send(e.stack)
-           });
+
        } catch (error) {
-         console.log("error message del update msa supervisor:", error);
-         res.send("an error ocurred while trying to update msa form");
+        console.log(e.stack)
+        res.send({message:e.stack,statusText:'FAIL'})
          
        }
      },
