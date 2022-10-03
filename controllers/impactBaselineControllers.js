@@ -48,6 +48,7 @@ module.exports = {
         unstableHousing,
         CD4Count,
         viralLoadCount,
+        clientUniqueId
       } = req.body.impactBaseline;
 
       console.log(
@@ -62,7 +63,8 @@ module.exports = {
         unstableEmployment,
         unstableHousing,
         CD4Count,
-        viralLoadCount
+        viralLoadCount,
+        clientUniqueId
       );
       const query = {
         text: `
@@ -78,8 +80,9 @@ module.exports = {
                 unstableEmployment,
                 unstableHousing,
                 CD4Count,
-                viralLoadCount
-                ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING *`,
+                viralLoadCount,
+                clientUniqueId
+                ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *`,
         values: [
           clientId,
           serviceActionPlanId,
@@ -93,6 +96,7 @@ module.exports = {
           unstableHousing,
           CD4Count,
           viralLoadCount,
+          clientUniqueId
         ],
       };
       db.query(query).then((data) => {
@@ -114,7 +118,8 @@ module.exports = {
       unstableemployment,
       unstablehousing,
       cd4count,
-      viralloadcount} = req.body;
+      viralloadcount,
+      clientUniqueId} = req.body;
 
       console.log(req.body)
 
@@ -130,7 +135,7 @@ module.exports = {
           unstableHousing=$7,
           CD4Count=$8,
           viralLoadCount=$9,
-          id=$10 where id=$10`,
+          id=$10,clientUniqueId=$11 where clientUniqueId=$11`,
         values: [
           barrierhivprimarycare,
           cd4viralload,
@@ -140,7 +145,7 @@ module.exports = {
           unstableemployment,
           unstablehousing,
           cd4count,
-          viralloadcount,id],
+          viralloadcount,id,clientUniqueId],
       };
       db
         .query(query)

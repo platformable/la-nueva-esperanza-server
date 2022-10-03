@@ -48,7 +48,8 @@ module.exports= {
                 substanceAbuse ,
                 unstableHousing ,
                 legalIssues ,
-                unstableEmployment
+                unstableEmployment,
+                clientUniqueId
             } = req.body.impactTracker
     
             const query ={
@@ -64,8 +65,9 @@ module.exports= {
                 substanceAbuse ,
                 unstableHousing ,
                 legalIssues ,
-                unstableEmployment 
-                ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *`,
+                unstableEmployment,
+                clientUniqueId 
+                ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING *`,
                 values:[
                     clientId,
                     progress_note_id,
@@ -78,6 +80,7 @@ module.exports= {
                     unstableHousing ,
                     legalIssues ,
                     unstableEmployment,
+                    clientUniqueId
                 ]
             }
                 db.query(query)
@@ -100,7 +103,8 @@ module.exports= {
         substanceabuse ,
         unstablehousing ,
         legalissues ,
-        unstableemployment} = req.body;
+        unstableemployment,
+        clientUniqueId} = req.body;
   
       try {
         const query = await {
@@ -114,7 +118,8 @@ module.exports= {
           unstablehousing =$6,
           legalissues =$7,
           unstableemployment=$8,
-          id=$9 where id=$9`,
+          id=$9,
+          clientUniqueId=$10 where clientUniqueId=$10`,
           values: [
             barrierhivprimarycare,
         cd4count,
@@ -123,7 +128,7 @@ module.exports= {
         substanceabuse ,
         unstablehousing ,
         legalissues ,
-        unstableemployment,id],
+        unstableemployment,id,clientUniqueId],
         };
         db
           .query(query)

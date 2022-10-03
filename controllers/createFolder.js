@@ -427,3 +427,33 @@ const addClientFolder = async (url, folderName, clientID) => {
          console.log("error message de addClientFolder:", error);
        }
 }
+
+exports.connectDropbox=async ()=>{
+    const clientIdSecretEncoded = buffer.from(`${DBXCLIENT_ID}:${CLIENT_SECRET}`).toString('base64');
+    const urlencoded = new URLSearchParams();
+    urlencoded.append("grant_type", "refresh_token");
+    urlencoded.append("refresh_token", process.env.DBX_REFRESH_TOKEN);
+    const requestOptions = {
+       method: 'POST',
+        headers: {
+            "Authorization": `Basic ${clientIdSecretEncoded}`,
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: urlencoded,
+        redirect: 'follow'
+    };
+    try {
+      const res= fetch("https://api.dropbox.com/oauth2/token", requestOptions)
+      const response = await res
+      const response1 = await response.json()
+      console.log("response1",response1)
+      const accessTokenResult = await response1.access_token
+      tokenFromRefresh =  accessTokenResult
+      console.log("tokenFromRefresh",tokenFromRefresh)
+      return tokenFromRefresh
+
+     }
+      catch{
+          (error => console.log('error from connectDropboxA', error))}
+
+    }
