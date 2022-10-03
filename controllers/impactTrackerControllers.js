@@ -104,7 +104,7 @@ module.exports= {
         unstablehousing ,
         legalissues ,
         unstableemployment,
-        clientUniqueId} = req.body;
+        clientuniqueid} = req.body;
   
       try {
         const query = await {
@@ -119,7 +119,7 @@ module.exports= {
           legalissues =$7,
           unstableemployment=$8,
           id=$9,
-          clientUniqueId=$10 where clientUniqueId=$10`,
+          clientuniqueid=$10 where clientuniqueid=$10`,
           values: [
             barrierhivprimarycare,
         cd4count,
@@ -128,7 +128,7 @@ module.exports= {
         substanceabuse ,
         unstablehousing ,
         legalissues ,
-        unstableemployment,id,clientUniqueId],
+        unstableemployment,id,clientuniqueid],
         };
         db
           .query(query)
