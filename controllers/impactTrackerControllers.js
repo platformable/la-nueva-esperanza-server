@@ -117,9 +117,7 @@ module.exports= {
           substanceabuse =$5,
           unstablehousing =$6,
           legalissues =$7,
-          unstableemployment=$8,
-          id=$9,
-          clientuniqueid=$10 where clientuniqueid=$10`,
+          unstableemployment=$8 where clientuniqueid=$9`,
           values: [
             barrierhivprimarycare,
         cd4count,
@@ -128,7 +126,7 @@ module.exports= {
         substanceabuse ,
         unstablehousing ,
         legalissues ,
-        unstableemployment,id,clientuniqueid],
+        unstableemployment,clientuniqueid],
         };
         db
           .query(query)
