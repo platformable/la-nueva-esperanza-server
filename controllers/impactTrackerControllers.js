@@ -119,7 +119,7 @@ module.exports= {
           legalissues =$7,
           unstableemployment=$8,
           id=$9,
-          clientUniqueId=$10 where clientUniqueId=$10`,
+          clientuniqueid=$10 where clientuniqueid=$10`,
           values: [
             barrierhivprimarycare,
         cd4count,

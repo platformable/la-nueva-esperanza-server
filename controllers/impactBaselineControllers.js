@@ -119,7 +119,7 @@ module.exports = {
       unstablehousing,
       cd4count,
       viralloadcount,
-      clientUniqueId} = req.body;
+      clientuniqueid} = req.body;
 
       console.log(req.body)
 
@@ -135,7 +135,7 @@ module.exports = {
           unstableHousing=$7,
           CD4Count=$8,
           viralLoadCount=$9,
-          id=$10,clientUniqueId=$11 where clientUniqueId=$11`,
+          id=$10,clientuniqueid=$11 where clientuniqueid=$11`,
         values: [
           barrierhivprimarycare,
           cd4viralload,
@@ -145,7 +145,7 @@ module.exports = {
           unstableemployment,
           unstablehousing,
           cd4count,
-          viralloadcount,id,clientUniqueId],
+          viralloadcount,id,clientuniqueid],
       };
       db
         .query(query)
