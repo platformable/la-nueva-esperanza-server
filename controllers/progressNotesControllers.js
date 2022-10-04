@@ -141,7 +141,13 @@ module.exports= {
             LNEHNSEligibilityForm,
             progressNoteText,
             HCWSignature,
-            clientUniqueId
+            clientUniqueId,
+            goal1ProgressComments,
+            goal2ProgressComments,
+            goal3ProgressComments,
+            goal1CompletionComments,
+            goal2CompletionComments,
+            goal3CompletionComments
         } = req.body.clientData
 
         console.log()
@@ -201,8 +207,16 @@ module.exports= {
             LNEHNSEligibilityForm,
             progressNoteText,
             HCWSignature,
-            clientUniqueId
-            ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40,$41,$42,$43,$44,$45,$46,$47,$48,$49,$50,$51,$52,$53) RETURNING *`,
+            clientUniqueId,
+            goal1ProgressComments,
+            goal2ProgressComments,
+            goal3ProgressComments,
+            goal1CompletionComments,
+            goal2CompletionComments,
+            goal3CompletionComments
+            ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,
+              $20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,
+              $37,$38,$39,$40,$41,$42,$43,$44,$45,$46,$47,$48,$49,$50,$51,$52,$53,$54,$55,$56,$57,$58,$59) RETURNING *`,
             values:[
                 clientId,
                 clientFirstName,
@@ -256,7 +270,13 @@ module.exports= {
                 LNEHNSEligibilityForm,
                 progressNoteText,
                 HCWSignature,
-                clientUniqueId
+                clientUniqueId,
+                goal1ProgressComments,
+            goal2ProgressComments,
+            goal3ProgressComments,
+            goal1CompletionComments,
+            goal2CompletionComments,
+            goal3CompletionComments
             ]
         }
         try {
