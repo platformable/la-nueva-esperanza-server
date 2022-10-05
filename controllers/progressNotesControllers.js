@@ -458,7 +458,6 @@ updateProgressNote: async (req, res) => {
   LNEHNSEligibilityForm,
   SupportGroups,
   IDG,
-  IDGDate,
   progressNoteText,
   HCWSignature,
   clientUniqueId,
@@ -534,7 +533,6 @@ updateProgressNote: async (req, res) => {
   LNEHNSEligibilityForm=$59,
   SupportGroups=$60,
   IDG=$61,
-  IDGDate=$62,
   progressNoteText=$63,
   HCWSignature=$64,
   clientUniqueId=$65,
@@ -543,7 +541,7 @@ updateProgressNote: async (req, res) => {
   goal3ProgressComments=$68,
   goal1CompletionComments=$69,
   goal2CompletionComments=$70,
-  goal3CompletionComments=$71,
+  goal3CompletionComments=$71
    where progress_note.id=$72`,
       values: [
         clientId,
@@ -607,7 +605,6 @@ updateProgressNote: async (req, res) => {
         LNEHNSEligibilityForm,
         SupportGroups,
         IDG,
-        IDGDate,
         progressNoteText,
         HCWSignature,
         clientUniqueId,
