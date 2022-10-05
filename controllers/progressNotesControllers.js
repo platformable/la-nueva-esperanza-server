@@ -311,12 +311,63 @@ module.exports= {
       }
   },
   getProgressNoteForClientProfileByClientUniqueId: async (req,res)=>{
-    let { id } =  req.params;
-
+    let { clientid,id } =  req.params;
+console.log("req.params",req.params)
 
     const query = {
-      text: `select * from progress_note pn where pn.id =$1`,
-      values: [id],
+      text: `select clients.*, 
+      services_action_plan.goal1servicecategory,
+      services_action_plan.goal1summary,
+      services_action_plan.goal1targetdate,
+      services_action_plan.goal2servicecategory,
+      services_action_plan.goal2summary,
+      services_action_plan.goal2targetdate,
+      services_action_plan.goal3servicecategory,
+      services_action_plan.goal3summary,
+      services_action_plan.goal3targetdate,
+      msa_form.airscollateralinformation ,
+      msa_form.airscollateralinformationdate,
+      msa_form.airsfinancialinformation,
+      msa_form.airsfinancialinformationdate,
+      msa_form.airshivaidsriskhistory ,
+      msa_form.airshivaidsriskhistorydate ,
+      msa_form.airshcvhistory ,
+      msa_form.airshcvhistorydate ,
+      msa_form.airshousinginformation,
+      msa_form.airshousinginformationdate,
+      msa_form.airsinsuranceinformation ,
+      msa_form.airsinsuranceinformationdate ,
+      msa_form.airssubstanceusehistory,
+      msa_form.airssubstanceusehistorydate,
+      msa_form.lneclientrights ,
+      msa_form.lneclientrightsdate ,
+      msa_form.lneclientgrievancepolicyprocedure,
+      msa_form.lneclientgrievancepolicyproceduredate,
+      msa_form.lneprogramrules,
+      msa_form.lneprogramrulesdate,
+      msa_form.lneemergencycontactconsent,
+      msa_form.lneemergencycontactconsentdate,
+      msa_form.lneconsentforreleaseofconfidentialinformation,
+      msa_form.lneconsentforreleaseofconfidentialinformationdate,
+      msa_form.hippaconsentform,
+      msa_form.hippaconsentformdate,
+      msa_form.nycdohmhnoticeofprivacypractices,
+      msa_form.nycdohmhnoticeofprivacypracticesdate,
+      msa_form.lneoutreachretentiontrackingform,
+      msa_form.lneoutreachretentiontrackingformdate,
+      msa_form.lnereferralinformation,
+      msa_form.lnereferralinformationdate,
+      msa_form.lneclientreferralform,
+      msa_form.lneclientreferralformdate,
+      msa_form.lnehnseligibilityform,
+      msa_form.lnehnseligibilityformdate,
+      progress_note.*
+      from clients 
+      full outer join services_action_plan on  clients.clientid = services_action_plan.clientid 
+      full outer join msa_form on msa_form.clientid = clients.clientid  
+      full outer join progress_note  on progress_note.clientid = clients.clientid
+      where clients.clientid=$1 and progress_note.id=$2 `,
+      values: [clientid,id],
     };
     try {
       const allData = await db.query(query);
@@ -324,7 +375,7 @@ module.exports= {
       
       res.send(response);
     } catch (e) {
-      console.log("response");
+      console.log("response",e);
     }
 },
 
