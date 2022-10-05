@@ -500,7 +500,6 @@ updateProgressNote: async (req, res) => {
 
   try {
     const query = await {
-      name: "update-progress-note",
       text: `update progress-note set 
       clientId=$1,
   clientFirstName=$2,
