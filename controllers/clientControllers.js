@@ -202,6 +202,112 @@ module.exports = {
 
 
   },
+  getClientProfileDataByClientUniqueId: async (req,res)=>{
+    let {clientid} = req.params
+
+    for (const property in req.body.clientData) {
+      if(req.body.clientData[property]==='1'){
+        req.body.clientData[property]=true
+      }
+      if(req.body.clientData[property]==='0'){
+        req.body.clientData[property]=false
+      }
+      if(req.body.clientData[property]===""){
+        req.body.clientData[property]=null
+      }
+    } 
+      const query = {
+      text: `
+      select clients.clientid,
+      clients.id,
+      clients.clientfirstname ,
+      clients.clientlastname ,
+      clients.clienthcwid ,
+      clients.clienthcwname ,
+      clients.clienthcwlastname ,
+      clients.clientdatecreated ,
+      clients.clientcategory,
+      clients.clientactive,
+      clients.clienthcwemail,
+      msa_form.clientid as msaClientId, 
+      msa_form.id as msaFormID,
+      msa_form.airsintakeform as msaFormAIRSINTAKEFORM,
+      msa_form.comprehensiveriskbehaviorassessment as msaformcomprehensiveriskbehavrioassesment,
+      msa_form.hnseligibilityform as msahnselegibilityform,
+      msa_form.hnsreadinessform as msaformhnsreadinessform,
+      services_action_plan.clientid as servicesactionplanid,
+      services_action_plan.goal1completed ,
+      services_action_plan.goal2completed ,
+      services_action_plan.goal3completed,
+      services_action_plan.goal1completiondate  ,
+      services_action_plan.goal2completiondate ,
+      services_action_plan.goal3completiondate,
+      services_action_plan.planstartdate,
+      progress_note.id as progress_note_id,
+      progress_note.progressnotedate as progressnotedate  
+      from clients 
+      full outer join msa_form on clients.clientid=msa_form.clientid 
+      full outer join services_action_plan on clients.clientid = services_action_plan.clientid
+      full outer join progress_note on clients.clientid = progress_note.clientid 
+      where clients.clientid=$1`,
+      values: [clientid],
+    };
+    try {
+
+      const allData = await db.query(query);
+      const response = allData.rows;
+      console.log("respoinse",response)
+      let newClient={}
+      let progressnotes=[]
+      let pn={}
+
+ /*      console.log("response",response); */
+      const createClient = (response)=>{
+
+        response.forEach((client,index)=>{
+        newClient.clientid=client.clientid
+        newClient.id=client.id
+        newClient.clientfirstname=client.clientfirstname
+        newClient.clientlastname=client.clientlastname
+        newClient.clienthcwid=client.clienthcwid,
+        newClient.clienthcwname=client.clienthcwname
+        newClient.clienthcwlastname=client.clienthcwlastname
+        newClient.clientdatecreated=client.clientdatecreated
+        newClient.clientcategory=client.clientcategory
+        newClient.clientactive=client.clientactive
+        newClient.clienthcwemail=client.clienthcwemail
+        newClient.msaclientid=client.msaclientid
+        newClient.msaformid=client.msaformid
+        newClient.msaformairsintakeform=client.msaformairsintakeform
+        newClient.msaformcomprehensiveriskbehavrioassesment=client.msaformcomprehensiveriskbehavrioassesment
+        newClient.msahnselegibilityform=client.msahnselegibilityform
+        newClient.msaformhnsreadinessform=client.msaformhnsreadinessform
+        newClient.servicesactionplanid=client.servicesactionplanid
+        newClient.goal1completed=client.goal1completed
+        newClient.goal2completed=client.goal2completed
+        newClient.goal3completed=client.goal3completed
+        newClient.goal1completiondate=client.goal1completiondate
+        newClient.goal2completiondate=client.goal2completiondate
+        newClient.goal3completiondate=client.goal3completiondate
+        newClient.planstartdate=client.planstartdate
+        pn.id=client.progress_note_id
+        pn.date=client.progressnotedate
+        progressnotes.push(pn)
+        newClient.progressnotes=progressnotes
+        })
+
+      }
+     
+      createClient(response)
+
+      console.log("newClient",newClient);
+      res.send([newClient]);
+    } catch (e) {
+      console.log("response error",e);
+    }
+
+
+  },
   createClient: async (req, res) => {
     let {
       clientFirstName,
