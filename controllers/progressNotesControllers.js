@@ -294,8 +294,10 @@ module.exports= {
     },
     getAllProgressNoteForClientProfileByClientUniqueId: async (req,res)=>{
       let { clientid } = await req.params;
+
+      console.log("req.params",req.params)
       const query = {
-        text: `select * from progress_note pn where pn.clientid=$1`,
+        text: `select * from progress_note pn where pn.id=$1`,
         values: [clientid],
       };
       try {
@@ -309,12 +311,12 @@ module.exports= {
       }
   },
   getProgressNoteForClientProfileByClientUniqueId: async (req,res)=>{
-    let { clientid } =  req.params;
+    let { id } =  req.params;
 
 
     const query = {
-      text: `select * from progress_note pn where pn.clientid =$1`,
-      values: [clientid],
+      text: `select * from progress_note pn where pn.id =$1`,
+      values: [id],
     };
     try {
       const allData = await db.query(query);
