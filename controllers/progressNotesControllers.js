@@ -396,6 +396,7 @@ updateProgressNote: async (req, res) => {
    
   } 
   let {
+    progressNoteId,
     clientId,
   clientFirstName,
   clientLastName,
@@ -600,7 +601,7 @@ updateProgressNote: async (req, res) => {
   goal1CompletionComments=$97,
   goal2CompletionComments=$98,
   goal3CompletionComments=$99,
-      progressNoteDate=$100 where clientId=$1`,
+      progressNoteDate=$100, where progress_note.id=$101`,
       values: [
         clientId,
   clientFirstName,
@@ -700,7 +701,8 @@ updateProgressNote: async (req, res) => {
   goal3ProgressComments,
   goal1CompletionComments,
   goal2CompletionComments,
-  goal3CompletionComments
+  goal3CompletionComments,
+  progressNoteId
       ],
     };
     db
