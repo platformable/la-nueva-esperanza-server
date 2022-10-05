@@ -293,10 +293,12 @@ module.exports= {
 
     },
     getAllProgressNoteForClientProfileByClientUniqueId: async (req,res)=>{
-      let { clientUniqueId } = await req.params;
+      let { clientid } = await req.params;
+
+      console.log("req.params",req.params)
       const query = {
-        text: `select * from progress_note pn where pn.clientUniqueId=$1`,
-        values: [clientUniqueId],
+        text: `select * from progress_note pn where pn.id=$1`,
+        values: [clientid],
       };
       try {
         const allData = await db.query(query);
@@ -309,22 +311,342 @@ module.exports= {
       }
   },
   getProgressNoteForClientProfileByClientUniqueId: async (req,res)=>{
-    let { progressnoteid } =  req.params;
-
+    let { clientid,id } =  req.params;
+console.log("req.params",req.params)
 
     const query = {
-      text: `select * from progress_note pn where pn.id =$1`,
-      values: [progressnoteid],
+      text: `select clients.*, 
+      services_action_plan.goal1servicecategory,
+      services_action_plan.goal1summary,
+      services_action_plan.goal1targetdate,
+      services_action_plan.goal2servicecategory,
+      services_action_plan.goal2summary,
+      services_action_plan.goal2targetdate,
+      services_action_plan.goal3servicecategory,
+      services_action_plan.goal3summary,
+      services_action_plan.goal3targetdate,
+      msa_form.airscollateralinformation ,
+      msa_form.airscollateralinformationdate,
+      msa_form.airsfinancialinformation,
+      msa_form.airsfinancialinformationdate,
+      msa_form.airshivaidsriskhistory ,
+      msa_form.airshivaidsriskhistorydate ,
+      msa_form.airshcvhistory ,
+      msa_form.airshcvhistorydate ,
+      msa_form.airshousinginformation,
+      msa_form.airshousinginformationdate,
+      msa_form.airsinsuranceinformation ,
+      msa_form.airsinsuranceinformationdate ,
+      msa_form.airssubstanceusehistory,
+      msa_form.airssubstanceusehistorydate,
+      msa_form.lneclientrights ,
+      msa_form.lneclientrightsdate ,
+      msa_form.lneclientgrievancepolicyprocedure,
+      msa_form.lneclientgrievancepolicyproceduredate,
+      msa_form.lneprogramrules,
+      msa_form.lneprogramrulesdate,
+      msa_form.lneemergencycontactconsent,
+      msa_form.lneemergencycontactconsentdate,
+      msa_form.lneconsentforreleaseofconfidentialinformation,
+      msa_form.lneconsentforreleaseofconfidentialinformationdate,
+      msa_form.hippaconsentform,
+      msa_form.hippaconsentformdate,
+      msa_form.nycdohmhnoticeofprivacypractices,
+      msa_form.nycdohmhnoticeofprivacypracticesdate,
+      msa_form.lneoutreachretentiontrackingform,
+      msa_form.lneoutreachretentiontrackingformdate,
+      msa_form.lnereferralinformation,
+      msa_form.lnereferralinformationdate,
+      msa_form.lneclientreferralform,
+      msa_form.lneclientreferralformdate,
+      msa_form.lnehnseligibilityform,
+      msa_form.lnehnseligibilityformdate,
+      progress_note.*
+      from clients 
+      full outer join services_action_plan on  clients.clientid = services_action_plan.clientid 
+      full outer join msa_form on msa_form.clientid = clients.clientid  
+      full outer join progress_note  on progress_note.clientid = clients.clientid
+      where clients.clientid=$1 and progress_note.id=$2 `,
+      values: [clientid,id],
     };
     try {
       const allData = await db.query(query);
       const response = allData.rows;
-    /*   console.log("response", response); */
       
       res.send(response);
     } catch (e) {
-      console.log("response");
+      console.log("response",e);
     }
 },
 
+
+updateProgressNote: async (req, res) => {
+  console.log("req.body",req.body)
+  
+  for (const property in req.body.clientData) {
+    if(req.body.clientData[property]===true){
+      req.body.clientData[property]=1
+    }
+    if(req.body.clientData[property]===false){
+      req.body.clientData[property]=0
+    }
+    if(req.body.clientData[property]===""){
+      req.body.clientData[property]=null
+    }
+   
+  } 
+  let {
+    progressNoteId,
+    clientId,
+  clientFirstName,
+  clientLastName,
+  clientHCWID,
+  userFirstName,
+  userLastName,
+  progressNoteDate,
+  developmentActionPlan,
+  CD4VLLabReport,
+  transportationCoordination,
+  translationInterpretation,
+  comprehensiveBehavioralRiskAssessment,
+  ticklerUpdate,
+  treatmentEducation,
+  preventionCounselling,
+  supportiveCounselling,
+  escort,
+  caseClosureDischarge,
+  linkageToServices,
+  OtherAssistance,
+  goal1Progress,
+  goal1ProgressDate,
+  goal2Progress,
+  goal2ProgressDate,
+  goal3Progress,
+  goal3ProgressDate,
+  goal1Completed,
+  goal1CompletedDate,
+  goal2Completed,
+  goal2CompletedDate,
+  goal3Completed,
+  goal3CompletedDate,
+  StatusChangesForm,
+  StatusChangesFormDate,
+  ComprehensiveRiskBehaviorAssessmentUpdates,
+  ComprehensiveRiskBehaviorAssessmentUpdatesDate,
+  M11QForm,
+  CD4VLReports,
+  InitialTreatmentAdherenceIntake,
+  TreatmentAdherenceUpdates,
+  AIRSCollateralInformation,
+  AIRSDrugRegimen,
+  AIRSFinancialInformation,
+  AIRSHIVAIDSRiskHistory,
+  AIRSHIVStatusHistory,
+  AIRSHIVMedicalProvider,
+  AIRSHCVHistory,
+  AIRSHousingInformation,
+  AIRSInsuranceInformation,
+  AIRSSubstanceUseHistory,
+  LNEClientRights,
+  LNEClientGrievancePolicyProcedure,
+  LNEProgramRules,
+  LNEEmergencyContactConsent,
+  LNEConsentForReleaseOfConfidentialInformation,
+  HIPPAConsentForm,
+  NYCDOHMHNoticeOfPrivacyPractices,
+  LNEOutreachRetentionTrackingForm,
+  LNEReferralInformation,
+  LNEClientReferralForm,
+  LNEHNSEligibilityForm,
+  SupportGroups,
+  SupportGroupsDate,
+  IDG,
+  IDGDate,
+  progressNoteText,
+  HCWSignature,
+  clientUniqueId,
+  goal1ProgressComments,
+  goal2ProgressComments,
+  goal3ProgressComments,
+  goal1CompletionComments,
+  goal2CompletionComments,
+  goal3CompletionComments,
+  } = req.body.clientData;
+
+  try {
+    const query = await {
+      text: `update progress_note set 
+      clientId=$1,
+  clientFirstName=$2,
+  clientLastName=$3,
+  clientHCWID=$4,
+  userFirstName=$5,
+  userLastName=$6,
+  progressNoteDate=$7,
+  developmentActionPlan=$8,
+  CD4VLLabReport=$9,
+  transportationCoordination=$10,
+  translationInterpretation=$11,
+  comprehensiveBehavioralRiskAssessment=$12,
+  ticklerUpdate=$13,
+  treatmentEducation=$14,
+  preventionCounselling=$15,
+  supportiveCounselling=$16,
+  escort=$17,
+  caseClosureDischarge=$18,
+  linkageToServices=$19,
+  OtherAssistance=$20,
+  goal1Progress=$21,
+  goal1ProgressDate=$22,
+  goal2Progress=$23,
+  goal2ProgressDate=$24,
+  goal3Progress=$25,
+  goal3ProgressDate=$26,
+  goal1Completed=$27,
+  goal1CompletedDate=$28,
+  goal2Completed=$29,
+  goal2CompletedDate=$30,
+  goal3Completed=$31,
+  goal3CompletedDate=$32,
+  StatusChangesForm=$33,
+  StatusChangesFormDate=$34,
+  ComprehensiveRiskBehaviorAssessmentUpdates=$35,
+  ComprehensiveRiskBehaviorAssessmentUpdatesDate=$36,
+  M11QForm=$37,
+  CD4VLReports=$38,
+  InitialTreatmentAdherenceIntake=$39,
+  TreatmentAdherenceUpdates=$40,
+  AIRSCollateralInformation=$41,
+  AIRSDrugRegimen=$42,
+  AIRSFinancialInformation=$43,
+  AIRSHIVAIDSRiskHistory=$44,
+  AIRSHIVStatusHistory=$45,
+  AIRSHIVMedicalProvider=$46,
+  AIRSHCVHistory=$47,
+  AIRSHousingInformation=$48,
+  AIRSInsuranceInformation=$49,
+  AIRSSubstanceUseHistory=$50,
+  LNEClientRights=$51,
+  LNEClientGrievancePolicyProcedure=$52,
+  LNEProgramRules=$53,
+  LNEEmergencyContactConsent=$54,
+  LNEConsentForReleaseOfConfidentialInformation=$55,
+  HIPPAConsentForm=$56,
+  NYCDOHMHNoticeOfPrivacyPractices=$57,
+  LNEOutreachRetentionTrackingForm=$58,
+  LNEReferralInformation=$59,
+  LNEClientReferralForm=$60,
+  LNEHNSEligibilityForm=$61,
+  SupportGroups=$62,
+  SupportGroupsDate=$63,
+  IDG=$64,
+  IDGDate=$65,
+  progressNoteText=$66,
+  HCWSignature=$67,
+  clientUniqueId=$68,
+  goal1ProgressComments=$69,
+  goal2ProgressComments=$70,
+  goal3ProgressComments=$71,
+  goal1CompletionComments=$72,
+  goal2CompletionComments=$73,
+  goal3CompletionComments=$74,
+   where progress_note.id=$75`,
+      values: [
+        clientId,
+        clientFirstName,
+        clientLastName,
+        clientHCWID,
+        userFirstName,
+        userLastName,
+        progressNoteDate,
+        developmentActionPlan,
+        CD4VLLabReport,
+        transportationCoordination,
+        translationInterpretation,
+        comprehensiveBehavioralRiskAssessment,
+        ticklerUpdate,
+        treatmentEducation,
+        preventionCounselling,
+        supportiveCounselling,
+        escort,
+        caseClosureDischarge,
+        linkageToServices,
+        OtherAssistance,
+        goal1Progress,
+        goal1ProgressDate,
+        goal2Progress,
+        goal2ProgressDate,
+        goal3Progress,
+        goal3ProgressDate,
+        goal1Completed,
+        goal1CompletedDate,
+        goal2Completed,
+        goal2CompletedDate,
+        goal3Completed,
+        goal3CompletedDate,
+        StatusChangesForm,
+        StatusChangesFormDate,
+        ComprehensiveRiskBehaviorAssessmentUpdates,
+        ComprehensiveRiskBehaviorAssessmentUpdatesDate,
+        M11QForm,
+        CD4VLReports,
+        InitialTreatmentAdherenceIntake,
+        TreatmentAdherenceUpdates,
+        AIRSCollateralInformation,
+        AIRSDrugRegimen,
+        AIRSFinancialInformation,
+        AIRSHIVAIDSRiskHistory,
+        AIRSHIVStatusHistory,
+        AIRSHIVMedicalProvider,
+        AIRSHCVHistory,
+        AIRSHousingInformation,
+        AIRSInsuranceInformation,
+        AIRSSubstanceUseHistory,
+        LNEClientRights,
+        LNEClientGrievancePolicyProcedure,
+        LNEProgramRules,
+        LNEEmergencyContactConsent,
+        LNEConsentForReleaseOfConfidentialInformation,
+        HIPPAConsentForm,
+        NYCDOHMHNoticeOfPrivacyPractices,
+        LNEOutreachRetentionTrackingForm,
+        LNEReferralInformation,
+        LNEClientReferralForm,
+        LNEHNSEligibilityForm,
+        SupportGroups,
+        SupportGroupsDate,
+        IDG,
+        IDGDate,
+        progressNoteText,
+        HCWSignature,
+        clientUniqueId,
+        goal1ProgressComments,
+        goal2ProgressComments,
+        goal3ProgressComments,
+        goal1CompletionComments,
+        goal2CompletionComments,
+        goal3CompletionComments,
+            progressNoteDate,
+  progressNoteId
+      ],
+    };
+    db
+      .query(query)
+      .then((response) =>{
+       console.log("updated del update",response)
+        res.status(200).send({statusText:'OK'})
+      }
+      )
+      .then(response=>console.log("msa updated successfully"))
+  } catch (error) {
+    res.json("an error ocurred");
+    console.log("error message:", error);
+  }
+},
+
 }
+
+
+
+
+  

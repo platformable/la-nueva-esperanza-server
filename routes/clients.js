@@ -8,6 +8,9 @@ router.get("/dashboard_page",controller.getClientsForDashboardPage)
 router.get("/services_page",controller.getClientsForServicesPage)
 router.get("/:clientid",controller.getClientById)
 router.get("/:clientid/profile",controller.getClientProfileData)
+router.get("/profile_by_uniqueid/:clientid",controller.getClientProfileDataByClientUniqueId)
+
+
 router.get("/update/updatest",controller.updateTest)
 
 //router.delete("/delete/:id",controller.deleteClient)
