@@ -291,5 +291,40 @@ module.exports= {
         }
         
 
+    },
+    getAllProgressNoteForClientProfileByClientUniqueId: async (req,res)=>{
+      let { clientUniqueId } = await req.params;
+      const query = {
+        text: `select * from progress_note pn where pn.clientUniqueId=$1`,
+        values: [clientUniqueId],
+      };
+      try {
+        const allData = await db.query(query);
+        const response = allData.rows;
+      /*   console.log("response", response); */
+        console.log("response profile all", allData);
+        res.send(response);
+      } catch (e) {
+        console.log("response");
+      }
+  },
+  getProgressNoteForClientProfileByClientUniqueId: async (req,res)=>{
+    let { progressnoteid } =  req.params;
+
+
+    const query = {
+      text: `select * from progress_note pn where pn.id =$1`,
+      values: [progressnoteid],
+    };
+    try {
+      const allData = await db.query(query);
+      const response = allData.rows;
+    /*   console.log("response", response); */
+      
+      res.send(response);
+    } catch (e) {
+      console.log("response");
     }
+},
+
 }
