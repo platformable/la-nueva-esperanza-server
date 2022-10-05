@@ -549,7 +549,7 @@ updateProgressNote: async (req, res) => {
   goal3ProgressComments=$71,
   goal1CompletionComments=$72,
   goal2CompletionComments=$73,
-  goal3CompletionComments=$74,
+  goal3CompletionComments=$74
    where progress_note.id=$75`,
       values: [
         clientId,
