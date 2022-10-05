@@ -321,7 +321,6 @@ module.exports= {
     try {
       const allData = await db.query(query);
       const response = allData.rows;
-    /*   console.log("response", response); */
       
       res.send(response);
     } catch (e) {
