@@ -388,7 +388,7 @@ console.log("clientIdSecretEncoded",clientIdSecretEncoded)
         console.log("accessTokenResult",accessTokenResult)
           tokenFromRefresh = accessTokenResult.access_token // ADDING TO tokenFromRefresh (GLOBAL VARIABLE) THE ACCESS TOKEN THANKS TO REFRESH
           console.log("tokenfrom",tokenFromRefresh)
-          createFolders(tokenFromRefresh, clientID)
+          createFolders(tokenFromRefresh, clientID)/// shoul be await 
       })
       .then(result => console.log(result))
       .catch(error => console.log('error from connectDropboxAndCreateFolders', error))
