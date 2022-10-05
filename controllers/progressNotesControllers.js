@@ -468,7 +468,7 @@ updateProgressNote: async (req, res) => {
   goal2CompletionComments,
   goal3CompletionComments,
   } = req.body.clientData;
-
+console.log("pnid",progressNoteId)
   try {
     const query = await {
       text: `update progress_note set 
@@ -620,7 +620,7 @@ updateProgressNote: async (req, res) => {
     db
       .query(query)
       .then((response) =>{
-       console.log("updated del update",response)
+       console.log("updated del pn")
         res.status(200).send({statusText:'OK'})
       }
       )
