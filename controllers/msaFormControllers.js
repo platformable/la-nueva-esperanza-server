@@ -2063,7 +2063,7 @@ AIRSHIVMedicalProviderDate,
 SupportGroups,
 SupportGroupsDate,
 IDGForm,
-IDGDate,
+IDGFormDate,
     } = req.body.clientData;
 
     try {
