@@ -1989,7 +1989,7 @@ where clientUniqueId=$82`,
        }
      },
   updateMsaFormFromProgressNote: async (req, res) => {
-    console.log("req.body",req.body)
+    console.log("req.body update msa from pn",req.body)
     
     for (const property in req.body.clientData) {
       if(req.body.clientData[property]===true){
@@ -2196,12 +2196,11 @@ IDGFormDate=$60 where clientId=$1`,
       db
         .query(query)
         .then((response) =>{
-         console.log("updated del update",response)
+         console.log("updated del msa from pn")
           res.status(200).send(response)
         }
         )
         .then(response=>console.log("msa updated successfully"))
-        .catch((e) => res.send(e.stack));
     } catch (error) {
       res.json("an error ocurred");
       console.log("error message:", error);
