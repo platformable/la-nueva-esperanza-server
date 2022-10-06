@@ -498,8 +498,7 @@ updateProgressNote: async (req, res) => {
   HNSReadinessForm,
   LinkageRetentionAdherenceForms,
   InternalReferralInformation,
-  IDGForm,
-  IDGFormDate,
+  IDGForm
   } = req.body.clientData;
 console.log("pnid",progressNoteId)
   try {
@@ -578,9 +577,8 @@ console.log("pnid",progressNoteId)
   HNSReadinessForm=$71,
   LinkageRetentionAdherenceForms=$72,
   InternalReferralInformation=$73,
-  IDGForm=$74,
-  IDGFormDate=$75 
-   where progress_note.id=$76`,
+  IDGForm=$74
+   where progress_note.id=$75`,
       values: [
         clientId,
         clientFirstName,
@@ -656,7 +654,6 @@ console.log("pnid",progressNoteId)
         LinkageRetentionAdherenceForms,
         InternalReferralInformation,
         IDGForm,
-  IDGFormDate, 
         progressNoteId
       ],
     };
