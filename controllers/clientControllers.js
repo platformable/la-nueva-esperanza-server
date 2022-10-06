@@ -290,8 +290,7 @@ module.exports = {
         newClient.goal2completiondate=client.goal2completiondate
         newClient.goal3completiondate=client.goal3completiondate
         newClient.planstartdate=client.planstartdate
-        pn.id=client.progress_note_id
-        pn.date=client.progressnotedate
+        pn={id:client.progress_note_id,date:client.progressnotedate}
         progressnotes.push(pn)
         newClient.progressnotes=progressnotes
         })

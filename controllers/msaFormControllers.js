@@ -1989,7 +1989,7 @@ where clientUniqueId=$82`,
        }
      },
   updateMsaFormFromProgressNote: async (req, res) => {
-    console.log("req.body",req.body)
+    console.log("req.body update msa from pn",req.body)
     
     for (const property in req.body.clientData) {
       if(req.body.clientData[property]===true){
@@ -2041,7 +2041,29 @@ where clientUniqueId=$82`,
       LNEClientReferralFormDate,
       LNEHNSEligibilityForm,
       LNEHNSEligibilityFormDate,
-      progressNoteDate
+      progressNoteDate,
+      StatusChangesForm,
+StatusChangesFormDate,
+ComprehensiveRiskBehaviorAssessmentUpdates,
+ComprehensiveRiskBehaviorAssessmentUpdatesDate,
+M11QForm,
+M11QFormDate,
+CD4VLReports,
+CD4VLReportsDate,
+InitialTreatmentAdherenceIntake,
+InitialTreatmentAdherenceIntakeDate,
+TreatmentAdherenceUpdates,
+TreatmentAdherenceUpdatesDate,
+AIRSDrugRegimen,
+AIRSDrugRegimenDate,
+AIRSHIVStatusHistory,
+AIRSHIVStatusHistoryDate,
+AIRSHIVMedicalProvider,
+AIRSHIVMedicalProviderDate,
+SupportGroups,
+SupportGroupsDate,
+IDGForm,
+IDGFormDate,
     } = req.body.clientData;
 
     try {
@@ -2085,7 +2107,29 @@ where clientUniqueId=$82`,
         LNEClientReferralFormDate=$35,
         LNEHNSEligibilityForm=$36,
         LNEHNSEligibilityFormDate=$37,
-        progressNoteDate=$38 where clientId=$1`,
+        progressNoteDate=$38,
+        StatusChangesForm=$39,
+StatusChangesFormDate=$40,
+ComprehensiveRiskBehaviorAssessmentUpdates=$41,
+ComprehensiveRiskBehaviorAssessmentUpdatesDate=$42,
+M11QForm=$43,
+M11QFormDate=$44,
+CD4VLReports=$45,
+CD4VLReportsDate=$46,
+InitialTreatmentAdherenceIntake=$47,
+InitialTreatmentAdherenceIntakeDate=$48,
+TreatmentAdherenceUpdates=$49,
+TreatmentAdherenceUpdatesDate=$50,
+AIRSDrugRegimen=$51,
+AIRSDrugRegimenDate=$52,
+AIRSHIVStatusHistory=$53,
+AIRSHIVStatusHistoryDate=$54,
+AIRSHIVMedicalProvider=$55,
+AIRSHIVMedicalProviderDate=$56,
+SupportGroups=$57,
+SupportGroupsDate=$58,
+IDGForm,=$59,
+IDGFormDate=$60 where clientId=$1`,
         values: [
           clientId,
           AIRSCollateralInformation,
@@ -2124,18 +2168,39 @@ where clientUniqueId=$82`,
           LNEClientReferralFormDate,
           LNEHNSEligibilityForm,
           LNEHNSEligibilityFormDate,
-          progressNoteDate
+          progressNoteDate,
+          StatusChangesForm,
+          StatusChangesFormDate,
+          ComprehensiveRiskBehaviorAssessmentUpdates,
+          ComprehensiveRiskBehaviorAssessmentUpdatesDate,
+          M11QForm,
+          M11QFormDate,
+          CD4VLReports,
+          CD4VLReportsDate,
+          InitialTreatmentAdherenceIntake,
+          InitialTreatmentAdherenceIntakeDate,
+          TreatmentAdherenceUpdates,
+          TreatmentAdherenceUpdatesDate,
+          AIRSDrugRegimen,
+          AIRSDrugRegimenDate,
+          AIRSHIVStatusHistory,
+          AIRSHIVStatusHistoryDate,
+          AIRSHIVMedicalProvider,
+          AIRSHIVMedicalProviderDate,
+          SupportGroups,
+          SupportGroupsDate,
+          IDGForm,
+          IDGFormDate
         ],
       };
       db
         .query(query)
         .then((response) =>{
-         console.log("updated del update",response)
+         console.log("updated del msa from pn")
           res.status(200).send(response)
         }
         )
         .then(response=>console.log("msa updated successfully"))
-        .catch((e) => res.send(e.stack));
     } catch (error) {
       res.json("an error ocurred");
       console.log("error message:", error);
