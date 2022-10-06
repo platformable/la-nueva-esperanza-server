@@ -2064,7 +2064,9 @@ SupportGroups,
 SupportGroupsDate,
 IDGForm,
 IDGFormDate,
-HNSReadinessForm  
+HNSReadinessForm,
+InternalReferralInformation,
+LinkageRetentionAdherenceForms   
     } = req.body.clientData;
 
     try {
@@ -2131,7 +2133,9 @@ SupportGroups=$57,
 SupportGroupsDate=$58,
 IDGForm=$59,
 IDGFormDate=$60,
-HNSReadinessForm=$61
+HNSReadinessForm=$61,
+InternalReferralInformation=$62,
+LinkageRetentionAdherenceForms=$63   
 where clientId=$1`,
         values: [
           clientId,
@@ -2194,7 +2198,9 @@ where clientId=$1`,
           SupportGroupsDate,
           IDGForm,
           IDGFormDate,
-          HNSReadinessForm
+          HNSReadinessForm,
+          InternalReferralInformation,
+LinkageRetentionAdherenceForms   
         ],
       };
       db

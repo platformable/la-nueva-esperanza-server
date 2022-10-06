@@ -170,7 +170,9 @@ msa_form.idgformdate,
             goal1CompletionComments,
             goal2CompletionComments,
             goal3CompletionComments,
-            HNSReadinessForm
+            HNSReadinessForm,
+            LinkageRetentionAdherenceForms,
+            InternalReferralInformation 
         } = req.body.clientData
 
         console.log()
@@ -237,10 +239,12 @@ msa_form.idgformdate,
             goal1CompletionComments,
             goal2CompletionComments,
             goal3CompletionComments,
-            HNSReadinessForm
+            HNSReadinessForm,
+            LinkageRetentionAdherenceForms,
+            InternalReferralInformation 
             ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,
               $20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,
-              $37,$38,$39,$40,$41,$42,$43,$44,$45,$46,$47,$48,$49,$50,$51,$52,$53,$54,$55,$56,$57,$58,$59,$60) RETURNING *`,
+              $37,$38,$39,$40,$41,$42,$43,$44,$45,$46,$47,$48,$49,$50,$51,$52,$53,$54,$55,$56,$57,$58,$59,$60,$61,$62) RETURNING *`,
             values:[
                 clientId,
                 clientFirstName,
@@ -301,7 +305,9 @@ msa_form.idgformdate,
             goal1CompletionComments,
             goal2CompletionComments,
             goal3CompletionComments,
-            HNSReadinessForm
+            HNSReadinessForm,
+            LinkageRetentionAdherenceForms,
+            InternalReferralInformation 
             ]
         }
         try {
@@ -513,7 +519,9 @@ updateProgressNote: async (req, res) => {
   goal1CompletionComments,
   goal2CompletionComments,
   goal3CompletionComments,
-  HNSReadinessForm
+  HNSReadinessForm,
+  LinkageRetentionAdherenceForms,
+  InternalReferralInformation 
   } = req.body.clientData;
 console.log("pnid",progressNoteId)
   try {
@@ -589,8 +597,10 @@ console.log("pnid",progressNoteId)
   goal1CompletionComments=$68,
   goal2CompletionComments=$69,
   goal3CompletionComments=$70,
-  HNSReadinessForm=$71
-   where progress_note.id=$72`,
+  HNSReadinessForm=$71,
+  LinkageRetentionAdherenceForms=$72,
+  InternalReferralInformation=$73 
+   where progress_note.id=$74`,
       values: [
         clientId,
         clientFirstName,
@@ -663,6 +673,8 @@ console.log("pnid",progressNoteId)
         goal2CompletionComments,
         goal3CompletionComments,
         HNSReadinessForm,
+        LinkageRetentionAdherenceForms,
+        InternalReferralInformation, 
         progressNoteId
       ],
     };
