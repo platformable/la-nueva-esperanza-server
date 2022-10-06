@@ -359,7 +359,6 @@ console.log("req.params",req.params)
       progress_note.*
       from clients 
       full outer join services_action_plan on  clients.clientid = services_action_plan.clientid 
-      full outer join msa_form on msa_form.clientid = clients.clientid  
       full outer join progress_note  on progress_note.clientid = clients.clientid
       where clients.clientid=$1 and progress_note.id=$2 `,
       values: [clientid,id],
