@@ -2063,7 +2063,7 @@ AIRSHIVMedicalProviderDate,
 SupportGroups,
 SupportGroupsDate,
 IDGForm,
-IDGFormDate,
+IDGFormDate
     } = req.body.clientData;
 
     try {
@@ -2128,7 +2128,7 @@ AIRSHIVMedicalProvider=$55,
 AIRSHIVMedicalProviderDate=$56,
 SupportGroups=$57,
 SupportGroupsDate=$58,
-IDGForm,=$59,
+IDGForm=$59,
 IDGFormDate=$60 where clientId=$1`,
         values: [
           clientId,
