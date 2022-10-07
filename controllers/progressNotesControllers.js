@@ -323,7 +323,7 @@ StatusChangesFormDate,
 ComprehensiveRiskBehaviorAssessmentUpdatesDate,
 M11QFormDate,
 CD4VLReportsDate,
-InitialTreatmentAdherenceIntakeDat
+InitialTreatmentAdherenceIntakeDat,
 TreatmentAdherenceUpdatesDate,
 AIRSDrugRegimenDate,
 AIRSHIVStatusHistoryDate,
