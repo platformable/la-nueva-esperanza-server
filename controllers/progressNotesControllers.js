@@ -296,7 +296,7 @@ IDGFormDate
             AIRSHIVStatusHistory,
             AIRSHIVMedicalProvider,
             SupportGroups,
-            IDGForm
+            IDGForm,
             
             AIRSCollateralInformationDate,
 AIRSFinancialInformationDate,
@@ -323,7 +323,7 @@ StatusChangesFormDate,
 ComprehensiveRiskBehaviorAssessmentUpdatesDate,
 M11QFormDate,
 CD4VLReportsDate,
-InitialTreatmentAdherenceIntakeDat
+InitialTreatmentAdherenceIntakeDate,
 TreatmentAdherenceUpdatesDate,
 AIRSDrugRegimenDate,
 AIRSHIVStatusHistoryDate,
