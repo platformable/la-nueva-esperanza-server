@@ -2063,7 +2063,14 @@ AIRSHIVMedicalProviderDate,
 SupportGroups,
 SupportGroupsDate,
 IDGForm,
-IDGFormDate
+IDGFormDate,
+HNSReadinessForm,
+InternalReferralInformation,
+LinkageRetentionAdherenceForms,
+InternalReferralInformationDate,
+LinkageRetentionAdherenceFormsDate,
+HNSReadinessFormDate
+
     } = req.body.clientData;
 
     try {
@@ -2129,7 +2136,14 @@ AIRSHIVMedicalProviderDate=$56,
 SupportGroups=$57,
 SupportGroupsDate=$58,
 IDGForm=$59,
-IDGFormDate=$60 where clientId=$1`,
+IDGFormDate=$60,
+HNSReadinessForm=$61,
+InternalReferralInformation=$62,
+LinkageRetentionAdherenceForms=$63,
+InternalReferralInformationDate=$64,
+LinkageRetentionAdherenceFormsDate=$65,
+HNSReadinessFormDate=$66   
+where clientId=$1`,
         values: [
           clientId,
           AIRSCollateralInformation,
@@ -2190,7 +2204,13 @@ IDGFormDate=$60 where clientId=$1`,
           SupportGroups,
           SupportGroupsDate,
           IDGForm,
-          IDGFormDate
+          IDGFormDate,
+          HNSReadinessForm,
+          InternalReferralInformation,
+LinkageRetentionAdherenceForms,
+InternalReferralInformationDate,
+LinkageRetentionAdherenceFormsDate,
+HNSReadinessFormDate   
         ],
       };
       db
