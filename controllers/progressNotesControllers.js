@@ -738,7 +738,7 @@ console.log("pnid",progressNoteId)
   AIRSHIVStatusHistoryDate=$103,
   AIRSHIVMedicalProviderDate=$104,
   SupportGroupsDate=$105,
-  IDGFormDate=$106,
+  IDGFormDate=$106
    where progress_note.id=$107`,
       values: [
         clientId,
