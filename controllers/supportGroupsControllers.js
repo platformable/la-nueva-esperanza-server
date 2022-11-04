@@ -4,7 +4,7 @@ const db = require('../dbConnect')
 module.exports= {
    
     createNew: async (req,res)=> {
-        console.log("req.body",req.body)
+        console.log("support group req.body",req.body)
 
         try {
     
@@ -13,8 +13,12 @@ module.exports= {
                 supportGroupName ,
                 supportGroupAudience ,
                 supportGroupTopic ,
-                supportGroupHighlights ,
-                supportGroupChallenges 
+                supportGroupSummary,
+                supportGroupChallenges,
+                facilitator,
+                supportGroupStartTime,
+                supportGroupEndTime,
+                supportGroupSigned 
             } = req.body
     
 
@@ -25,16 +29,24 @@ module.exports= {
                 supportGroupName ,
                 supportGroupAudience ,
                 supportGroupTopic ,
-                supportGroupHighlights ,
-                supportGroupChallenges
-                ) VALUES($1,$2,$3,$4,$5,$6) RETURNING *`,
+                supportGroupSummary ,
+                supportGroupChallenges,
+                facilitator,
+                supportGroupStartTime,
+                supportGroupEndTime,
+                supportGroupSigned 
+                ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING *`,
                 values:[
                 supportMeetingDate ,
                 supportGroupName ,
                 supportGroupAudience ,
                 supportGroupTopic ,
-                supportGroupHighlights ,
-                supportGroupChallenges
+                supportGroupSummary,
+                supportGroupChallenges,
+                facilitator,
+                supportGroupStartTime,
+                supportGroupEndTime,
+                supportGroupSigned 
                 ]
             }
                 db.query(query)
