@@ -449,7 +449,7 @@ const sendMessageToHCW =()=>{
         db.query(query)
         .then((data) => {
           console.log("sucess update sap")
-          sendMessageToHCW()
+          // sendMessageToHCW()
           res.status(200).json(data.rows[0])
         })
 
