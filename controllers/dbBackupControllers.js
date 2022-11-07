@@ -128,11 +128,17 @@ module.exports = {
         connectDropboxAndCreateFolders(DBXCLIENT_ID,res)
         backup(res)
     },
-     autoBackup:async(req,res)=>{
+    autoBackup:async(req,res)=>{
 
-console.log("starting backup")
-        cron.schedule('*/2 * * * *', () => {
-        console.log('running a task every two minutes');
+        console.log("starting backup")
+        cron.schedule('0 13 * * *', () => {
+        console.log('running a task every day at 1pm europe');
+        connectDropboxAndCreateFolders(DBXCLIENT_ID,res)
+        backup(res)
+        },
+        {
+            scheduled:true,
+            timezone:'Europe/Madrid'
         });
     }
 
