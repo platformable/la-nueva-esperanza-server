@@ -97,6 +97,8 @@ module.exports= {
             supportGroupStartTime,
             supportGroupEndTime,
             supportGroupSigned} = req.body;
+
+            console.log("update sg req.body",req.body)
     
         try {
           const query = await {
@@ -127,12 +129,14 @@ module.exports= {
           };
           db
             .query(query)
-            .then((response) =>
-              res.send({
+            .then((response) => {
+              console.log("response del success de up sg")
+                res.send({
                 data: response.rowCount,
                 status: 200,
               })
-            )
+                }
+              )
         } catch (error) {
           res.json("an error ocurred");
           console.log("error message:", error);
