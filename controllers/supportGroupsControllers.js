@@ -11,6 +11,22 @@ module.exports= {
             res.send("an error ocurred");
           }
     },
+    getSupportGroupById:async (req,res)=>{
+        let { id } = await req.params;
+        console.log("sg id",id)
+        const query = {
+          text: "select * from support_groups where id=$1",
+          values: [id],
+        };
+        try {
+    const allData = await db.query(query);
+            const response = allData.rows;
+            res.send(response);
+} catch (error) {
+    res.status(400).send({message:"An error ocurred while trying to fetch specific support group by id"})
+    
+}
+    },
    
     createNew: async (req,res)=> {
         console.log("support group req.body",req.body)
