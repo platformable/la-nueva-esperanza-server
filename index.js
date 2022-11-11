@@ -11,7 +11,7 @@ const axios = require('axios')
 const db = require("./dbConnect");
 const { Pool,Client } = require('pg')
 //const { user } = require('pg/lib/defaults')
-
+const cron = require('node-cron')
 let nodemailer = require("nodemailer");
 
 const client = new Client(
@@ -77,7 +77,15 @@ app.use('/support_groups',supportGroups)
 
 
 
+var task = cron.schedule('35 16 * * *', () =>  {
+  console.log('running a task every day at 9am europe');
+  autoBackup.createBackupFromClientSide()
+}, {
+  scheduled: false,
+  timezone:'Europe/Madrid'
+});
 
+task.start();
 
 
 /* app.get("/test", async (req,res)=>{
