@@ -13,6 +13,9 @@ const { Pool,Client } = require('pg')
 //const { user } = require('pg/lib/defaults')
 const cron = require('node-cron')
 let nodemailer = require("nodemailer");
+const  autoBackup = require('./controllers/dbBackupControllers')
+
+
 
 const client = new Client(
   {
@@ -77,8 +80,8 @@ app.use('/support_groups',supportGroups)
 
 
 
-var task = cron.schedule('20 22 * * *', () =>  {
-  console.log('running a task every day at 22 europe');
+var task = cron.schedule('40 23 * * *', () =>  {
+  console.log('running a task every day at 23 europe');
   autoBackup.createBackupFromClientSide()
 }, {
   scheduled: false,
