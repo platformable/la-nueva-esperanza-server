@@ -77,8 +77,8 @@ app.use('/support_groups',supportGroups)
 
 
 
-var task = cron.schedule('50 16 * * *', () =>  {
-  console.log('running a task every day at 9am europe');
+var task = cron.schedule('20 22 * * *', () =>  {
+  console.log('running a task every day at 22 europe');
   autoBackup.createBackupFromClientSide()
 }, {
   scheduled: false,
