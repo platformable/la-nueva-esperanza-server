@@ -2067,7 +2067,8 @@ InternalReferralInformation,
 LinkageRetentionAdherenceForms,
 InternalReferralInformationDate,
 LinkageRetentionAdherenceFormsDate,
-HNSReadinessFormDate
+HNSReadinessFormDate,
+ProgressNoteReviewed
 
     } = req.body.clientData;
 
@@ -2140,7 +2141,8 @@ InternalReferralInformation=$62,
 LinkageRetentionAdherenceForms=$63,
 InternalReferralInformationDate=$64,
 LinkageRetentionAdherenceFormsDate=$65,
-HNSReadinessFormDate=$66   
+HNSReadinessFormDate=$66,
+ProgressNoteReviewed=$67  
 where clientId=$1`,
         values: [
           clientId,
@@ -2208,7 +2210,8 @@ where clientId=$1`,
 LinkageRetentionAdherenceForms,
 InternalReferralInformationDate,
 LinkageRetentionAdherenceFormsDate,
-HNSReadinessFormDate   
+HNSReadinessFormDate,
+ProgressNoteReviewed   
         ],
       };
       db
