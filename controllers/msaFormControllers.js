@@ -1853,8 +1853,7 @@ where clientUniqueId=$82`,
        SupportGroupsUploadDate=$109,
        IDGFormReviewed=$110,
        IDGFormIssues=$111,
-       IDGFormUploadDate=$112,
-       clientUniqueId=$113
+       IDGFormUploadDate=$112
        where clientUniqueId=$113`,
            values: [ 
        clientId,
@@ -1970,7 +1969,6 @@ where clientUniqueId=$82`,
        IDGFormIssues,
        IDGFormUploadDate,
        clientUniqueId
-      
      ],
          }
          db
@@ -1978,7 +1976,7 @@ where clientUniqueId=$82`,
            .then((response) =>{
             
              res.status(200).send({statusText:"OK"})
-           //  console.log("msa form updated",response)
+             console.log("msa form updated",response)
            }
            )
 
