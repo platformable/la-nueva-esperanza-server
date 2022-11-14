@@ -29,7 +29,8 @@ module.exports = {
       // limit 1`,
       text:`select msa_form.*,clients.*,progress_note.id as progressnoteid,progress_note.progressnotedate as progressnotedate from msa_form 
       inner join clients on msa_form.clientid =clients.clientid 
-      full outer join progress_note on progress_note.clientid = clients.clientid  
+      full outer join progress_note on progress_note.clientid = clients.clientid
+      inner join services_action_plan on services_action_plan.clientid = clients.clientid  
       where clients.clientid=$1 
       limit 1`,
       values: [clientid],
