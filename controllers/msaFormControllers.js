@@ -31,8 +31,7 @@ module.exports = {
       inner join clients on msa_form.clientid =clients.clientid 
       full outer join progress_note on progress_note.clientid = clients.clientid
       inner join services_action_plan on services_action_plan.clientid = clients.clientid  
-      where clients.clientid=$1 
-      limit 1`,
+      where clients.clientid=$1 order by progress_note.progressnotedate desc limit 1`,
       values: [clientid],
     };
     try {
