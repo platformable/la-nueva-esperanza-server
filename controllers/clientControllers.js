@@ -240,8 +240,13 @@ module.exports = {
         newClient.goal2completiondate=client.goal2completiondate
         newClient.goal3completiondate=client.goal3completiondate
         newClient.planstartdate=client.planstartdate
-        pn={id:client.progress_note_id,date:client.progressnotedate}
-        progressnotes.push(pn)
+        if(client.progress_note_id ===null || client.progress_note_id ===''){
+          
+          progressnotes=[]
+        } else {
+          pn={id:client.progress_note_id,date:client.progressnotedate}
+          progressnotes.push(pn)
+        }
         newClient.progressnotes=progressnotes
         })
 
