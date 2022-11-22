@@ -2069,8 +2069,7 @@ InternalReferralInformationDate,
 LinkageRetentionAdherenceFormsDate,
 HNSReadinessFormDate,
 ProgressNoteReviewed
-
-    } = req.body.clientData;
+    } = req.body.msaData;
 
     try {
       const query = await {
