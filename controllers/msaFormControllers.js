@@ -1989,15 +1989,15 @@ where clientUniqueId=$82`,
   updateMsaFormFromProgressNote: async (req, res) => {
     console.log("req.body update msa from pn",req.body)
     
-    for (const property in req.body.clientData) {
-      if(req.body.clientData[property]===true){
-        req.body.clientData[property]=1
+    for (const property in req.body.msaData) {
+      if(req.body.msaData[property]===true){
+        req.body.msaData[property]=1
       }
-      if(req.body.clientData[property]===false){
-        req.body.clientData[property]=0
+      if(req.body.msaData[property]===false){
+        req.body.msaData[property]=0
       }
-      if(req.body.clientData[property]===""){
-        req.body.clientData[property]=null
+      if(req.body.msaData[property]===""){
+        req.body.msaData[property]=null
       }
      
     } 
@@ -2069,8 +2069,7 @@ InternalReferralInformationDate,
 LinkageRetentionAdherenceFormsDate,
 HNSReadinessFormDate,
 ProgressNoteReviewed
-
-    } = req.body.clientData;
+    } = req.body.msaData;
 
     try {
       const query = await {
