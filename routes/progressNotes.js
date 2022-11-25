@@ -9,6 +9,7 @@ router.get("/profile_all/:clientid",controller.getAllProgressNoteForClientProfil
 router.get("/:clientid/profile/:id",controller.getProgressNoteForClientProfileByClientUniqueId)
 router.put("/update",controller.updateProgressNote)
 router.post("/",controller.createProgressNote)
+router.delete("/delete",controller.deleteProgressNote)
 /* router.get("/:clientid/profile",controller.getClientProfileData) */
 
 

@@ -887,6 +887,24 @@ console.log("pnid",progressNoteId)
     console.log("error message:", error);
   }
 },
+deleteProgressNote:async(req,res)=>{
+  console.log(req.body)
+  const { id } = req.body;
+  const query = {
+    text: "DELETE from progress_note where id=$1",
+    values: [id],
+  };
+  db.query(query)
+    .then((data) => {
+ console.log("success")
+        res.send({
+          statusText: "OK",
+          message: "Progress Note deleted",
+        });
+   
+    })
+    .catch((e) => console.error(e.stack));
+},
 
 }
 
