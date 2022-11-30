@@ -321,6 +321,7 @@ module.exports = {
           const miscellaneous = await dropbox.shareFolder(clientID,folders[7])
           const support_groups = await dropbox.shareFolder(clientID,folders[8])
           const tickler_updates = await dropbox.shareFolder(clientID,folders[9])
+          const responsestatus= await res.status(200).send({statusText:'OK', message:"client created"})
         }
       } catch (e){
         res.status(400).send({message:"an error occurred while registering a new client",response:e})

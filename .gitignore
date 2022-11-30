@@ -4,7 +4,8 @@
 *.env
 .env
 # local env files
-.env*.local
+.env.local
 testIndex.js
 db.sql
+*.sql
 clientC.js
