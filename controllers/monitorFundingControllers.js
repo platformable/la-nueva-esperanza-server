@@ -30,10 +30,12 @@ order by clients.id asc `)
                 const newClient={}
                 newClient.progressnotes=[]
                 const clientID=client.clientid
-
+                let pn={}
+                
                const checkUser = checkIfUserIsOnTheFinalArray(clientID)
                if(checkUser !==-1){
-                   newClients[checkUser].progressnotes.push(client.progressnotedate)
+                    pn={id:client.progressnote_id,date:client.progressnotedate}
+                   newClients[checkUser].progressnotes.push(pn)
                } else {
                 newClient.id=client.clientid
                 newClient.clientfirstname=client.clientfirstname,
@@ -64,7 +66,7 @@ order by clients.id asc `)
                 newClient.planstartdate=client.planstartdate
                 newClient.sapid=client.sapid
                 newClient.progressnote_id=client.progressnote_id
-                newClient.progressnotes.push(client.progressnotedate)
+               client.progressnote_id ? newClient.progressnotes.push(pn={id:client.progressnote_id,date:client.progressnotedate}):""
                 newClients.push(newClient)
                }
          
