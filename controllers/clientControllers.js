@@ -127,6 +127,9 @@ module.exports = {
       services_action_plan.goal1completed ,
       services_action_plan.goal2completed ,
       services_action_plan.goal3completed,
+      services_action_plan.goal1summary ,
+      services_action_plan.goal2summary ,
+      services_action_plan.goal3summary,
       services_action_plan.goal1completiondate  ,
       services_action_plan.goal2completiondate ,
       services_action_plan.goal3completiondate,
@@ -189,6 +192,9 @@ module.exports = {
       services_action_plan.goal1completed ,
       services_action_plan.goal2completed ,
       services_action_plan.goal3completed,
+      services_action_plan.goal1summary ,
+      services_action_plan.goal2summary ,
+      services_action_plan.goal3summary,
       services_action_plan.goal1completiondate  ,
       services_action_plan.goal2completiondate ,
       services_action_plan.goal3completiondate,
@@ -254,6 +260,9 @@ module.exports = {
         newClient.goal2completiondate=client.goal2completiondate
         newClient.goal3completiondate=client.goal3completiondate
         newClient.planstartdate=client.planstartdate
+        newClient.goal1summary =client.goal1summary?1:0 
+      newClient.goal2summary =client.goal2summary ?1:0
+      newClient.goal3summary=client.goal3summary?1:0
         if(client.progress_note_id ===null || client.progress_note_id ===''){
           
           progressnotes=[]
