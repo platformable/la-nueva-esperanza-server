@@ -484,7 +484,7 @@ const sendMessageToHCW =()=>{
         goal1CompletionDate,
         goal2CompletionDate,
         goal3CompletionDate,
-        hwcsignature
+        HCWSignature
       } = req.body.clientData;
 
       console.log(req.body)
@@ -500,7 +500,7 @@ const sendMessageToHCW =()=>{
             goal1CompletionDate=$5,
             goal2CompletionDate=$6,
             goal3CompletionDate=$7,
-            hwcsignature=$8 where clientId=$1`,
+            hcwsignature=$8 where clientId=$1`,
           values: [
             clientId,
             goal1Completed,
@@ -509,18 +509,16 @@ const sendMessageToHCW =()=>{
             goal1CompletionDate,
             goal2CompletionDate,
             goal3CompletionDate,
-            hwcsignature
+            HCWSignature
           ],
         };
         db
           .query(query)
           .then((response) =>{
-           console.log("response sap update",response)
             res.status(200).send(response)
           }
           )
           .then(response=>console.log("sap updated successfully"))
-          .catch((e) => res.send(e.stack));
       } catch (error) {
         res.json("an error ocurred");
         console.log("error message:", error);
