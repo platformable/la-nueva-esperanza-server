@@ -127,6 +127,9 @@ module.exports = {
       services_action_plan.goal1completed ,
       services_action_plan.goal2completed ,
       services_action_plan.goal3completed,
+      services_action_plan.goal1summary ,
+      services_action_plan.goal2summary ,
+      services_action_plan.goal3summary,
       services_action_plan.goal1completiondate  ,
       services_action_plan.goal2completiondate ,
       services_action_plan.goal3completiondate,
@@ -189,12 +192,29 @@ module.exports = {
       services_action_plan.goal1completed ,
       services_action_plan.goal2completed ,
       services_action_plan.goal3completed,
+      services_action_plan.goal1summary ,
+      services_action_plan.goal2summary ,
+      services_action_plan.goal3summary,
       services_action_plan.goal1completiondate  ,
       services_action_plan.goal2completiondate ,
       services_action_plan.goal3completiondate,
       services_action_plan.planstartdate,
       progress_note.id as progress_note_id,
-      progress_note.progressnotedate as progressnotedate  
+      progress_note.progressnotedate as progressnotedate,
+      progress_note.developmentactionplan as progressnote_developmentactionplan,
+      progress_note.cd4vllabreport as cd4vllabreport,
+      progress_note.transportationcoordination as transportationcoordination,
+      progress_note.translationinterpretation as translationinterpretation,
+      progress_note.comprehensivebehavioralriskassessment as comprehensivebehavioralriskassessment,
+      progress_note.ticklerupdate as ticklerupdate,
+      progress_note.treatmenteducation as treatmenteducation,
+      progress_note.preventioncounselling as preventioncounselling,
+      progress_note.supportivecounselling as supportivecounselling,
+      progress_note.escort as escort,
+      progress_note.caseclosuredischarge as caseclosuredischarge,
+      progress_note.linkagetoservices as linkagetoservices,
+      progress_note.supportgroups as supportgroups,
+      progress_note.otherassistance as otherassistance 
       from clients 
       full outer join msa_form on clients.clientid=msa_form.clientid 
       full outer join services_action_plan on clients.clientid = services_action_plan.clientid
@@ -206,7 +226,7 @@ module.exports = {
 
       const allData = await db.query(query);
       const response = allData.rows;
-      console.log("respoinse",response)
+      console.log("response",response)
       let newClient={}
       let progressnotes=[]
       let pn={}
@@ -240,11 +260,30 @@ module.exports = {
         newClient.goal2completiondate=client.goal2completiondate
         newClient.goal3completiondate=client.goal3completiondate
         newClient.planstartdate=client.planstartdate
+        newClient.goal1summary =client.goal1summary?1:0 
+      newClient.goal2summary =client.goal2summary ?1:0
+      newClient.goal3summary=client.goal3summary?1:0
         if(client.progress_note_id ===null || client.progress_note_id ===''){
           
           progressnotes=[]
         } else {
-          pn={id:client.progress_note_id,date:client.progressnotedate}
+          pn={id:client.progress_note_id,date:client.progressnotedate,
+            developmentactionplan:client.progressnote_developmentactionplan,
+            cd4vllabreport:client.cd4vllabreport,
+            transportationcoordination:client.transportationcoordination,
+            translationinterpretation:client.translationinterpretation,
+            comprehensivebehavioralriskassessment:client.comprehensivebehavioralriskassessment,
+            ticklerupdate:client.ticklerupdate,
+            treatmenteducation:client.treatmenteducation,
+            preventioncounselling:client.preventioncounselling,
+            supportivecounselling:client.supportivecounselling,
+            escort:client.escort,
+            caseclosuredischarge:client.caseclosuredischarge,
+            linkagetoservices:client.linkagetoservices,
+            supportgroups:client.supportgroups,
+            otherassistance:client.otherassistance
+          
+          }
           progressnotes.push(pn)
         }
         newClient.progressnotes=progressnotes
