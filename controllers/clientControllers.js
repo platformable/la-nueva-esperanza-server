@@ -286,10 +286,10 @@ module.exports = {
             linkagetoservices:client.linkagetoservices,
             supportgroups:client.supportgroups,
             otherassistance:client.otherassistance,
-            implementationactionplan:implementationactionplan,
-            housingassistance:housingassistance,
-            benefitsassistance:benefitsassistance,
-            employmentassistance:employmentassistance
+            implementationactionplan:client.implementationactionplan,
+            housingassistance:client.housingassistance,
+            benefitsassistance:client.benefitsassistance,
+            employmentassistance:client.employmentassistance
           
           }
           progressnotes.push(pn)
