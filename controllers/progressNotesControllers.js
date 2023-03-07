@@ -232,7 +232,7 @@ goal3WorkedComments,
 implementationActionPlan,
 housingAssistance,
 benefitsAssistance,
-employmentAssistance,
+employmentAssistance
 
         } = req.body.clientData
 
@@ -785,7 +785,7 @@ console.log("pnid",progressNoteId)
   goal3WorkedComments=$109,
   implementationActionPlan=$110,
 housingAssistance=$111,
-benefitsAssistance=$112
+benefitsAssistance=$112,
 employmentAssistance=$113
    where progress_note.id=$114`,
       values: [
