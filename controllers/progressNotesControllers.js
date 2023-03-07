@@ -227,7 +227,12 @@ SupportGroupsDate,
 IDGFormDate,
 goal1WorkedComments,
 goal2WorkedComments,
-goal3WorkedComments
+goal3WorkedComments,
+
+implementationActionPlan,
+housingAssistance,
+benefitsAssistance,
+employmentAssistance,
 
         } = req.body.clientData
 
@@ -343,11 +348,15 @@ SupportGroupsDate,
 IDGFormDate,
 goal1WorkedComments,
 goal2WorkedComments,
-goal3WorkedComments
+goal3WorkedComments,
+implementationActionPlan,
+housingAssistance,
+benefitsAssistance,
+employmentAssistance
             ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,
               $20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,
               $37,$38,$39,$40,$41,$42,$43,$44,$45,$46,$47,$48,$49,$50,$51,$52,$53,$54,$55,$56,$57,$58,$59,$60,$61,$62,$63,$64,$65,$66,$67,$68,$69,$70,
-              $71,$72,$73,$74,$75,$76,$77,$78,$79,$80,$81,$82,$83,$84,$85,$86,$87,$88,$89,$90,$91,$92,$93,$94,$95,$96,$97,$98,$99,$100,$101,$102,$103,$104,$105,$106,$107,$108) RETURNING *`,
+              $71,$72,$73,$74,$75,$76,$77,$78,$79,$80,$81,$82,$83,$84,$85,$86,$87,$88,$89,$90,$91,$92,$93,$94,$95,$96,$97,$98,$99,$100,$101,$102,$103,$104,$105,$106,$107,$108,$109,$110,$111,$112) RETURNING *`,
             values:[
                 clientId,
                 clientFirstName,
@@ -456,7 +465,11 @@ SupportGroupsDate,
 IDGFormDate,
 goal1WorkedComments,
 goal2WorkedComments,
-goal3WorkedComments
+goal3WorkedComments,
+implementationActionPlan,
+housingAssistance,
+benefitsAssistance,
+employmentAssistance
             ]
         }
         try {
@@ -651,7 +664,11 @@ updateProgressNote: async (req, res) => {
   IDGFormDate,
   goal1WorkedComments,
   goal2WorkedComments,
-  goal3WorkedComments
+  goal3WorkedComments,
+  implementationActionPlan,
+housingAssistance,
+benefitsAssistance,
+employmentAssistance
   } = req.body.clientData;
 console.log("pnid",progressNoteId)
   try {
@@ -765,8 +782,12 @@ console.log("pnid",progressNoteId)
   IDGFormDate=$106,
   goal1WorkedComments=$107,
   goal2WorkedComments=$108,
-  goal3WorkedComments=$109
-   where progress_note.id=$110`,
+  goal3WorkedComments=$109,
+  implementationActionPlan=$110,
+housingAssistance=$111,
+benefitsAssistance=$112
+employmentAssistance=$113
+   where progress_note.id=$114`,
       values: [
         clientId,
         clientFirstName,
@@ -877,6 +898,10 @@ console.log("pnid",progressNoteId)
         goal1WorkedComments,
         goal2WorkedComments,
         goal3WorkedComments,
+        implementationActionPlan,
+        housingAssistance,
+        benefitsAssistance,
+        employmentAssistance,
         progressNoteId
       ],
     };
