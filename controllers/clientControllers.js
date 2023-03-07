@@ -285,7 +285,11 @@ module.exports = {
             caseclosuredischarge:client.caseclosuredischarge,
             linkagetoservices:client.linkagetoservices,
             supportgroups:client.supportgroups,
-            otherassistance:client.otherassistance
+            otherassistance:client.otherassistance,
+            implementationactionplan:implementationactionplan,
+            housingassistance:housingassistance,
+            benefitsassistance:benefitsassistance,
+            employmentassistance:employmentassistance
           
           }
           progressnotes.push(pn)
