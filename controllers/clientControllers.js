@@ -214,7 +214,11 @@ module.exports = {
       progress_note.caseclosuredischarge as caseclosuredischarge,
       progress_note.linkagetoservices as linkagetoservices,
       progress_note.supportgroups as supportgroups,
-      progress_note.otherassistance as otherassistance 
+      progress_note.otherassistance as otherassistance, 
+      progress_note.implementationactionplan as implementationactionplan,
+      progress_note.housingassistance as housingassistance,
+      progress_note.benefitsassistance as benefitsassistance,
+      progress_note.employmentassistance as employmentassistance 
       from clients 
       full outer join msa_form on clients.clientid=msa_form.clientid 
       full outer join services_action_plan on clients.clientid = services_action_plan.clientid
