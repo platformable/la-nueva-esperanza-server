@@ -43,6 +43,23 @@ module.exports = {
       console.log(e);
     }
   },
+  getClientMsaFormByClientId: async (req, res) => {
+    let { clientid } = await req.params;
+
+    const query = {
+
+      text:`select msa_form.* from msa_form where clientid =$1`,
+      values: [clientid],
+    };
+    try {
+
+      const allData = await db.query(query);
+      const response = allData.rows;
+      res.send(response);
+    } catch (e) {
+      console.log(e);
+    }
+  },
   createMsaForm: async (req, res) => {
    console.log(req.body)
 
@@ -1987,7 +2004,7 @@ where clientUniqueId=$82`,
        }
      },
   updateMsaFormFromProgressNote: async (req, res) => {
-    console.log("req.body update msa from pn",req.body)
+    
     
     for (const property in req.body.msaData) {
       if(req.body.msaData[property]===true){
@@ -2071,6 +2088,8 @@ HNSReadinessFormDate,
 ProgressNoteReviewed
     } = req.body.msaData;
 
+
+    console.log("req.body msa data from pn",req.body)
     try {
       const query = await {
         name: "update-msa-form-progress-note",
