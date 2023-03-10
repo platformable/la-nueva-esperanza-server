@@ -138,8 +138,56 @@ console.log("response",response)
       res.send([result]);
 
       }
-
       mergeObjects()
+  },
+  getAllServicesActionPlansByClientId: async (req,res)=>{
+    console.log("get all client saps")
+    let { clientid } = await req.params;
+    const query= {
+      //text:'select * from services_action_plan where clientid =$1',
+      text:`select clients.clientid ,clients.id,clients.clientfirstname,clients.clientlastname, 
+      services_action_plan.id as sapid,services_action_plan.planstartdate,services_action_plan.status 
+      from clients 
+      inner join services_action_plan on clients.clientid = services_action_plan.clientid   
+      where clients.clientid =$1
+      `,
+      values:[clientid]
+    }
+      const allData = await db.query(query);
+      const response = allData.rows;
+
+      if(response.length<=0){
+        const allData = await db.query('select * from clients where clients.clientid=$1',[clientid]);
+      const responseClientDataOnly = allData.rows;
+        res.send({message:"There is no data for selected client",client:responseClientDataOnly})
+      } else {
+        const allData = await db.query('select * from clients where clients.clientid=$1',[clientid]);
+        res.send({client:allData.rows,clientData:response})
+      }
+  },
+  getAllServicesActionPlansByClientIdAndSapId: async (req,res)=>{
+    console.log("get client sap by ids")
+    let { clientid,sapid } = await req.params;
+    console.log(req.params)
+    const query= {
+
+      text:`select clients.*,services_action_plan.* from clients 
+      inner join services_action_plan on clients.clientid = services_action_plan.clientid 
+      where clients.clientid=$1 and services_action_plan.id=$2
+      `,
+      values:[clientid,sapid]
+    }
+      const allData = await db.query(query);
+      const response = allData.rows;
+
+      if(response.length<=0){
+        const allData = await db.query('select * from clients where clients.clientid=$1',[clientid]);
+      const responseClientDataOnly = allData.rows;
+        res.send({message:"There is no data for selected client",client:responseClientDataOnly})
+      } else {
+        // const allData = await db.query('select * from clients where clients.clientid=$1',[clientid]);
+        res.send(response)
+      }
   },
   createServicesActionPlan: async (req,res)=> {
 
@@ -307,8 +355,6 @@ console.log(req.body)
       } 
 
       let {
-        role,
-        clientHCWEmail,
         clientId,
         clientFirstName,
         clientLastName,
@@ -341,35 +387,8 @@ console.log(req.body)
         clientSignatureDate,
         HCWSignature,
         supervisorSignature,
-        clientUniqueId
+        sapid
       } = req.body.clientData;
-
-const sendMessageToHCW =()=>{
-  let mailTrasporter = nodemailer.createTransport({
-    service:'gmail',
-    auth:{
-      user:process.env.NODEMAILEREMAIL,
-      pass:process.env.EMAILPASSWORD
-    }
-  })
-
-  let details = {
-    from:"lne-app@platformable.com",
-    //to: clientHCWEmail,
-    to:[clientHCWEmail],
-    subject:"Supervisor has reviewed a client",
-    text:`The supervisor has reviewed the Service Action Plan for client ${clientId}. This may include signing the supervisor signature for the Action Plan.
-    Please review the changes and discuss with your client, if needed.`
-  }
-
-  mailTrasporter.sendMail(details,(err)=>{
-    if(err){
-      console.log(err)
-    } else {
-      console.log("email sent")
-    }
-  })
-}
 
       try {
         
@@ -406,9 +425,8 @@ const sendMessageToHCW =()=>{
           clientsignature=$29, 
           clientsignaturedate=$30, 
           hcwsignature=$31,  
-          supervisorsignature=$32,
-          clientUniqueId=$33 
-          where clientUniqueId=$33`,
+          supervisorsignature=$32
+          where id=$33`,
           values: [
             clientId,
             clientFirstName,
@@ -442,7 +460,7 @@ const sendMessageToHCW =()=>{
             clientSignatureDate,
             HCWSignature,
             supervisorSignature,
-            clientUniqueId
+            sapid
           ],
         };
 
