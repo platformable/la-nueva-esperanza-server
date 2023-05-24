@@ -2,7 +2,21 @@ const db = require('../dbConnect')
 
 
 module.exports= {
-   
+    getAll: async (req,res)=>{
+        const query = {text:'select * from support_groups'}
+
+        try {
+          const allData = await db.query(query);
+                const response = allData.rows;
+              /*   console.log("response", response); */
+                console.log("response length", allData.rows);
+                res.send(response);
+          
+        } catch (error) {
+          console.log(error)
+          res.send({errorMessage:error})
+        }
+    }, 
     createNew: async (req,res)=> {
         console.log("req.body",req.body)
 

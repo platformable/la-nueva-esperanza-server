@@ -3,6 +3,24 @@ const axios = require('axios')
 
 
 module.exports= {
+  getAllProgressNotes: async (req,res)=>{
+
+  const query = {text:'select * from progress_note'}
+
+  try {
+    const allData = await db.query(query);
+          const response = allData.rows;
+        /*   console.log("response", response); */
+          console.log("response length", allData.rows);
+          res.send(response);
+    
+  } catch (error) {
+    console.log(error)
+    res.send({errorMessage:error})
+  }
+
+
+  },
     getProgressNoteByClientId: async (req,res)=>{
         let { clientid } = await req.params;
       
