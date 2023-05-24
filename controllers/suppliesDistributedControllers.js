@@ -3,7 +3,7 @@ const db = require('../dbConnect')
 
 module.exports= {
     getAll: async (req,res)=>{
-        const query = {text:'select * from support_groups'}
+        const query = {text:'select * from supplies_distributed'}
 
         try {
           const allData = await db.query(query);
