@@ -133,4 +133,116 @@ module.exports= {
           res.send({errorMessage:error})
         }
     }, 
+    updateCondomsDistributedEvent: async (req, res) => {
+      let {
+        id,
+        date,
+        kitsDistributed,
+        extCondomsDistributed,
+        intCondomsDistributed,
+        oralCondomsDistributed,
+        lubesDistributed,
+        dentalDamsDistributed,
+        fingerCotsDistributed,
+        Men,
+        Women,
+        TransMen,
+        TransWomen,
+        GenderNotSpecified,
+        Hispanic,
+        AfricanAmerican,
+        Caucasian,
+        Asian,
+        RaceEthnicityNotSpecified,
+        Aged19_24,
+        Aged25_35,
+        Aged35_44,
+        Aged45,
+        AgeNotSpecified
+      } = req.body;
+  
+  
+      try {
+        const query = await {
+          name: "update-supplies-distributed",
+          text: `update supplies_distributed set 
+          date =$2,
+          kitsDistributed =$3,
+          extCondomsDistributed =$4,
+          intCondomsDistributed =$5,
+          oralCondomsDistributed =$6,
+          lubesDistributed =$7,
+          dentalDamsDistributed =$8,
+          fingerCotsDistributed =$9,
+          Men =$10,
+          Women =$11,
+          TransMen =$12,
+          TransWomen =$13,
+          GenderNotSpecified =$14,
+          Hispanic =$15,
+          AfricanAmerican =$16,
+          Caucasian =$17,
+          Asian =$18,
+          RaceEthnicityNotSpecified =$19,
+          Aged19_24 =$20,
+          Aged25_35 =$21,
+          Aged35_44 =$22,
+          Aged45 =$23,
+          AgeNotSpecified =$24
+          where id=$1`,
+          values: [
+            id,
+            date,
+            kitsDistributed,
+            extCondomsDistributed,
+            intCondomsDistributed,
+            oralCondomsDistributed,
+            lubesDistributed,
+            dentalDamsDistributed,
+            fingerCotsDistributed,
+            Men,
+            Women,
+            TransMen,
+            TransWomen,
+            GenderNotSpecified,
+            Hispanic,
+            AfricanAmerican,
+            Caucasian,
+            Asian,
+            RaceEthnicityNotSpecified,
+            Aged19_24,
+            Aged25_35,
+            Aged35_44,
+            Aged45,
+            AgeNotSpecified
+          ],
+        };
+        db.query(query).then((response) => {
+          console.log("response del success de up sg");
+          res.send({
+            data: response.rowCount,
+            status: 200,
+          });
+        });
+      } catch (error) {
+        res.json("an error ocurred");
+        console.log("error message:", error);
+      }
+    },
+    delete: async (req, res) => {
+      const { id } = req.body;
+      const query = {
+        text: "DELETE from supplies_distributed where id=$1",
+        values: [id],
+      };
+      // promise
+      db.query(query)
+        .then((data) => {
+          res.send({
+            status: "OK",
+            message: "Condoms distributed event deleted",
+          });
+        })
+        .catch((e) => console.error(e.stack));
+    },
 }

@@ -109,7 +109,6 @@ module.exports = {
       const query = await {
         name: "update-support-groups",
         text: `update support_groups set 
-            id=$1,
             supportMeetingDate=$2,
             supportGroupName=$3 ,
             supportGroupAudience=$4 ,
