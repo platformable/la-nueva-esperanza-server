@@ -111,7 +111,7 @@ msa_form.idgformdate,
           full outer join services_action_plan on  clients.clientid = services_action_plan.clientid 
           full outer join msa_form on msa_form.clientid = clients.clientid  
           full outer join progress_note on progress_note.clientid = clients.clientid
-          where clients.clientid=$1 order by id asc limit 1`,
+          where clients.clientid=$1 order by lastprogressnotedate desc limit 1`,
           values: [clientid],
         };
         try {
