@@ -6,5 +6,8 @@ const controller = require('../controllers/suppliesDistributedControllers')
 router.get("/",controller.getAll)
 router.get("/:id",controller.getById)
 router.post("/",controller.createNew)
+router.put("/",controller.updateCondomsDistributedEvent)
+router.delete("/",controller.delete)
+
 
 module.exports = router
