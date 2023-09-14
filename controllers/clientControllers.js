@@ -171,7 +171,7 @@ module.exports = {
     } 
       const query = {
       text: `
-      select clients.clientid,
+      SELECT DISTINCT clients.clientid,
       clients.id,
       clients.clientfirstname ,
       clients.clientlastname ,
@@ -188,17 +188,6 @@ module.exports = {
       msa_form.comprehensiveriskbehaviorassessment as msaformcomprehensiveriskbehavrioassesment,
       msa_form.hnseligibilityform as msahnselegibilityform,
       msa_form.hnsreadinessform as msaformhnsreadinessform,
-      services_action_plan.clientid as servicesactionplanid,
-      services_action_plan.goal1completed ,
-      services_action_plan.goal2completed ,
-      services_action_plan.goal3completed,
-      services_action_plan.goal1summary ,
-      services_action_plan.goal2summary ,
-      services_action_plan.goal3summary,
-      services_action_plan.goal1completiondate  ,
-      services_action_plan.goal2completiondate ,
-      services_action_plan.goal3completiondate,
-      services_action_plan.planstartdate,
       progress_note.id as progress_note_id,
       progress_note.progressnotedate as progressnotedate,
       progress_note.developmentactionplan as progressnote_developmentactionplan,
@@ -220,9 +209,9 @@ module.exports = {
       progress_note.benefitsassistance as benefitsassistance,
       progress_note.employmentassistance as employmentassistance 
       from clients 
-      full outer join msa_form on clients.clientid=msa_form.clientid 
-      full outer join services_action_plan on clients.clientid = services_action_plan.clientid
-      full outer join progress_note on clients.clientid = progress_note.clientid 
+      join msa_form on clients.clientid=msa_form.clientid 
+      join services_action_plan on clients.clientid = services_action_plan.clientid
+      join progress_note on clients.clientid = progress_note.clientid 
       where clients.clientid=$1`,
       values: [clientid],
     };
