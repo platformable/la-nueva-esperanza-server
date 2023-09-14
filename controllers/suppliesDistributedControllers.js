@@ -3,7 +3,7 @@ const db = require('../dbConnect')
 
 module.exports= {
     getAll: async (req,res)=>{
-        const query = {text:'select * from supplies_distributed'}
+        const query = {text:'select id, date from supplies_distributed'}
 
         try {
           const allData = await db.query(query);
@@ -111,5 +111,26 @@ module.exports= {
             res.status(400).send({message:"FAIL"})
             console.log("error",e)
         }
-    }
+    },
+    getById: async (req,res)=>{
+    
+        let { id } = await req.params;
+        console.log("sg id",id)
+        const query = {
+          text: "select * from supplies_distributed where id=$1",
+          values: [id],
+        };
+
+        try {
+          const allData = await db.query(query);
+                const response = allData.rows;
+              /*   console.log("response", response); */
+                console.log("response length", allData.rows);
+                res.send(response);
+          
+        } catch (error) {
+          console.log(error)
+          res.send({errorMessage:error})
+        }
+    }, 
 }
