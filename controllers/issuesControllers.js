@@ -16,7 +16,7 @@ const sendMessageToHcw =(hcw,email,clientId,description)=>{
   let details = {
     from:"lne-app@platformable.com",
     //to: clientHCWEmail,
-    to:[email,'alexei@platformable.com'],
+    to:[process.env.WORKER1,process.env.WORKER2,process.env.WORKER3],
     subject:"An issue has been found",
     text:`Hi ${hcw}, Supervisor has identified this issue: "${description}."
     
