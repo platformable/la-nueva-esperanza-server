@@ -5,13 +5,26 @@ const axios = require('axios')
 module.exports= {
   getAllProgressNotes: async (req,res)=>{
 
+    console.log("req.query",req.query)
+
+    // const page = req.query.page
+    // const limit = req.query.limit
+    
+    // const offset = (page - 1) * limit;
+    
+  // const query = {text:'select id, clientfirstname,clientlastname,clientid from progress_note LIMIT $1 OFFSET $2',
+  // values:[limit, offset]}
+
   const query = {text:'select * from progress_note'}
 
   try {
     const allData = await db.query(query);
           const response = allData.rows;
-        /*   console.log("response", response); */
-          console.log("response length", allData.rows);
+
+          console.log("selected", "mmm")
+
+          // const newData= {}
+          // newData.response=response
           res.send(response);
     
   } catch (error) {
@@ -528,7 +541,7 @@ employmentAssistance
 console.log("req.params",req.params)
 
     const query = {
-      text: `select clients.*, 
+      text: `select distinct clients.*, 
       services_action_plan.goal1servicecategory,
       services_action_plan.goal1summary,
       services_action_plan.goal1details,
@@ -541,11 +554,12 @@ console.log("req.params",req.params)
       services_action_plan.goal3summary,
       services_action_plan.goal3details,
       services_action_plan.goal3targetdate,
+      services_action_plan.planstartdate,
       progress_note.*
       from clients 
       full outer join services_action_plan on  clients.clientid = services_action_plan.clientid 
       full outer join progress_note  on progress_note.clientid = clients.clientid
-      where clients.clientid=$1 and progress_note.id=$2 `,
+      where clients.clientid=$1 and progress_note.id=$2 order by services_action_plan.planstartdate desc limit 1`,
       values: [clientid,id],
     };
     try {
