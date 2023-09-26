@@ -5,27 +5,46 @@ const axios = require('axios')
 module.exports= {
   getAllProgressNotes: async (req,res)=>{
 
-    console.log("req.query",req.query)
 
-    // const page = req.query.page
-    // const limit = req.query.limit
-    
-    // const offset = (page - 1) * limit;
-    
-  // const query = {text:'select id, clientfirstname,clientlastname,clientid from progress_note LIMIT $1 OFFSET $2',
-  // values:[limit, offset]}
 
-  const query = {text:'select * from progress_note'}
+    const countQuery = 'SELECT * FROM progress_note';
+    const countResult = await db.query(countQuery);
+    const totalRecords = countResult.rows.length;
+
+    
+
+   const page = parseInt(req.query.page)
+   const limit = parseInt(req.query.limit)
+   const offset= (page-1) * limit
+
+    const totalPages = Math.ceil(totalRecords / limit);
+
+
+
+
+    const hasPreviousPage = page > 1;
+    const hasNextPage = page < totalPages;
+  
+    
+  const query = {text:`SELECT id, clientfirstname, clientlastname, progressnotedate
+  FROM progress_note
+  order by id 
+  LIMIT $1 OFFSET $2`,
+  values:[limit, offset]}
+
+  //const query = {text:'select * from progress_note'}
 
   try {
     const allData = await db.query(query);
           const response = allData.rows;
 
-          console.log("selected", "mmm")
-
-          // const newData= {}
-          // newData.response=response
-          res.send(response);
+          const newData= {}
+          newData.data=response
+          newData.totalPages=totalPages
+          newData.page=page
+          newData.hasPreviousPage=hasPreviousPage
+          newData.hasNextPage=hasNextPage
+          res.send(newData);
     
   } catch (error) {
     console.log(error)
