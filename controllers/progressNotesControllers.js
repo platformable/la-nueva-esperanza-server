@@ -990,6 +990,24 @@ deleteProgressNote:async(req,res)=>{
     .catch((e) => console.error(e.stack));
 },
 
+sapForProgressNotes: async (req,res)=>{
+  console.log("sapforprogressnotes")
+
+  const {clientid}=req.params
+
+  try{
+    const query = {text:'select * from services_action_plan sap where clientid=$1 order by planstartdate desc limit 2',values:[clientid]};
+    const response = await db.query(query);
+    const data={current:response.rows[0],archived:response.rows[1]}
+    res.send(data)
+console.log("data",data)
+
+  }catch {(e)=>{
+    res.status(500).send({errorMessage:"An error ocurred", error:e})
+    console.log("error",e)
+  }}
+}
+
 }
 
 
