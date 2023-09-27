@@ -23,7 +23,7 @@ module.exports= {
     const hasNextPage = page < totalPages;
   
     
-  const query = {text:`SELECT id, clientfirstname, clientlastname, progressnotedate,
+  const query = {text:`SELECT id, clientid,clientfirstname, clientlastname, progressnotedate,
   developmentactionplan,
   cd4vllabreport,
 transportationcoordination,
