@@ -43,7 +43,7 @@ benefitsassistance,
 employmentassistance,
 otherassistance
   FROM progress_note
-  order by progressnotedate asc 
+  order by progressnotedate desc
   LIMIT $1 OFFSET $2`,
   values:[limit, offset]}
 
