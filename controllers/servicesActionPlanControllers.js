@@ -502,7 +502,8 @@ console.log(req.body)
         goal1CompletionDate,
         goal2CompletionDate,
         goal3CompletionDate,
-        HCWSignature
+        HCWSignature,
+        id
       } = req.body.clientData;
 
       console.log(req.body)
@@ -518,7 +519,8 @@ console.log(req.body)
             goal1CompletionDate=$5,
             goal2CompletionDate=$6,
             goal3CompletionDate=$7,
-            hcwsignature=$8 where clientId=$1`,
+            hcwsignature=$8
+            where id=$9`,
           values: [
             clientId,
             goal1Completed,
@@ -527,7 +529,8 @@ console.log(req.body)
             goal1CompletionDate,
             goal2CompletionDate,
             goal3CompletionDate,
-            HCWSignature
+            HCWSignature,
+            id
           ],
         };
         db
