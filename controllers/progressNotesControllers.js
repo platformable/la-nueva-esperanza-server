@@ -10,14 +10,14 @@ module.exports= {
     const countQuery = 'SELECT * FROM progress_note';
     const countResult = await db.query(countQuery);
     const totalRecords = await countResult.rows.length;
-    console.log("totalRecords",totalRecords)
+    
 
    const page = parseInt(req.query.page)
    const limit = parseInt(req.query.limit)
    const offset= (page-1) * limit
 
     const totalPages = Math.ceil(totalRecords / limit);
-    console.log("totalPages",totalPages)
+    
 
     const hasPreviousPage = page > 1;
     const hasNextPage = page < totalPages;
@@ -43,7 +43,7 @@ benefitsassistance,
 employmentassistance,
 otherassistance
   FROM progress_note
-  order by id 
+  order by progressnotedate asc 
   LIMIT $1 OFFSET $2`,
   values:[limit, offset]}
 
@@ -62,7 +62,7 @@ otherassistance
           res.send(newData);
     
   } catch (error) {
-    console.log("errorrrrr",error)
+    console.log("err",error)
     res.send({errorMessage:error, reviewError:'Check there is query params'})
   }
 
