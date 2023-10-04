@@ -4,6 +4,7 @@ const router = express.Router()
 const controller = require('../controllers/progressNotesControllers')
 
 router.get("/",controller.getAllProgressNotes)
+router.get("/clients/allprogressnotes",controller.getProgressNotes)
 router.get("/:clientid",controller.getProgressNoteByClientId)
 router.get("/profile_all/:clientid",controller.getAllProgressNoteForClientProfileByClientUniqueId)
 router.get("/:clientid/profile/:id",controller.getProgressNoteForClientProfileByClientUniqueId)
