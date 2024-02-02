@@ -17,6 +17,22 @@ module.exports= {
           res.send({errorMessage:error})
         }
     }, 
+    getAllForReports: async (req,res)=>{
+      const {startDate,endDate} = req.params
+      const query = {text:`select id, date from supplies_distributed where date between '${startDate}' and '${endDate}' order by "date" desc` }
+
+      try {
+        const allData = await db.query(query);
+              const response = allData.rows;
+            /*   console.log("response", response); */
+              console.log("response length", allData.rows);
+              res.send(response);
+        
+      } catch (error) {
+        console.log(error)
+        res.send({errorMessage:error})
+      }
+  }, 
     createNew: async (req,res)=> {
         console.log("req.body",req.body)
 
