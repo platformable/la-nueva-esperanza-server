@@ -85,22 +85,8 @@ otherassistance
 
   },
   getAllProgressNotesForReports: async (req,res)=>{
+
     const {startDate,endDate} = req.params
-
-    const countQuery = `SELECT * FROM progress_note where progressnotedate between '${startDate}' and '${endDate}'`;
-    const countResult = await db.query(countQuery);
-    const totalRecords = await countResult.rows.length;
-    
-
-   const page = parseInt(req.query.page)
-   const limit = parseInt(req.query.limit)
-   const offset= (page-1) * limit
-
-    const totalPages = Math.ceil(totalRecords / limit);
-    
-
-    const hasPreviousPage = page > 1;
-    const hasNextPage = page < totalPages;
   
     
   const query = {text:`SELECT id, clientid,clientfirstname, clientlastname, progressnotedate,
@@ -123,23 +109,13 @@ benefitsassistance,
 employmentassistance,
 otherassistance
   FROM progress_note
-  order by progressnotedate desc
-  LIMIT $1 OFFSET $2`,
-  values:[limit, offset]}
-
-  //const query = {text:'select * from progress_note'}
+  where progressnotedate between '${startDate}' and '${endDate}'
+  order by progressnotedate desc`,values:[]}
 
   try {
     const allData = await db.query(query);
           const response = allData.rows;
-
-          const newData= {}
-          newData.data=response
-          newData.totalPages=totalPages
-          newData.page=page
-          newData.hasPreviousPage=hasPreviousPage
-          newData.hasNextPage=hasNextPage
-          res.send(newData);
+          res.send(response).status(200);
     
   } catch (error) {
     console.log("err",error)

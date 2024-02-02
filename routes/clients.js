@@ -4,7 +4,7 @@ const router = express.Router()
 const controller = require('../controllers/clientControllers')
 
 router.get("/",controller.getClients)
-router.get("/reports/getall/:starDate&:endDate",controller.getClientsForReports)
+router.get("/reports/getall/:startDate&:endDate",controller.getClientsForReports)
 router.get("/dashboard_page",controller.getClientsForDashboardPage)
 router.get("/services_page",controller.getClientsForServicesPage)
 router.get("/:clientid",controller.getClientById)

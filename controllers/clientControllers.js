@@ -67,6 +67,8 @@ module.exports = {
   },
   getClientsForReports: async (req, res) => {
     const {startDate,endDate} = req.params
+
+    console.log("startDate",req.params)
     try {
       const allData = await db.query(`select * from clients where clientdatecreated between '${startDate}' and '${endDate}'`);
       const response = allData.rows;
