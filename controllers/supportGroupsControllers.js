@@ -10,6 +10,16 @@ module.exports = {
       res.send("an error ocurred");
     }
   },
+  getAllSupportGroupsForReports: async (req, res) => {
+    const {startDate,endDate} = req.params
+    try {
+      const allData = await db.query(`select * from support_groups where supportmeetingdate between '${startDate}' and '${endDate}'`);
+      const response = allData.rows;
+      res.send(response);
+    } catch (e) {
+      res.send("an error ocurred");
+    }
+  },
   getSupportGroupById: async (req, res) => {
     let { id } = await req.params;
     console.log("sg id", id);

@@ -65,6 +65,16 @@ module.exports = {
       res.send("an error ocurred");
     }
   },
+  getClientsForReports: async (req, res) => {
+    const {startDate,endDate} = req.params
+    try {
+      const allData = await db.query(`select * from clients where clientdatecreated between '${startDate}' and '${endDate}'`);
+      const response = allData.rows;
+      res.send(response);
+    } catch (e) {
+      res.send("an error ocurred");
+    }
+  },
   getClientsForServicesPage: async (req, res) => {
     try {
       const allData = await db.query(`select clients.*, progress_note.progressnotedate  as progressnotedate,services_action_plan.planstartdate as sapstartdate 
