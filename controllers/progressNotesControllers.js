@@ -107,7 +107,8 @@ implementationactionplan,
 housingassistance,
 benefitsassistance,
 employmentassistance,
-otherassistance
+otherassistance,
+progressnotetext
   FROM progress_note
   where progressnotedate between '${startDate}' and '${endDate}'
   order by progressnotedate desc`,values:[]}
