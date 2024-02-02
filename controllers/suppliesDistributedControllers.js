@@ -19,7 +19,7 @@ module.exports= {
     }, 
     getAllForReports: async (req,res)=>{
       const {startDate,endDate} = req.params
-      const query = {text:`select id, date from supplies_distributed where date between '${startDate}' and '${endDate}' order by "date" desc` }
+      const query = {text:`select * from supplies_distributed where date between '${startDate}' and '${endDate}' order by "date" desc` }
 
       try {
         const allData = await db.query(query);
