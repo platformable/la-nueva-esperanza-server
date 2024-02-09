@@ -409,8 +409,7 @@ module.exports = {
         clientHCWLastname =$8,
         clientID =$9,
         clientHCWemail =$10,
-        clientCategory =$11,
-        id=$12
+        clientCategory =$11
         where id=$12`,
         values: [clientFirstName,
           clientLastName,
@@ -428,7 +427,7 @@ module.exports = {
         .query(query)
         .then((response) =>
           {
-            console.log("sucess")
+            console.log("sucess",response)
             res.send({
             status: 200,
             statusText:'OK'
