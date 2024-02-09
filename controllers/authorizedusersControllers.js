@@ -73,7 +73,7 @@ console.log("req.body authusers",req.body)
           db
             .query(query)
             .then(data => {
-                if(data.rowCount=1){
+                if(data.rowCount===1){
                     res.send({
                         status:"OK",
                         message:"User deleted"

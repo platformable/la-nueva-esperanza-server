@@ -2,6 +2,7 @@ const db = require("../dbConnect");
 
 module.exports = {
   getUsers: async (req, res) => {
+    console.log("users")
     try {
       const allData = await db.query("select * from users");
       const response = allData.rows;
@@ -36,7 +37,7 @@ module.exports = {
     // promise
     db.query(query)
       .then((data) => {
-   
+   console.log("delete user")
           res.send({
             status: "OK",
             message: "User deleted",
@@ -68,7 +69,8 @@ module.exports = {
     }
   },
   updateUser: async (req, res) => {
-    let { name,lastname,userrole,useremail,useractivestatus} = req.body;
+    let { name,lastname,userrole,useremail,useractivestatus,id} = req.body;
+    console.log("res.body",req.body)
 
  /*    if(useractivestatus==="true"){
       useractivestatus="Active"
@@ -79,8 +81,8 @@ module.exports = {
     try {
       const query = await {
         name: "update-user",
-        text: `update users set name=$1,lastname=$2,userrole=$3,useremail=$4 ,useractivestatus =$5 where useremail=$6`,
-        values: [name,lastname,userrole,useremail,useractivestatus,useremail],
+        text: `update users set name=$1,lastname=$2,userrole=$3,useremail=$4 ,useractivestatus =$5 where id=$6`,
+        values: [name,lastname,userrole,useremail,useractivestatus,id],
       };
       db
         .query(query)
@@ -90,7 +92,8 @@ module.exports = {
             status: 200,
           })
         )
-        .catch((e) => res.send(e.stack));
+        .catch((e) => {console.log("errror",e)
+          res.send(e.stack)});
     } catch (error) {
       res.json("an error ocurred");
       console.log("error message:", error);
