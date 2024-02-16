@@ -80,7 +80,7 @@ module.exports = {
 
     try {
       const query = await {
-        name: "update-user",
+   /*      name: "update-user", */
         text: `update users set name=$1,lastname=$2,userrole=$3,useremail=$4 ,useractivestatus =$5 where id=$6`,
         values: [name,lastname,userrole,useremail,useractivestatus,id],
       };
