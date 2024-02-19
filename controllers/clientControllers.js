@@ -152,7 +152,7 @@ module.exports = {
       full outer join msa_form on clients.clientid=msa_form.clientid 
       full outer join services_action_plan on clients.clientid = services_action_plan.clientid
       full outer join progress_note on clients.clientid = progress_note.clientid 
-      where clients.clientid=$1`,
+      where clients.clientid=$1 order by progress_note.progressnotedate desc`,
       values: [clientid],
     };
     try {
@@ -160,7 +160,7 @@ module.exports = {
       const allData = await db.query(query);
       const response = allData.rows;
       console.log("response", response);
-      res.send(response);
+      res.send(response[0]);
     } catch (e) {
       console.log("response");
     }
@@ -168,7 +168,9 @@ module.exports = {
 
   },
   getClientProfileDataByClientUniqueId: async (req,res)=>{
+
     let {clientid} = req.params
+    console.log("clientid",clientid)
 
     for (const property in req.body.clientData) {
       if(req.body.clientData[property]==='1'){
@@ -235,12 +237,14 @@ module.exports = {
       let newClient={}
       let progressnotes=[]
       let pn={}
+      pn.id=''
+   
 
  /*      console.log("response",response); */
       const createClient = (response)=>{
 
         response.forEach((client,index)=>{
-        newClient.clientid=client.clientid
+       /*  newClient.clientid=client.clientid
         newClient.id=client.id
         newClient.clientfirstname=client.clientfirstname
         newClient.clientlastname=client.clientlastname
@@ -267,9 +271,8 @@ module.exports = {
         newClient.planstartdate=client.planstartdate
         newClient.goal1summary =client.goal1summary?1:0 
       newClient.goal2summary =client.goal2summary ?1:0
-      newClient.goal3summary=client.goal3summary?1:0
+      newClient.goal3summary=client.goal3summary?1:0 */
         if(client.progress_note_id ===null || client.progress_note_id ===''){
-          
           progressnotes=[]
         } else {
           pn={id:client.progress_note_id,date:client.progressnotedate,
@@ -291,11 +294,10 @@ module.exports = {
             housingassistance:client.housingassistance,
             benefitsassistance:client.benefitsassistance,
             employmentassistance:client.employmentassistance
-          
           }
           progressnotes.push(pn)
         }
-        newClient.progressnotes=progressnotes
+       /*  newClient.progressnotes=progressnotes */
         })
 
       }
@@ -303,7 +305,7 @@ module.exports = {
       createClient(response)
 
       console.log("newClient",newClient);
-      res.send([newClient]);
+      res.send(progressnotes);
     } catch (e) {
       console.log("response error",e);
     }
