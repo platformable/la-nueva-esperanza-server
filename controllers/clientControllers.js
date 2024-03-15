@@ -65,6 +65,19 @@ module.exports = {
       res.send("an error ocurred");
     }
   },
+  getClientsWithMSA: async (req, res) => {
+    try {
+      const allData = await db.query(`clients.*,
+      msa_form.clientid as msaClientId, 
+	  msa_form.dateformreviewed as msaformdate
+      from clients 
+      join msa_form on clients.clientid=msa_form.clientid`);
+      const response = allData.rows;
+      res.send(response);
+    } catch (e) {
+      res.send("an error ocurred");
+    }
+  },
   getClientsForReports: async (req, res) => {
     const {startDate,endDate} = req.params
 
@@ -199,6 +212,7 @@ module.exports = {
       msa_form.clientid as msaClientId, 
       msa_form.id as msaFormID,
       msa_form.airsintakeform as msaFormAIRSINTAKEFORM,
+      msa_form.dateformreviewed as msaformdate,
       msa_form.comprehensiveriskbehaviorassessment as msaformcomprehensiveriskbehavrioassesment,
       msa_form.hnseligibilityform as msahnselegibilityform,
       msa_form.hnsreadinessform as msaformhnsreadinessform,
@@ -467,7 +481,91 @@ module.exports = {
   updateTest:async (req,res)=>{
     console.log("test de updatetest")
     const a = await connectDropbox()
-  }
+  },
+  monitorFundingSap: async (req, res) => {
+    try {
+      const allData = await db.query(`SELECT DISTINCT clients.*,
+      services_action_plan.planstartdate,
+      services_action_plan.id AS sapid,
+      services_action_plan.goal1completed,
+      services_action_plan.goal2completed,
+      services_action_plan.goal3completed
+FROM clients
+JOIN (
+ SELECT services_action_plan.*,
+        ROW_NUMBER() OVER (PARTITION BY clientid ORDER BY planstartdate DESC) AS row_num
+ FROM services_action_plan
+) AS services_action_plan
+ON services_action_plan.clientid = clients.clientid
+WHERE clients.clientactive = '1'
+AND services_action_plan.row_num = 1
+ORDER BY clients.id ASC;`);
+
+      const data = await allData.rows;
+      res.send({ data: data, statusText: "OK" });
+    } catch (e) {
+      console.log(e);
+      res.send("an error ocurred");
+    }
+  },
+  profileSap: async (req, res) => {
+    let {clientid} = req.params
+
+    const query ={
+      text:`SELECT DISTINCT clients.*,
+      services_action_plan.planstartdate,
+      services_action_plan.id AS sapid,
+      services_action_plan.goal1completed,
+      services_action_plan.goal2completed,
+      services_action_plan.goal3completed
+FROM clients
+JOIN (
+ SELECT services_action_plan.*,
+        ROW_NUMBER() OVER (PARTITION BY clientid ORDER BY planstartdate DESC) AS row_num
+ FROM services_action_plan
+) AS services_action_plan
+ON services_action_plan.clientid = clients.clientid
+WHERE clients.clientactive = '1' and clients.clientid =$1
+AND services_action_plan.row_num = 1
+ORDER BY clients.id ASC;`,
+values: [clientid],
+    }
+    try {
+      const allData = await db.query(query);
+
+      const data = await allData.rows;
+      res.send(data);
+    } catch (e) {
+      console.log(e);
+      res.send("an error ocurred");
+    }
+  },
+  profileProgressNotes: async (req, res) => {
+    let {clientid} = req.params
+    const query = {
+      text:`SELECT DISTINCT clients.*, progress_note.id as progressnote_id, progress_note.progressnotedate 
+      FROM clients
+      JOIN (
+        SELECT progress_note.*,
+               ROW_NUMBER() OVER (PARTITION BY clientid ORDER BY progressnotedate DESC) AS row_num
+        FROM progress_note
+      ) AS progress_note
+      ON progress_note.clientid = clients.clientid
+      WHERE clients.clientactive = '1' and clients.clientid =$1
+      AND progress_note.row_num = 1
+      ORDER BY clients.id ASC;`,
+values: [clientid],
+    }
+    try {
+      const allData = await db.query(query);
+
+      const data = await allData.rows;
+      res.send(data);
+    } catch (e) {
+      console.log(e);
+      res.send("an error ocurred");
+    }
+  },
 };
 
 
