@@ -67,7 +67,7 @@ module.exports = {
   },
   getClientsWithMSA: async (req, res) => {
     try {
-      const allData = await db.query(`clients.*,
+      const allData = await db.query(`select clients.*,
       msa_form.clientid as msaClientId, 
 	  msa_form.dateformreviewed as msaformdate
       from clients 

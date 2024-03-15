@@ -104,7 +104,7 @@ AND services_action_plan.row_num = 1
 ORDER BY clients.id ASC;`);
 
       const data = await allData.rows;
-      res.send({ data: data, statusText: "OK" });
+      data.length===0 ? res.send([]) : res.send(data);
     } catch (e) {
       console.log(e);
       res.send("an error ocurred");
@@ -123,6 +123,20 @@ ORDER BY clients.id ASC;`);
       WHERE clients.clientactive = '1' 
       AND progress_note.row_num = 1
       ORDER BY clients.id ASC;`);
+
+      const data = await allData.rows;
+      data.length===0 ? res.send([]) : res.send(data);
+      
+    } catch (e) {
+      console.log(e);
+      res.send("an error ocurred");
+    }
+  },
+  monitorFundingClientsSaps: async (req, res) => {
+    try {
+      const allData = await db.query(`select clients.*,
+      sap.planstartdate from clients
+      join services_action_plan sap on sap.clientid = clients.clientid `);
 
       const data = await allData.rows;
       data.length===0 ? res.send([]) : res.send(data);
