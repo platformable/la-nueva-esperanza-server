@@ -134,12 +134,34 @@ ORDER BY clients.id ASC;`);
   },
   monitorFundingClientsSaps: async (req, res) => {
     try {
-      const allData = await db.query(`select clients.*,
-      sap.planstartdate from clients
+      const allData = await db.query(`select clients.id,clients.clientid,clients.clientfirstname,clients.clientlastname,
+      clients.clientactive,clients.clientdatecreated,
+      sap.planstartdate,sap.id as sapid,sap.goal1completed,sap.goal2completed from clients
       join services_action_plan sap on sap.clientid = clients.clientid `);
 
       const data = await allData.rows;
-      data.length===0 ? res.send([]) : res.send(data);
+
+      const uniqueClients = data.reduce((acc, current) => {
+        const existingClient = acc.find(client => client.id === current.id);
+        if (!existingClient) {
+          acc.push({
+            ...current,
+            saps: [{sapid:current.sapid,planstartdate:current.planstartdate,
+              goal1Completed:current.goal1completed,
+              goal2Completed:current.goal2completed}],
+          });
+        } else {
+          existingClient.saps.push({sapid:current.sapid,
+            planstartdate:current.planstartdate,
+            goal1Completed:current.goal1completed,
+            goal2Completed:current.goal2completed
+          });
+        }
+        return acc;
+      }, []);
+      
+
+      data.length===0 ? res.send([]) : res.send(uniqueClients);
       
     } catch (e) {
       console.log(e);
