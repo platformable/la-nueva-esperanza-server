@@ -12,6 +12,7 @@ router.get("/:clientid",controller.getClientById)
 router.get("/:clientid/profile",controller.getClientProfileData)
 router.get("/:clientid/profile/services_actions",controller.profileSap)
 router.get("/:clientid/profile/progress_notes",controller.profileProgressNotes)
+router.get("/:clientid/profile/sap_goals",controller.getClientProfileGoals)
 router.get("/profile_by_uniqueid/:clientid",controller.getClientProfileDataByClientUniqueId)
 
 

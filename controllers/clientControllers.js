@@ -117,6 +117,7 @@ module.exports = {
   },
   getClientProfileData: async (req,res)=>{
     let {clientid} = req.params
+    console.log("client profile")
 
     for (const property in req.body.clientData) {
       if(req.body.clientData[property]==='1'){
@@ -179,6 +180,90 @@ module.exports = {
     }
 
 
+  },
+  getClientProfileGoals: async (req,res)=>{
+    let {clientid} = req.params
+
+console.log("getClientProfileGoals",clientid)
+for (const property in req.body.clientData) {
+  if(req.body.clientData[property]==='1'){
+    req.body.clientData[property]=true
+  }
+  if(req.body.clientData[property]==='0'){
+    req.body.clientData[property]=false
+  }
+  if(req.body.clientData[property]===""){
+    req.body.clientData[property]=null
+  }
+} 
+      const query = {
+     /*  text: `select clients.id,clients.clientid,clients.clientfirstname,clients.clientlastname,
+      clients.clientactive,clients.clientdatecreated, sap.planstartdate,sap.id as sapid,sap.goal1completed,sap.goal2completed from clients
+      join services_action_plan sap on sap.clientid = clients.clientid where clients.clientid = $1`, */
+      text:`SELECT
+      c.id,
+      c.clientid,
+      c.clientfirstname,
+      c.clientlastname,
+      c.clientactive,
+      c.clientdatecreated,
+      s.planstartdate,
+      s.id AS sapid,
+      s.goal1completed,
+      s.goal2completed
+    FROM clients c
+    INNER JOIN (
+      SELECT clientid, MAX(planstartdate) AS latest_planstartdate
+      FROM services_action_plan
+      GROUP BY clientid
+    ) AS latest_sap ON latest_sap.clientid = c.clientid
+    INNER JOIN services_action_plan s ON s.clientid = c.clientid
+      AND s.planstartdate = latest_sap.latest_planstartdate
+    WHERE c.clientid = $1 limit 1`,
+      values:[clientid]
+    };
+    try {
+      const allData = await db.query(query);
+      const response = allData.rows;
+
+// a formula to get all the goals per client inside an array as property
+/*       const uniqueClients = response.reduce((acc, current) => {
+        const existingClient = acc.find(client => client.id === current.id);
+        if (!existingClient) {
+          acc.push({
+            ...current,
+            saps: [{sapid:current.sapid,planstartdate:current.planstartdate,
+              goal1Completed:current.goal1completed,
+              goal2Completed:current.goal2completed}],
+          });
+        } else {
+          existingClient.saps.push({sapid:current.sapid,
+            planstartdate:current.planstartdate,
+            goal1Completed:current.goal1completed,
+            goal2Completed:current.goal2completed
+          });
+        }
+        return acc;
+      }, []); */
+      let totalGoals = {
+        totalGoalsCompleted:0,
+        totalGoalsNotCompleted:0
+      }
+
+      totalGoals.totalGoalsCompleted+=response[0]?.goal1completed==="1" ? 1 : 0
+      totalGoals.totalGoalsCompleted+=response[0]?.goal2completed==="1" ? 1 : 0
+      totalGoals.totalGoalsNotCompleted+=response[0]?.totalGoalsNotCompleted==="1" ? 0 : 1
+      totalGoals.totalGoalsNotCompleted+=response[0]?.goal2completed==="1" ? 0 : 1
+      /* const countGoals = uniqueClients[0].saps.forEach(client=>{
+        totalGoals+=client.goal1Completed==="1" ? 1 : 0
+        totalGoals+=client.goal2Completed==="1" ? 1 :0
+      }) */
+
+      console.log("response",response)
+      res.send([totalGoals]);
+    } catch (e) {
+      console.log(e);
+    }
   },
   getClientProfileDataByClientUniqueId: async (req,res)=>{
 
