@@ -112,7 +112,7 @@ ORDER BY clients.id ASC;`);
   },
   monitorFundingProgressNotes: async (req, res) => {
     try {
-      const allData = await db.query(`SELECT DISTINCT clients.*, progress_note.id as progressnote_id, progress_note.progressnotedate 
+     /*  const allData = await db.query(`SELECT DISTINCT clients.*, progress_note.id as progressnote_id, progress_note.progressnotedate 
       FROM clients
       JOIN (
         SELECT progress_note.*,
@@ -122,11 +122,58 @@ ORDER BY clients.id ASC;`);
       ON progress_note.clientid = clients.clientid
       WHERE clients.clientactive = '1' 
       AND progress_note.row_num = 1
-      ORDER BY clients.id ASC;`);
+      ORDER BY clients.id ASC;`); */
 
-      const data = await allData.rows;
-      data.length===0 ? res.send([]) : res.send(data);
+
+/*       const allData = await db.query(`SELECT clients.id,
+      clients.clientid,
+      clients.clientfirstname,
+      clients.clientlastname,
+      clients.clientactive,
+      clients.clientdatecreated, progress_note.id as progressnote_id, progress_note.progressnotedate
+    FROM clients
+    JOIN progress_note
+    ON progress_note.clientid = clients.clientid
+    WHERE clients.clientactive = '1'
+    GROUP BY clients.id, progress_note.id, progress_note.progressnotedate; 
       
+      `) */
+
+      const allData = await db.query(`SELECT clients.id,
+      clients.clientid,
+      clients.clientfirstname,
+      clients.clientlastname,
+      clients.clientactive,
+      clients.clientdatecreated,
+      progress_note.id AS progressnote_id,
+      progress_note.progressnotedate
+FROM clients
+JOIN (
+   SELECT *,
+          ROW_NUMBER() OVER (PARTITION BY clientid ORDER BY progressnotedate DESC) AS rn
+   FROM progress_note
+) AS progress_note
+ON progress_note.clientid = clients.clientid
+WHERE progress_note.rn <= 2
+AND clients.clientactive = '1';`)
+      const data = await allData.rows;
+      
+
+      const uniqueClients = data.reduce((acc, current) => {
+        const existingClient = acc.find(client => client.id === current.id);
+        if (!existingClient) {
+          acc.push({
+            ...current,
+            pn: [{pn:current.progressnote_id,progressnotedate:current.progressnotedate}],
+          });
+        } else {
+          existingClient.pn.push({pn:current.progressnote_id,
+            progressnotedate:current.progressnotedate
+          });
+        }
+        return acc;
+      }, []);
+      data.length===0 ? res.send([]) : res.send(uniqueClients);
     } catch (e) {
       console.log(e);
       res.send("an error ocurred");
@@ -134,10 +181,29 @@ ORDER BY clients.id ASC;`);
   },
   monitorFundingClientsSaps: async (req, res) => {
     try {
-      const allData = await db.query(`select clients.id,clients.clientid,clients.clientfirstname,clients.clientlastname,
+      /* const allData = await db.query(`select clients.id,clients.clientid,clients.clientfirstname,clients.clientlastname,
       clients.clientactive,clients.clientdatecreated,
       sap.planstartdate,sap.id as sapid,sap.goal1completed,sap.goal2completed from clients
-      join services_action_plan sap on sap.clientid = clients.clientid `);
+      join services_action_plan sap on sap.clientid = clients.clientid `); */
+
+      const allData = await db.query(`
+      SELECT clients.id,
+       clients.clientid,
+       clients.clientfirstname,
+       clients.clientlastname,
+       clients.clientactive,
+       clients.clientdatecreated,
+       sap.id AS sapid,
+       sap.planstartdate
+FROM clients
+JOIN (
+    SELECT *,
+           ROW_NUMBER() OVER (PARTITION BY clientid ORDER BY planstartdate DESC) AS rn
+    FROM services_action_plan sap 
+) AS sap
+ON sap.clientid = clients.clientid
+WHERE sap.rn <= 2
+AND clients.clientactive = '1';`)
 
       const data = await allData.rows;
 
