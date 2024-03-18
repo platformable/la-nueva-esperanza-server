@@ -194,7 +194,8 @@ AND clients.clientactive = '1';`)
        clients.clientactive,
        clients.clientdatecreated,
        sap.id AS sapid,
-       sap.planstartdate
+       sap.planstartdate,
+       sap.goal1completed,sap.goal2completed 
 FROM clients
 JOIN (
     SELECT *,
