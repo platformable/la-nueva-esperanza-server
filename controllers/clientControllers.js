@@ -246,20 +246,18 @@ for (const property in req.body.clientData) {
         return acc;
       }, []); */
       let totalGoals = {
+        totalClientGoalsSummaries:0,
         totalGoalsCompleted:0,
         totalGoalsNotCompleted:0
       }
-
+      
+      totalGoals.totalClientGoalsSummaries+=response[0]?.goal1summary !=="" ? 1 : 0
+      totalGoals.totalClientGoalsSummaries+=response[0]?.goal2summary !=="" ? 1 : 0      
+      /* totalGoals.goal2summary+=response[0]?.goal2summary !=="" ? 1 : 0 */
       totalGoals.totalGoalsCompleted+=response[0]?.goal1completed==="1" ? 1 : 0
       totalGoals.totalGoalsCompleted+=response[0]?.goal2completed==="1" ? 1 : 0
-      totalGoals.totalGoalsNotCompleted+=response[0]?.totalGoalsNotCompleted==="1" ? 0 : 1
-      totalGoals.totalGoalsNotCompleted+=response[0]?.goal2completed==="1" ? 0 : 1
-      /* const countGoals = uniqueClients[0].saps.forEach(client=>{
-        totalGoals+=client.goal1Completed==="1" ? 1 : 0
-        totalGoals+=client.goal2Completed==="1" ? 1 :0
-      }) */
-
-      console.log("response",response)
+      totalGoals.totalGoalsNotCompleted+=response[0]?.goal1completed==="0" || response[0]?.goal1completed=== null ? 1 : 0
+      totalGoals.totalGoalsNotCompleted+=response[0]?.goal2completed==="0" || response[0]?.goal2completed=== null ? 1 : 0
       res.send([totalGoals]);
     } catch (e) {
       console.log(e);
