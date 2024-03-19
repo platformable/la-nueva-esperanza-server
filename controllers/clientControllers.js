@@ -185,7 +185,7 @@ module.exports = {
     let {clientid} = req.params
 
 console.log("getClientProfileGoals",clientid)
-for (const property in req.body.clientData) {
+/* for (const property in req.body.clientData) {
   if(req.body.clientData[property]==='1'){
     req.body.clientData[property]=true
   }
@@ -195,7 +195,7 @@ for (const property in req.body.clientData) {
   if(req.body.clientData[property]===""){
     req.body.clientData[property]=null
   }
-} 
+}  */
       const query = {
      /*  text: `select clients.id,clients.clientid,clients.clientfirstname,clients.clientlastname,
       clients.clientactive,clients.clientdatecreated, sap.planstartdate,sap.id as sapid,sap.goal1completed,sap.goal2completed from clients
@@ -210,7 +210,9 @@ for (const property in req.body.clientData) {
       s.planstartdate,
       s.id AS sapid,
       s.goal1completed,
-      s.goal2completed
+      s.goal2completed,
+      s.goal1summary,
+      s.goal2summary
     FROM clients c
     INNER JOIN (
       SELECT clientid, MAX(planstartdate) AS latest_planstartdate
@@ -225,6 +227,8 @@ for (const property in req.body.clientData) {
     try {
       const allData = await db.query(query);
       const response = allData.rows;
+
+      console.log("response",response)
 
 // a formula to get all the goals per client inside an array as property
 /*       const uniqueClients = response.reduce((acc, current) => {
@@ -251,8 +255,8 @@ for (const property in req.body.clientData) {
         totalGoalsNotCompleted:0
       }
       
-      totalGoals.totalClientGoalsSummaries+=response[0]?.goal1summary !=="" ? 1 : 0
-      totalGoals.totalClientGoalsSummaries+=response[0]?.goal2summary !=="" ? 1 : 0      
+      totalGoals.totalClientGoalsSummaries+=response[0]?.goal1summary !==""  && response[0].goal1summary !==null   ? 1 : 0
+      totalGoals.totalClientGoalsSummaries+=response[0]?.goal2summary !=="" && response[0].goal2summary !==null ? 1 : 0      
       /* totalGoals.goal2summary+=response[0]?.goal2summary !=="" ? 1 : 0 */
       totalGoals.totalGoalsCompleted+=response[0]?.goal1completed==="1" ? 1 : 0
       totalGoals.totalGoalsCompleted+=response[0]?.goal2completed==="1" ? 1 : 0
