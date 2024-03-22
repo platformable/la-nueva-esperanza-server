@@ -254,9 +254,10 @@ console.log("getClientProfileGoals",clientid)
         totalGoalsCompleted:0,
         totalGoalsNotCompleted:0
       }
-      
-      totalGoals.totalClientGoalsSummaries+=response[0]?.goal1summary !==""  && response[0].goal1summary !==null   ? 1 : 0
-      totalGoals.totalClientGoalsSummaries+=response[0]?.goal2summary !=="" && response[0].goal2summary !==null ? 1 : 0      
+     /*  console.log("response[0]S1", response[0].goal1summary)
+      console.log("response[0]S2", response[0].goal2summary) */
+      totalGoals.totalClientGoalsSummaries+=response[0]?.goal1summary ===""  || response[0]?.goal1summary ===null || !response[0]?.goal1summary    ? 0 : 1
+      totalGoals.totalClientGoalsSummaries+=response[0]?.goal2summary ==="" || response[0]?.goal2summary ===null || !response[0]?.goal2summary  ? 0 : 1      
       /* totalGoals.goal2summary+=response[0]?.goal2summary !=="" ? 1 : 0 */
       totalGoals.totalGoalsCompleted+=response[0]?.goal1completed==="1" ? 1 : 0
       totalGoals.totalGoalsCompleted+=response[0]?.goal2completed==="1" ? 1 : 0
