@@ -65,6 +65,19 @@ module.exports = {
       res.send("an error ocurred");
     }
   },
+  getClientsWithMSA: async (req, res) => {
+    try {
+      const allData = await db.query(`select clients.*,
+      msa_form.clientid as msaClientId, 
+	  msa_form.dateformreviewed as msaformdate
+      from clients 
+      join msa_form on clients.clientid=msa_form.clientid`);
+      const response = allData.rows;
+      res.send(response);
+    } catch (e) {
+      res.send("an error ocurred");
+    }
+  },
   getClientsForReports: async (req, res) => {
     const {startDate,endDate} = req.params
 
@@ -104,6 +117,7 @@ module.exports = {
   },
   getClientProfileData: async (req,res)=>{
     let {clientid} = req.params
+    console.log("client profile")
 
     for (const property in req.body.clientData) {
       if(req.body.clientData[property]==='1'){
@@ -167,6 +181,93 @@ module.exports = {
 
 
   },
+  getClientProfileGoals: async (req,res)=>{
+    let {clientid} = req.params
+
+console.log("getClientProfileGoals",clientid)
+/* for (const property in req.body.clientData) {
+  if(req.body.clientData[property]==='1'){
+    req.body.clientData[property]=true
+  }
+  if(req.body.clientData[property]==='0'){
+    req.body.clientData[property]=false
+  }
+  if(req.body.clientData[property]===""){
+    req.body.clientData[property]=null
+  }
+}  */
+      const query = {
+     /*  text: `select clients.id,clients.clientid,clients.clientfirstname,clients.clientlastname,
+      clients.clientactive,clients.clientdatecreated, sap.planstartdate,sap.id as sapid,sap.goal1completed,sap.goal2completed from clients
+      join services_action_plan sap on sap.clientid = clients.clientid where clients.clientid = $1`, */
+      text:`SELECT
+      c.id,
+      c.clientid,
+      c.clientfirstname,
+      c.clientlastname,
+      c.clientactive,
+      c.clientdatecreated,
+      s.planstartdate,
+      s.id AS sapid,
+      s.goal1completed,
+      s.goal2completed,
+      s.goal1summary,
+      s.goal2summary
+    FROM clients c
+    INNER JOIN (
+      SELECT clientid, MAX(planstartdate) AS latest_planstartdate
+      FROM services_action_plan
+      GROUP BY clientid
+    ) AS latest_sap ON latest_sap.clientid = c.clientid
+    INNER JOIN services_action_plan s ON s.clientid = c.clientid
+      AND s.planstartdate = latest_sap.latest_planstartdate
+    WHERE c.clientid = $1 limit 1`,
+      values:[clientid]
+    };
+    try {
+      const allData = await db.query(query);
+      const response = allData.rows;
+
+      console.log("response",response)
+
+// a formula to get all the goals per client inside an array as property
+/*       const uniqueClients = response.reduce((acc, current) => {
+        const existingClient = acc.find(client => client.id === current.id);
+        if (!existingClient) {
+          acc.push({
+            ...current,
+            saps: [{sapid:current.sapid,planstartdate:current.planstartdate,
+              goal1Completed:current.goal1completed,
+              goal2Completed:current.goal2completed}],
+          });
+        } else {
+          existingClient.saps.push({sapid:current.sapid,
+            planstartdate:current.planstartdate,
+            goal1Completed:current.goal1completed,
+            goal2Completed:current.goal2completed
+          });
+        }
+        return acc;
+      }, []); */
+      let totalGoals = {
+        totalClientGoalsSummaries:0,
+        totalGoalsCompleted:0,
+        totalGoalsNotCompleted:0
+      }
+     /*  console.log("response[0]S1", response[0].goal1summary)
+      console.log("response[0]S2", response[0].goal2summary) */
+      totalGoals.totalClientGoalsSummaries+=response[0]?.goal1summary ===""  || response[0]?.goal1summary ===null || !response[0]?.goal1summary    ? 0 : 1
+      totalGoals.totalClientGoalsSummaries+=response[0]?.goal2summary ==="" || response[0]?.goal2summary ===null || !response[0]?.goal2summary  ? 0 : 1      
+      /* totalGoals.goal2summary+=response[0]?.goal2summary !=="" ? 1 : 0 */
+      totalGoals.totalGoalsCompleted+=response[0]?.goal1completed==="1" ? 1 : 0
+      totalGoals.totalGoalsCompleted+=response[0]?.goal2completed==="1" ? 1 : 0
+      totalGoals.totalGoalsNotCompleted+=response[0]?.goal1completed==="0" || response[0]?.goal1completed=== null ? 1 : 0
+      totalGoals.totalGoalsNotCompleted+=response[0]?.goal2completed==="0" || response[0]?.goal2completed=== null ? 1 : 0
+      res.send([totalGoals]);
+    } catch (e) {
+      console.log(e);
+    }
+  },
   getClientProfileDataByClientUniqueId: async (req,res)=>{
 
     let {clientid} = req.params
@@ -199,6 +300,7 @@ module.exports = {
       msa_form.clientid as msaClientId, 
       msa_form.id as msaFormID,
       msa_form.airsintakeform as msaFormAIRSINTAKEFORM,
+      msa_form.dateformreviewed as msaformdate,
       msa_form.comprehensiveriskbehaviorassessment as msaformcomprehensiveriskbehavrioassesment,
       msa_form.hnseligibilityform as msahnselegibilityform,
       msa_form.hnsreadinessform as msaformhnsreadinessform,
@@ -467,7 +569,91 @@ module.exports = {
   updateTest:async (req,res)=>{
     console.log("test de updatetest")
     const a = await connectDropbox()
-  }
+  },
+  monitorFundingSap: async (req, res) => {
+    try {
+      const allData = await db.query(`SELECT DISTINCT clients.*,
+      services_action_plan.planstartdate,
+      services_action_plan.id AS sapid,
+      services_action_plan.goal1completed,
+      services_action_plan.goal2completed,
+      services_action_plan.goal3completed
+FROM clients
+JOIN (
+ SELECT services_action_plan.*,
+        ROW_NUMBER() OVER (PARTITION BY clientid ORDER BY planstartdate DESC) AS row_num
+ FROM services_action_plan
+) AS services_action_plan
+ON services_action_plan.clientid = clients.clientid
+WHERE clients.clientactive = '1'
+AND services_action_plan.row_num = 1
+ORDER BY clients.id ASC;`);
+
+      const data = await allData.rows;
+      res.send({ data: data, statusText: "OK" });
+    } catch (e) {
+      console.log(e);
+      res.send("an error ocurred");
+    }
+  },
+  profileSap: async (req, res) => {
+    let {clientid} = req.params
+
+    const query ={
+      text:`SELECT DISTINCT clients.*,
+      services_action_plan.planstartdate,
+      services_action_plan.id AS sapid,
+      services_action_plan.goal1completed,
+      services_action_plan.goal2completed,
+      services_action_plan.goal3completed
+FROM clients
+JOIN (
+ SELECT services_action_plan.*,
+        ROW_NUMBER() OVER (PARTITION BY clientid ORDER BY planstartdate DESC) AS row_num
+ FROM services_action_plan
+) AS services_action_plan
+ON services_action_plan.clientid = clients.clientid
+WHERE clients.clientactive = '1' and clients.clientid =$1
+AND services_action_plan.row_num = 1
+ORDER BY clients.id ASC;`,
+values: [clientid],
+    }
+    try {
+      const allData = await db.query(query);
+
+      const data = await allData.rows;
+      res.send(data);
+    } catch (e) {
+      console.log(e);
+      res.send("an error ocurred");
+    }
+  },
+  profileProgressNotes: async (req, res) => {
+    let {clientid} = req.params
+    const query = {
+      text:`SELECT DISTINCT clients.*, progress_note.id as progressnote_id, progress_note.progressnotedate 
+      FROM clients
+      JOIN (
+        SELECT progress_note.*,
+               ROW_NUMBER() OVER (PARTITION BY clientid ORDER BY progressnotedate DESC) AS row_num
+        FROM progress_note
+      ) AS progress_note
+      ON progress_note.clientid = clients.clientid
+      WHERE clients.clientactive = '1' and clients.clientid =$1
+      AND progress_note.row_num = 1
+      ORDER BY clients.id ASC;`,
+values: [clientid],
+    }
+    try {
+      const allData = await db.query(query);
+
+      const data = await allData.rows;
+      res.send(data);
+    } catch (e) {
+      console.log(e);
+      res.send("an error ocurred");
+    }
+  },
 };
 
 
