@@ -1553,7 +1553,7 @@ where clientUniqueId=$81`,
     }
   },
   updateSupervisorMsaForm: async (req, res) => {
-
+console.log("update sup msa", req.body)
    
        for (const property in req.body.clientData) {
          if(req.body.clientData[property]===true){
