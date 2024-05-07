@@ -1553,7 +1553,7 @@ where clientUniqueId=$81`,
     }
   },
   updateSupervisorMsaForm: async (req, res) => {
-
+console.log("update sup msa", req.body)
    
        for (const property in req.body.clientData) {
          if(req.body.clientData[property]===true){
@@ -1639,7 +1639,7 @@ StatusChangesFormReviewed,
 StatusChangesFormIssues, 
 StatusChangesFormUploadDate, 
 ComprehensiveRiskBehaviorAssessmentUpdatesReviewed,
-ComprehensiveRiskBehaviorAssessmentUpdatesFormIssues,
+ComprehensiveRiskBehaviorAssessmentUpdatesIssues,
 ComprehensiveRiskBehaviorAssessmentUpdatesUploadDate, 
 M11QFormReviewed,
 M11QFormIssues,
@@ -1769,7 +1769,7 @@ clientUniqueId
        StatusChangesFormIssues=$69, 
        StatusChangesFormUploadDate=$70, 
        ComprehensiveRiskBehaviorAssessmentUpdatesReviewed=$71,
-       comprehensiveriskbehaviorassessmentupdatesissues=$72,
+       ComprehensiveRiskBehaviorAssessmentUpdatesIssues=$72,
        ComprehensiveRiskBehaviorAssessmentUpdatesUploadDate=$73, 
        M11QFormReviewed=$74,
        M11QFormIssues=$75,
@@ -1883,7 +1883,7 @@ clientUniqueId
        StatusChangesFormIssues, 
        StatusChangesFormUploadDate, 
        ComprehensiveRiskBehaviorAssessmentUpdatesReviewed,
-       ComprehensiveRiskBehaviorAssessmentUpdatesFormIssues,
+       ComprehensiveRiskBehaviorAssessmentUpdatesIssues,
        ComprehensiveRiskBehaviorAssessmentUpdatesUploadDate, 
        M11QFormReviewed,
        M11QFormIssues,
@@ -1937,8 +1937,8 @@ clientUniqueId
            )
 
        } catch (error) {
-        console.log(e.stack)
-        res.send({message:e.stack,statusText:'FAIL'})
+        console.log(error.stack)
+        res.send({message:error.stack,statusText:'FAIL'})
          
        }
      },
