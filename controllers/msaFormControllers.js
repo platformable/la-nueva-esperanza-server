@@ -158,7 +158,15 @@ SupportGroups,
 SupportGroupsDate ,
 IDGForm ,
 IDGFormDate,
-clientUniqueId
+clientUniqueId,
+SocialDeterminatsOfHealthAssesment,
+ChlamydiaLaboratoryPsychologicalTestsInformation,
+SyphilisLaboratoryPsychologicalTestsInformation,
+GonorrheaLaboratoryPsychologicalTestsInformation,
+SocialDeterminatsOfHealthAssesmentDate,
+            ChlamydiaLaboratoryPsychologicalTestsInformationDate,
+            SyphilisLaboratoryPsychologicalTestsInformationDate,
+            GonorrheaLaboratoryPsychologicalTestsInformationDate
  
     } = req.body.clientData;
 
@@ -253,13 +261,21 @@ SupportGroups,
 SupportGroupsDate ,
 IDGForm ,
 IDGFormDate,
-clientUniqueId 
+clientUniqueId,
+SocialDeterminatsOfHealthAssesment,
+ChlamydiaLaboratoryPsychologicalTestsInformation,
+SyphilisLaboratoryPsychologicalTestsInformation,
+GonorrheaLaboratoryPsychologicalTestsInformation,
+SocialDeterminatsOfHealthAssesmentDate,
+            ChlamydiaLaboratoryPsychologicalTestsInformationDate,
+            SyphilisLaboratoryPsychologicalTestsInformationDate,
+            GonorrheaLaboratoryPsychologicalTestsInformationDate
 ) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,
             $21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,$35,$36,$37,$38,$39,$40,
             $41,$42,$43,$44,$45,$46,$47,$48,$49,
             $50,$51,$52,$53,$54,$55,$56,$57 ,$58,$59,
             $60,$61,$62,$63,$64,$65,$66,$67,$68,$69,$70,$71,$72,$73,$74,$75,$76,$77,$78,$79,
-            $80,$81,$82) 
+            $80,$81,$82,$83,$84,$85,$86,$87,$88,$89,$90) 
             RETURNING *`,
           values:[
             dateFormReviewed,
@@ -343,7 +359,16 @@ clientUniqueId
             SupportGroupsDate ,
             IDGForm ,
             IDGFormDate,
-            clientUniqueId ]
+            clientUniqueId,
+            SocialDeterminatsOfHealthAssesment,
+            ChlamydiaLaboratoryPsychologicalTestsInformation,
+            SyphilisLaboratoryPsychologicalTestsInformation,
+            GonorrheaLaboratoryPsychologicalTestsInformation,
+            SocialDeterminatsOfHealthAssesmentDate,
+            ChlamydiaLaboratoryPsychologicalTestsInformationDate,
+            SyphilisLaboratoryPsychologicalTestsInformationDate,
+            GonorrheaLaboratoryPsychologicalTestsInformationDate
+           ]
 
       }
 
@@ -482,7 +507,15 @@ SupportGroups,
 SupportGroupsDate ,
 IDGForm ,
 IDGFormDate ,
-clientUniqueId
+clientUniqueId,
+SocialDeterminatsOfHealthAssesment,
+ChlamydiaLaboratoryPsychologicalTestsInformation,
+SyphilisLaboratoryPsychologicalTestsInformation,
+GonorrheaLaboratoryPsychologicalTestsInformation,
+SocialDeterminatsOfHealthAssesmentDate,
+ChlamydiaLaboratoryPsychologicalTestsInformationDate,
+SyphilisLaboratoryPsychologicalTestsInformationDate,
+GonorrheaLaboratoryPsychologicalTestsInformationDate
     } = req.body.clientData;
 
     try {
@@ -568,8 +601,16 @@ HNSReadinessFormDate=$76,
 SupportGroups=$77,
 SupportGroupsDate=$78,
 IDGForm=$79,
-IDGFormDate=$80
-where clientUniqueId=$81`,
+IDGFormDate=$80,
+SocialDeterminatsOfHealthAssesment=$81,
+ChlamydiaLaboratoryPsychologicalTestsInformation=$82,
+SyphilisLaboratoryPsychologicalTestsInformation=$83,
+GonorrheaLaboratoryPsychologicalTestsInformation=$84,
+SocialDeterminatsOfHealthAssesmentDate=$85,
+ChlamydiaLaboratoryPsychologicalTestsInformationDate=$86,
+SyphilisLaboratoryPsychologicalTestsInformationDate=$87,
+GonorrheaLaboratoryPsychologicalTestsInformationDate=$88
+where clientUniqueId=$89`,
         values: [
           dateFormReviewed,
           clientFirstName,
@@ -651,7 +692,15 @@ where clientUniqueId=$81`,
           SupportGroupsDate ,
           IDGForm ,
           IDGFormDate ,
-          clientUniqueId
+          SocialDeterminatsOfHealthAssesment,
+ChlamydiaLaboratoryPsychologicalTestsInformation,
+SyphilisLaboratoryPsychologicalTestsInformation,
+GonorrheaLaboratoryPsychologicalTestsInformation,
+SocialDeterminatsOfHealthAssesmentDate,
+ChlamydiaLaboratoryPsychologicalTestsInformationDate,
+SyphilisLaboratoryPsychologicalTestsInformationDate,
+GonorrheaLaboratoryPsychologicalTestsInformationDate,
+clientUniqueId,
         ],
       };
       db
@@ -964,7 +1013,16 @@ where clientUniqueId=$81`,
     internalreferralinformationissues,
     airsinsuranceinformationreviewed,
     airsinsuranceinformationissues,
-    clientUniqueId   
+    socialdeterminatsofhealthassesment,
+chlamydialaboratorypsychologicaltestsinformation,
+syphilislaboratorypsychologicaltestsinformation,
+gonorrhealaboratorypsychologicaltestsinformation,
+socialdeterminatsofhealthassesmentdate,
+chlamydialaboratorypsychologicaltestsinformationdate,
+syphilislaboratorypsychologicaltestsinformationdate,
+gonorrhealaboratorypsychologicaltestsinformationdate,
+clientUniqueId,
+       
     } = req.body.clientData;
 
 
@@ -1251,8 +1309,16 @@ where clientUniqueId=$81`,
     internalreferralinformationissues=$258,
     airsinsuranceinformationreviewed=$259,
     airsinsuranceinformationissues=$260,
-    clientUniqueId=$261    
-    where clientUniqueId=$261`,
+    SocialDeterminatsOfHealthAssesment=$261,
+ChlamydiaLaboratoryPsychologicalTestsInformation=$262,
+SyphilisLaboratoryPsychologicalTestsInformation=$263,
+GonorrheaLaboratoryPsychologicalTestsInformation=$264,
+SocialDeterminatsOfHealthAssesmentDate=$265,
+ChlamydiaLaboratoryPsychologicalTestsInformationDate=$266,
+SyphilisLaboratoryPsychologicalTestsInformationDate=$267,
+GonorrheaLaboratoryPsychologicalTestsInformationDate=$268,
+    clientUniqueId=$269    
+    where clientUniqueId=$269`,
         values: [ 
     dateFormReviewed,
     clientId,
@@ -1531,6 +1597,14 @@ where clientUniqueId=$81`,
     internalreferralinformationissues,
     airsinsuranceinformationreviewed,
     airsinsuranceinformationissues,
+    SocialDeterminatsOfHealthAssesment,
+chlamydialaboratorypsychologicaltestsinformation,
+syphilislaboratorypsychologicaltestsinformation,
+gonorrhealaboratorypsychologicaltestsinformation,
+socialdeterminatsofhealthassesmentdate,
+chlamydialaboratorypsychologicaltestsinformationdate,
+syphilislaboratorypsychologicaltestsinformationdate,
+gonorrhealaboratorypsychologicaltestsinformationdate,
     clientUniqueId  
   ],
       }
@@ -1680,6 +1754,13 @@ SupportGroupsUploadDate,
 IDGFormReviewed,
 IDGFormIssues,
 IDGFormUploadDate,
+Chlamydialaboratorypsychologicaltestsinformation,
+Syphilislaboratorypsychologicaltestsinformation,
+Gonorrhealaboratorypsychologicaltestsinformation,
+Socialdeterminatsofhealthassesmentdate,
+Chlamydialaboratorypsychologicaltestsinformationdate,
+Syphilislaboratorypsychologicaltestsinformationdate,
+Gonorrhealaboratorypsychologicaltestsinformationdate,
 clientUniqueId
        } = req.body.clientData;
 
@@ -1809,8 +1890,15 @@ clientUniqueId
        SupportGroupsUploadDate=$109,
        IDGFormReviewed=$110,
        IDGFormIssues=$111,
-       IDGFormUploadDate=$112
-       where clientUniqueId=$113`,
+       IDGFormUploadDate=$112,
+       Chlamydialaboratorypsychologicaltestsinformation=$113,
+Syphilislaboratorypsychologicaltestsinformation=$114,
+Gonorrhealaboratorypsychologicaltestsinformation=$115,
+Socialdeterminatsofhealthassesmentdate=$116,
+Chlamydialaboratorypsychologicaltestsinformationdate=$117,
+Syphilislaboratorypsychologicaltestsinformationdate=$118,
+Gonorrhealaboratorypsychologicaltestsinformationdate=$119,
+       where clientUniqueId=$120`,
            values: [ 
        clientId,
        AIRSIntakeFormUploadDate,
@@ -1924,6 +2012,13 @@ clientUniqueId
        IDGFormReviewed,
        IDGFormIssues,
        IDGFormUploadDate,
+       Chlamydialaboratorypsychologicaltestsinformation,
+Syphilislaboratorypsychologicaltestsinformation,
+Gonorrhealaboratorypsychologicaltestsinformation,
+Socialdeterminatsofhealthassesmentdate,
+Chlamydialaboratorypsychologicaltestsinformationdate,
+Syphilislaboratorypsychologicaltestsinformationdate,
+Gonorrhealaboratorypsychologicaltestsinformationdate,
        clientUniqueId
      ],
          }
