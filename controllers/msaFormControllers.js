@@ -1761,13 +1761,25 @@ Socialdeterminatsofhealthassesmentdate,
 Chlamydialaboratorypsychologicaltestsinformationdate,
 Syphilislaboratorypsychologicaltestsinformationdate,
 Gonorrhealaboratorypsychologicaltestsinformationdate,
+
+SocialDeterminatsOfHealthAssesmentReviewed,
+SocialDeterminatsOfHealthAssesmentIssues,
+ChlamydiaLaboratoryPsychologicalTestsInformationReviewed,
+ChlamydiaLaboratoryPsychologicalTestsInformationIssues,
+SyphilisLaboratoryPsychologicalTestsInformationReviewed,
+SyphilisLaboratoryPsychologicalTestsInformationIssues,
+GonorrheaLaboratoryPsychologicalTestsInformationReviewed,
+GonorrheaLaboratoryPsychologicalTestsInformationIssues,
+SocialDeterminatsOfHealthAssesmentUploadDate,
+ChlamydiaLaboratoryPsychologicalTestsInformationUploadDate,
+SyphilisLaboratoryPsychologicalTestsInformationUploadDate,
+GonorrheaLaboratoryPsychologicalTestsInformationUploadDate,
 clientUniqueId
        } = req.body.clientData;
 
  
        
-       console.log("ComprehensiveRiskBehaviorAssessmentUploadDate",ComprehensiveRiskBehaviorAssessmentUploadDate)
-       console.log("StatusChangesFormUploadDate",StatusChangesFormUploadDate)
+       console.log("ProgressNoteReviewed",ProgressNoteReviewed)
 
 /*        console.log(req.body.clientData)
        const test = new Date(AIRSIntakeFormUploadDate)
@@ -1897,8 +1909,21 @@ Gonorrhealaboratorypsychologicaltestsinformation=$115,
 Socialdeterminatsofhealthassesmentdate=$116,
 Chlamydialaboratorypsychologicaltestsinformationdate=$117,
 Syphilislaboratorypsychologicaltestsinformationdate=$118,
-Gonorrhealaboratorypsychologicaltestsinformationdate=$119
-       where clientUniqueId=$120`,
+Gonorrhealaboratorypsychologicaltestsinformationdate=$119,
+
+SocialDeterminatsOfHealthAssesmentReviewed =$120,
+SocialDeterminatsOfHealthAssesmentIssues =$121,
+ChlamydiaLaboratoryPsychologicalTestsInformationReviewed =$122,
+ChlamydiaLaboratoryPsychologicalTestsInformationIssues =$123,
+SyphilisLaboratoryPsychologicalTestsInformationReviewed =$124,
+SyphilisLaboratoryPsychologicalTestsInformationIssues =$125,
+GonorrheaLaboratoryPsychologicalTestsInformationReviewed =$126,
+GonorrheaLaboratoryPsychologicalTestsInformationIssues =$127,
+SocialDeterminatsOfHealthAssesmentUploadDate =$128,
+ChlamydiaLaboratoryPsychologicalTestsInformationUploadDate=$129,
+SyphilisLaboratoryPsychologicalTestsInformationUploadDate=$130,
+GonorrheaLaboratoryPsychologicalTestsInformationUploadDate=$131
+       where clientUniqueId=$132`,
            values: [ 
        clientId,
        AIRSIntakeFormUploadDate,
@@ -2019,6 +2044,19 @@ Socialdeterminatsofhealthassesmentdate,
 Chlamydialaboratorypsychologicaltestsinformationdate,
 Syphilislaboratorypsychologicaltestsinformationdate,
 Gonorrhealaboratorypsychologicaltestsinformationdate,
+
+SocialDeterminatsOfHealthAssesmentReviewed,
+SocialDeterminatsOfHealthAssesmentIssues,
+ChlamydiaLaboratoryPsychologicalTestsInformationReviewed,
+ChlamydiaLaboratoryPsychologicalTestsInformationIssues,
+SyphilisLaboratoryPsychologicalTestsInformationReviewed,
+SyphilisLaboratoryPsychologicalTestsInformationIssues,
+GonorrheaLaboratoryPsychologicalTestsInformationReviewed,
+GonorrheaLaboratoryPsychologicalTestsInformationIssues,
+SocialDeterminatsOfHealthAssesmentUploadDate,
+ChlamydiaLaboratoryPsychologicalTestsInformationUploadDate,
+SyphilisLaboratoryPsychologicalTestsInformationUploadDate,
+GonorrheaLaboratoryPsychologicalTestsInformationUploadDate,
        clientUniqueId
      ],
          }
