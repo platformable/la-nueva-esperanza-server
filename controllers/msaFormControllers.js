@@ -1897,7 +1897,7 @@ Gonorrhealaboratorypsychologicaltestsinformation=$115,
 Socialdeterminatsofhealthassesmentdate=$116,
 Chlamydialaboratorypsychologicaltestsinformationdate=$117,
 Syphilislaboratorypsychologicaltestsinformationdate=$118,
-Gonorrhealaboratorypsychologicaltestsinformationdate=$119,
+Gonorrhealaboratorypsychologicaltestsinformationdate=$119
        where clientUniqueId=$120`,
            values: [ 
        clientId,
