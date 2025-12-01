@@ -1,17 +1,16 @@
-const db = require("../dbConnect");
-const { Dropbox } = require("dropbox");
-const axios = require("axios");
+const db = require("../dbConnect")
+const { Dropbox } = require("dropbox")
+const axios = require("axios")
 
-const buffer = require('buffer/').Buffer;
-const fetch = require('node-fetch');
-const { URLSearchParams } = require('node:url');
+const buffer = require("buffer/").Buffer
+const fetch = require("node-fetch")
+const { URLSearchParams } = require("node:url")
 
-
-const dropbox = require('../utils/dropbox')
+const dropbox = require("../utils/dropbox")
 ///
-var ACCESS_TOKEN = process.env.DROPBOX_ACCESS_TK;
+var ACCESS_TOKEN = process.env.DROPBOX_ACCESS_TK
 
-//let tokenFromRefresh; 
+//let tokenFromRefresh;
 
 const folders = [
   `ACTION_PLANS`,
@@ -26,43 +25,38 @@ const folders = [
   `TICKLER_UPDATES`,
 ]
 
-
-const DBXCLIENT_ID = process.env.DBX_CLIENT_ID;
-const CLIENT_SECRET = process.env.DBX_CLIENT_SECRET;
+const DBXCLIENT_ID = process.env.DBX_CLIENT_ID
+const CLIENT_SECRET = process.env.DBX_CLIENT_SECRET
 
 const config = {
-    clientId: DBXCLIENT_ID,
-    clientSecret: CLIENT_SECRET,
-};
-
-
-
+  clientId: DBXCLIENT_ID,
+  clientSecret: CLIENT_SECRET,
+}
 
 module.exports = {
   getClientById: async (req, res) => {
-    let { clientid } = await req.params;
-    console.log("clientid",clientid)
+    let { clientid } = await req.params
+    console.log("clientid", clientid)
     const query = {
       text: "select * from clients where clientid=$1",
       values: [clientid],
-    };
+    }
     try {
-
-      const allData = await db.query(query);
-      const response = allData.rows;
-      console.log("response", response);
-      res.send(response);
+      const allData = await db.query(query)
+      const response = allData.rows
+      console.log("response", response)
+      res.send(response)
     } catch (e) {
-      console.log("response");
+      console.log("response")
     }
   },
   getClients: async (req, res) => {
     try {
-      const allData = await db.query("select * from clients");
-      const response = allData.rows;
-      res.send(response);
+      const allData = await db.query("select * from clients")
+      const response = allData.rows
+      res.send(response)
     } catch (e) {
-      res.send("an error ocurred");
+      res.send("an error ocurred")
     }
   },
   getClientsWithMSA: async (req, res) => {
@@ -71,66 +65,69 @@ module.exports = {
       msa_form.clientid as msaClientId, 
 	  msa_form.dateformreviewed as msaformdate
       from clients 
-      join msa_form on clients.clientid=msa_form.clientid`);
-      const response = allData.rows;
-      res.send(response);
+      join msa_form on clients.clientid=msa_form.clientid`)
+      const response = allData.rows
+      res.send(response)
     } catch (e) {
-      res.send("an error ocurred");
+      res.send("an error ocurred")
     }
   },
   getClientsForReports: async (req, res) => {
-    const {startDate,endDate} = req.params
+    const { startDate, endDate } = req.params
 
-    console.log("startDate",req.params)
+    console.log("startDate", req.params)
     try {
-      const allData = await db.query(`select * from clients where clientdatecreated between '${startDate}' and '${endDate}'`);
-      const response = allData.rows;
-      res.send(response);
+      const allData = await db.query(
+        `select * from clients where clientdatecreated between '${startDate}' and '${endDate}'`
+      )
+      const response = allData.rows
+      res.send(response)
     } catch (e) {
-      res.send("an error ocurred");
+      res.send("an error ocurred")
     }
   },
   getClientsForServicesPage: async (req, res) => {
     try {
-      const allData = await db.query(`select clients.*, progress_note.progressnotedate  as progressnotedate,services_action_plan.planstartdate as sapstartdate 
+      const allData =
+        await db.query(`select clients.*, progress_note.progressnotedate  as progressnotedate,services_action_plan.planstartdate as sapstartdate 
       from clients 
       full outer join progress_note  on clients.clientid = progress_note.clientid
-      full outer join services_action_plan on clients.clientid = services_action_plan.clientid`);
-      const response = allData.rows;
-      res.send(response);
+      full outer join services_action_plan on clients.clientid = services_action_plan.clientid`)
+      const response = allData.rows
+      res.send(response)
     } catch (e) {
-      res.send("an error ocurred");
+      res.send("an error ocurred")
     }
   },
-  getClientsForDashboardPage:async(req,res)=>{
+  getClientsForDashboardPage: async (req, res) => {
     const text = `select clients.*, msa_form.id as msaformid from clients 
     full outer join msa_form on clients.clientid = msa_form.clientid where clients.clientid is not null`
 
     try {
-      const allData = await db.query(text);
-      const response = allData.rows;
+      const allData = await db.query(text)
+      const response = allData.rows
       console.log("response client dash")
-      res.send(response);
+      res.send(response)
     } catch (e) {
-      res.send("an error ocurred");
+      res.send("an error ocurred")
     }
   },
-  getClientProfileData: async (req,res)=>{
-    let {clientid} = req.params
+  getClientProfileData: async (req, res) => {
+    let { clientid } = req.params
     console.log("client profile")
 
     for (const property in req.body.clientData) {
-      if(req.body.clientData[property]==='1'){
-        req.body.clientData[property]=true
+      if (req.body.clientData[property] === "1") {
+        req.body.clientData[property] = true
       }
-      if(req.body.clientData[property]==='0'){
-        req.body.clientData[property]=false
+      if (req.body.clientData[property] === "0") {
+        req.body.clientData[property] = false
       }
-      if(req.body.clientData[property]===""){
-        req.body.clientData[property]=null
+      if (req.body.clientData[property] === "") {
+        req.body.clientData[property] = null
       }
-    } 
-      const query = {
+    }
+    const query = {
       text: `
       select clients.clientid,
       clients.id,
@@ -168,24 +165,21 @@ module.exports = {
       full outer join progress_note on clients.clientid = progress_note.clientid 
       where clients.clientid=$1 order by progress_note.progressnotedate desc`,
       values: [clientid],
-    };
-    try {
-
-      const allData = await db.query(query);
-      const response = allData.rows;
-      console.log("response", response);
-      res.send(response[0]);
-    } catch (e) {
-      console.log("response");
     }
-
-
+    try {
+      const allData = await db.query(query)
+      const response = allData.rows
+      console.log("response", response)
+      res.send(response[0])
+    } catch (e) {
+      console.log("response")
+    }
   },
-  getClientProfileGoals: async (req,res)=>{
-    let {clientid} = req.params
+  getClientProfileGoals: async (req, res) => {
+    let { clientid } = req.params
 
-console.log("getClientProfileGoals",clientid)
-/* for (const property in req.body.clientData) {
+    console.log("getClientProfileGoals", clientid)
+    /* for (const property in req.body.clientData) {
   if(req.body.clientData[property]==='1'){
     req.body.clientData[property]=true
   }
@@ -196,11 +190,11 @@ console.log("getClientProfileGoals",clientid)
     req.body.clientData[property]=null
   }
 }  */
-      const query = {
-     /*  text: `select clients.id,clients.clientid,clients.clientfirstname,clients.clientlastname,
+    const query = {
+      /*  text: `select clients.id,clients.clientid,clients.clientfirstname,clients.clientlastname,
       clients.clientactive,clients.clientdatecreated, sap.planstartdate,sap.id as sapid,sap.goal1completed,sap.goal2completed from clients
       join services_action_plan sap on sap.clientid = clients.clientid where clients.clientid = $1`, */
-      text:`SELECT
+      text: `SELECT
       c.id,
       c.clientid,
       c.clientfirstname,
@@ -222,16 +216,16 @@ console.log("getClientProfileGoals",clientid)
     INNER JOIN services_action_plan s ON s.clientid = c.clientid
       AND s.planstartdate = latest_sap.latest_planstartdate
     WHERE c.clientid = $1 limit 1`,
-      values:[clientid]
-    };
+      values: [clientid],
+    }
     try {
-      const allData = await db.query(query);
-      const response = allData.rows;
+      const allData = await db.query(query)
+      const response = allData.rows
 
-      console.log("response",response)
+      console.log("response", response)
 
-// a formula to get all the goals per client inside an array as property
-/*       const uniqueClients = response.reduce((acc, current) => {
+      // a formula to get all the goals per client inside an array as property
+      /*       const uniqueClients = response.reduce((acc, current) => {
         const existingClient = acc.find(client => client.id === current.id);
         if (!existingClient) {
           acc.push({
@@ -250,41 +244,60 @@ console.log("getClientProfileGoals",clientid)
         return acc;
       }, []); */
       let totalGoals = {
-        totalClientGoalsSummaries:0,
-        totalGoalsCompleted:0,
-        totalGoalsNotCompleted:0
+        totalClientGoalsSummaries: 0,
+        totalGoalsCompleted: 0,
+        totalGoalsNotCompleted: 0,
       }
-     /*  console.log("response[0]S1", response[0].goal1summary)
+      /*  console.log("response[0]S1", response[0].goal1summary)
       console.log("response[0]S2", response[0].goal2summary) */
-      totalGoals.totalClientGoalsSummaries+=response[0]?.goal1summary ===""  || response[0]?.goal1summary ===null || !response[0]?.goal1summary    ? 0 : 1
-      totalGoals.totalClientGoalsSummaries+=response[0]?.goal2summary ==="" || response[0]?.goal2summary ===null || !response[0]?.goal2summary  ? 0 : 1      
+      totalGoals.totalClientGoalsSummaries +=
+        response[0]?.goal1summary === "" ||
+        response[0]?.goal1summary === null ||
+        !response[0]?.goal1summary
+          ? 0
+          : 1
+      totalGoals.totalClientGoalsSummaries +=
+        response[0]?.goal2summary === "" ||
+        response[0]?.goal2summary === null ||
+        !response[0]?.goal2summary
+          ? 0
+          : 1
       /* totalGoals.goal2summary+=response[0]?.goal2summary !=="" ? 1 : 0 */
-      totalGoals.totalGoalsCompleted+=response[0]?.goal1completed==="1" ? 1 : 0
-      totalGoals.totalGoalsCompleted+=response[0]?.goal2completed==="1" ? 1 : 0
-      totalGoals.totalGoalsNotCompleted+=response[0]?.goal1completed==="0" || response[0]?.goal1completed=== null ? 1 : 0
-      totalGoals.totalGoalsNotCompleted+=response[0]?.goal2completed==="0" || response[0]?.goal2completed=== null ? 1 : 0
-      res.send([totalGoals]);
+      totalGoals.totalGoalsCompleted +=
+        response[0]?.goal1completed === "1" ? 1 : 0
+      totalGoals.totalGoalsCompleted +=
+        response[0]?.goal2completed === "1" ? 1 : 0
+      totalGoals.totalGoalsNotCompleted +=
+        response[0]?.goal1completed === "0" ||
+        response[0]?.goal1completed === null
+          ? 1
+          : 0
+      totalGoals.totalGoalsNotCompleted +=
+        response[0]?.goal2completed === "0" ||
+        response[0]?.goal2completed === null
+          ? 1
+          : 0
+      res.send([totalGoals])
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
   },
-  getClientProfileDataByClientUniqueId: async (req,res)=>{
-
-    let {clientid} = req.params
-    console.log("clientid",clientid)
+  getClientProfileDataByClientUniqueId: async (req, res) => {
+    let { clientid } = req.params
+    console.log("clientid", clientid)
 
     for (const property in req.body.clientData) {
-      if(req.body.clientData[property]==='1'){
-        req.body.clientData[property]=true
+      if (req.body.clientData[property] === "1") {
+        req.body.clientData[property] = true
       }
-      if(req.body.clientData[property]==='0'){
-        req.body.clientData[property]=false
+      if (req.body.clientData[property] === "0") {
+        req.body.clientData[property] = false
       }
-      if(req.body.clientData[property]===""){
-        req.body.clientData[property]=null
+      if (req.body.clientData[property] === "") {
+        req.body.clientData[property] = null
       }
-    } 
-      const query = {
+    }
+    const query = {
       text: `
       SELECT DISTINCT clients.clientid,
       clients.id,
@@ -330,23 +343,20 @@ console.log("getClientProfileGoals",clientid)
       join progress_note on clients.clientid = progress_note.clientid 
       where clients.clientid=$1`,
       values: [clientid],
-    };
+    }
     try {
+      const allData = await db.query(query)
+      const response = allData.rows
+      console.log("response", response)
+      let newClient = {}
+      let progressnotes = []
+      let pn = {}
+      pn.id = ""
 
-      const allData = await db.query(query);
-      const response = allData.rows;
-      console.log("response",response)
-      let newClient={}
-      let progressnotes=[]
-      let pn={}
-      pn.id=''
-   
-
- /*      console.log("response",response); */
-      const createClient = (response)=>{
-
-        response.forEach((client,index)=>{
-       /*  newClient.clientid=client.clientid
+      /*      console.log("response",response); */
+      const createClient = (response) => {
+        response.forEach((client, index) => {
+          /*  newClient.clientid=client.clientid
         newClient.id=client.id
         newClient.clientfirstname=client.clientfirstname
         newClient.clientlastname=client.clientlastname
@@ -374,48 +384,51 @@ console.log("getClientProfileGoals",clientid)
         newClient.goal1summary =client.goal1summary?1:0 
       newClient.goal2summary =client.goal2summary ?1:0
       newClient.goal3summary=client.goal3summary?1:0 */
-        if(client.progress_note_id ===null || client.progress_note_id ===''){
-          progressnotes=[]
-        } else {
-          pn={id:client.progress_note_id,date:client.progressnotedate,
-            developmentactionplan:client.progressnote_developmentactionplan,
-            cd4vllabreport:client.cd4vllabreport,
-            transportationcoordination:client.transportationcoordination,
-            translationinterpretation:client.translationinterpretation,
-            comprehensivebehavioralriskassessment:client.comprehensivebehavioralriskassessment,
-            ticklerupdate:client.ticklerupdate,
-            treatmenteducation:client.treatmenteducation,
-            preventioncounselling:client.preventioncounselling,
-            supportivecounselling:client.supportivecounselling,
-            escort:client.escort,
-            caseclosuredischarge:client.caseclosuredischarge,
-            linkagetoservices:client.linkagetoservices,
-            supportgroups:client.supportgroups,
-            otherassistance:client.otherassistance,
-            implementationactionplan:client.implementationactionplan,
-            housingassistance:client.housingassistance,
-            benefitsassistance:client.benefitsassistance,
-            employmentassistance:client.employmentassistance
+          if (
+            client.progress_note_id === null ||
+            client.progress_note_id === ""
+          ) {
+            progressnotes = []
+          } else {
+            pn = {
+              id: client.progress_note_id,
+              date: client.progressnotedate,
+              developmentactionplan: client.progressnote_developmentactionplan,
+              cd4vllabreport: client.cd4vllabreport,
+              transportationcoordination: client.transportationcoordination,
+              translationinterpretation: client.translationinterpretation,
+              comprehensivebehavioralriskassessment:
+                client.comprehensivebehavioralriskassessment,
+              ticklerupdate: client.ticklerupdate,
+              treatmenteducation: client.treatmenteducation,
+              preventioncounselling: client.preventioncounselling,
+              supportivecounselling: client.supportivecounselling,
+              escort: client.escort,
+              caseclosuredischarge: client.caseclosuredischarge,
+              linkagetoservices: client.linkagetoservices,
+              supportgroups: client.supportgroups,
+              otherassistance: client.otherassistance,
+              implementationactionplan: client.implementationactionplan,
+              housingassistance: client.housingassistance,
+              benefitsassistance: client.benefitsassistance,
+              employmentassistance: client.employmentassistance,
+            }
+            progressnotes.push(pn)
           }
-          progressnotes.push(pn)
-        }
-       /*  newClient.progressnotes=progressnotes */
+          /*  newClient.progressnotes=progressnotes */
         })
-
       }
-     
+
       createClient(response)
 
-      console.log("newClient",newClient);
-      res.send(progressnotes);
+      console.log("newClient", newClient)
+      res.send(progressnotes)
     } catch (e) {
-      console.log("response error",e);
+      console.log("response error", e)
     }
-
-
   },
   createClient: async (req, res) => {
-    console.log("create client",req.body)
+    console.log("create client", req.body)
     let {
       clientFirstName,
       clientLastName,
@@ -427,63 +440,171 @@ console.log("getClientProfileGoals",clientid)
       clientID,
       clientDateCreated,
       clientHCWemail,
-      clientCategory
-    } = req.body;
+      clientCategory,
+    } = req.body
 
     const nameCapitalized =
-      clientFirstName.charAt(0).toUpperCase().trim() + clientFirstName.slice(1).trim();
+      clientFirstName.charAt(0).toUpperCase().trim() +
+      clientFirstName.slice(1).trim()
     const lastnameCapitalized =
-      clientLastName.charAt(0).toUpperCase() + clientLastName.slice(1);
+      clientLastName.charAt(0).toUpperCase() + clientLastName.slice(1)
+
+    const getFirt2LettersOfLastName = clientLastName.slice(0, 2).toUpperCase()
+    console.log("clientID, clientSSN", clientID)
+    console.log("getFirt2LettersOfLastName", getFirt2LettersOfLastName)
 
     if ((clientActive = "true")) {
-      clientActive = "1";
+      clientActive = "1"
     } else {
-      clientActive = "0";
+      clientActive = "0"
     }
-    checkSSN(clientID);
-   async function checkSSN(clientID) {
+    checkSSN(clientID)
+    async function checkSSN(clientID) {
       const query1 = {
-        text: "select * from clients where clientid=$1",
-        values: [clientID]
-      };
+        text: `SELECT 
+    COUNT(*) FILTER (WHERE clientid = $1) > 0 AS existed,
+    COUNT(*) FILTER (WHERE clientid = $2) > 0 AS modified
+FROM clients
+WHERE clientid IN ($1, $2);`,
+        values: [clientID, clientID + getFirt2LettersOfLastName],
+      }
       try {
         const data = await db.query(query1)
-        
-        if (data.rows.length > 0) {
-          res.status(400).send("Client is already registered");
-        } else {
+        const response = await data.rows[0]
+
+        /*    if (response.existed && response.modified) {
+          res.send({
+            statusText: "OK",
+            message:
+              "Please check with your supervisor to allocate a unique ID",
+          })
+        } */
+
+        if (response.existed && response.modified) {
+          return res.status(409).json({
+            statusText: "Conflict",
+            code: "CLIENT_ID_CONFLICT",
+            message:
+              "Please check with your supervisor to allocate a unique ID.",
+          })
+        }
+
+        const clienIdModified = clientID + getFirt2LettersOfLastName
+        if (response.existed && !response.modified) {
+          console.log(
+            "client is already registered but we can create a new user with modified ID"
+          )
           const query = {
             text: "INSERT INTO clients(clientfirstname,clientlastname,clientssn,clientactive,clienthcwid,clienthcwname,clienthcwlastname,clientid,clientdatecreated,clienthcwemail,clientcategory) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *",
             values: [
-              nameCapitalized, lastnameCapitalized, clientSSN, clientActive, clientHCWID, clientHCWName, clientHCWLastname, clientID, clientDateCreated,clientHCWemail,clientCategory
+              nameCapitalized,
+              lastnameCapitalized,
+              clientSSN,
+              clientActive,
+              clientHCWID,
+              clientHCWName,
+              clientHCWLastname,
+              clienIdModified,
+              clientDateCreated,
+              clientHCWemail,
+              clientCategory,
             ],
-          };
-        
+          }
+
+          const responseCreatedUser = await db.query(query)
+          //const res = await res.status(200).json(data.rows[0])
+          /*   const newresponse = await dropbox.connectToDropbox(
+            DBXCLIENT_ID,
+            clienIdModified
+          )
+          const createFolders = await dropbox.createAllFolders(clienIdModified)
+          const action_plans = await dropbox.shareFolder(
+            clienIdModified,
+            folders[0]
+          )
+          const cbra = await dropbox.shareFolder(clienIdModified, folders[1])
+          const consent = await dropbox.shareFolder(clienIdModified, folders[2])
+          const idg = await dropbox.shareFolder(clienIdModified, folders[3])
+          const intake = await dropbox.shareFolder(clienIdModified, folders[4])
+          const linkage_navigation = await dropbox.shareFolder(
+            clienIdModified,
+            folders[5]
+          )
+          const medical = await dropbox.shareFolder(clienIdModified, folders[6])
+          const miscellaneous = await dropbox.shareFolder(
+            clienIdModified,
+            folders[7]
+          )
+          const support_groups = await dropbox.shareFolder(
+            clienIdModified,
+            folders[8]
+          )
+          const tickler_updates = await dropbox.shareFolder(
+            clienIdModified,
+            folders[9]
+          ) */
+          console.log("responseCreatedUser", "user created with modified ID")
+          const responsestatus = await res
+            .status(200)
+            .send({ statusText: "OK", message: "client created" })
+        } else {
+          console.log("proceed to register client")
+          const query = {
+            text: "INSERT INTO clients(clientfirstname,clientlastname,clientssn,clientactive,clienthcwid,clienthcwname,clienthcwlastname,clientid,clientdatecreated,clienthcwemail,clientcategory) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11) RETURNING *",
+            values: [
+              nameCapitalized,
+              lastnameCapitalized,
+              clientSSN,
+              clientActive,
+              clientHCWID,
+              clientHCWName,
+              clientHCWLastname,
+              clientID,
+              clientDateCreated,
+              clientHCWemail,
+              clientCategory,
+            ],
+          }
+
           const response = await db.query(query)
           //const res = await res.status(200).json(data.rows[0])
-          const newresponse = await dropbox.connectToDropbox(DBXCLIENT_ID,clientID)
+          /*           const newresponse = await dropbox.connectToDropbox(
+            DBXCLIENT_ID,
+            clientID
+          )
           const createFolders = await dropbox.createAllFolders(clientID)
-          const action_plans = await dropbox.shareFolder(clientID,folders[0])
-          const cbra = await dropbox.shareFolder(clientID,folders[1])
-          const consent = await dropbox.shareFolder(clientID,folders[2])
-          const idg = await dropbox.shareFolder(clientID,folders[3])
-          const intake = await dropbox.shareFolder(clientID,folders[4])
-          const linkage_navigation = await dropbox.shareFolder(clientID,folders[5])
-          const medical = await dropbox.shareFolder(clientID,folders[6])
-          const miscellaneous = await dropbox.shareFolder(clientID,folders[7])
-          const support_groups = await dropbox.shareFolder(clientID,folders[8])
-          const tickler_updates = await dropbox.shareFolder(clientID,folders[9])
-          const responsestatus= await res.status(200).send({statusText:'OK', message:"client created"})
+          const action_plans = await dropbox.shareFolder(clientID, folders[0])
+          const cbra = await dropbox.shareFolder(clientID, folders[1])
+          const consent = await dropbox.shareFolder(clientID, folders[2])
+          const idg = await dropbox.shareFolder(clientID, folders[3])
+          const intake = await dropbox.shareFolder(clientID, folders[4])
+          const linkage_navigation = await dropbox.shareFolder(
+            clientID,
+            folders[5]
+          )
+          const medical = await dropbox.shareFolder(clientID, folders[6])
+          const miscellaneous = await dropbox.shareFolder(clientID, folders[7])
+          const support_groups = await dropbox.shareFolder(clientID, folders[8])
+          const tickler_updates = await dropbox.shareFolder(
+            clientID,
+            folders[9]
+          ) */
+          const responsestatus = await res
+            .status(200)
+            .send({ statusText: "OK", message: "client created" })
         }
-      } catch (e){
-        res.status(400).send({message:"an error occurred while registering a new client",response:e})
+      } catch (e) {
+        res.status(400).send({
+          message: "an error occurred while registering a new client",
+          response: e,
+        })
       }
     }
   },
-  updateClient:async(req,res)=>{
-    console.log("req.body",req.body)
+  updateClient: async (req, res) => {
+    console.log("req.body", req.body)
 
-    let { 
+    let {
       id,
       clientFirstName,
       clientLastName,
@@ -496,7 +617,7 @@ console.log("getClientProfileGoals",clientid)
       clientID,
       clientHCWemail,
       clientCategory,
-      clientIdFromDB
+      clientIdFromDB,
     } = req.body
 
     try {
@@ -515,7 +636,8 @@ console.log("getClientProfileGoals",clientid)
         clientHCWemail =$10,
         clientCategory =$11
         where id=$12`,
-        values: [clientFirstName,
+        values: [
+          clientFirstName,
           clientLastName,
           clientSSN,
           clientDateCreated,
@@ -525,48 +647,41 @@ console.log("getClientProfileGoals",clientid)
           clientHCWLastname,
           clientID,
           clientHCWemail,
-          clientCategory,id]
-      };
-      db
-        .query(query)
-        .then((response) =>
-          {
-            console.log("sucess",response)
-            res.send({
-            status: 200,
-            statusText:'OK'
-          })}
-        )
-        
+          clientCategory,
+          id,
+        ],
+      }
+      db.query(query).then((response) => {
+        console.log("sucess", response)
+        res.send({
+          status: 200,
+          statusText: "OK",
+        })
+      })
     } catch (error) {
-      res.json("an error ocurred");
-      console.log("error message:", error);
+      res.json("an error ocurred")
+      console.log("error message:", error)
     }
-
-
-
-
   },
-  deleteClient:async(req,res)=>{
+  deleteClient: async (req, res) => {
     console.log(req.body)
-    const { id } = req.body;
+    const { id } = req.body
     const query = {
       text: "DELETE from clients where id=$1",
       values: [id],
-    };
+    }
     // promise
     db.query(query)
       .then((data) => {
-   console.log("success")
-          res.send({
-            status: "OK",
-            message: "User deleted",
-          });
-     
+        console.log("success")
+        res.send({
+          status: "OK",
+          message: "User deleted",
+        })
       })
-      .catch((e) => console.error(e.stack));
+      .catch((e) => console.error(e.stack))
   },
-  updateTest:async (req,res)=>{
+  updateTest: async (req, res) => {
     console.log("test de updatetest")
     const a = await connectDropbox()
   },
@@ -587,20 +702,20 @@ JOIN (
 ON services_action_plan.clientid = clients.clientid
 WHERE clients.clientactive = '1'
 AND services_action_plan.row_num = 1
-ORDER BY clients.id ASC;`);
+ORDER BY clients.id ASC;`)
 
-      const data = await allData.rows;
-      res.send({ data: data, statusText: "OK" });
+      const data = await allData.rows
+      res.send({ data: data, statusText: "OK" })
     } catch (e) {
-      console.log(e);
-      res.send("an error ocurred");
+      console.log(e)
+      res.send("an error ocurred")
     }
   },
   profileSap: async (req, res) => {
-    let {clientid} = req.params
+    let { clientid } = req.params
 
-    const query ={
-      text:`SELECT DISTINCT clients.*,
+    const query = {
+      text: `SELECT DISTINCT clients.*,
       services_action_plan.planstartdate,
       services_action_plan.id AS sapid,
       services_action_plan.goal1completed,
@@ -616,22 +731,22 @@ ON services_action_plan.clientid = clients.clientid
 WHERE clients.clientactive = '1' and clients.clientid =$1
 AND services_action_plan.row_num = 1
 ORDER BY clients.id ASC;`,
-values: [clientid],
+      values: [clientid],
     }
     try {
-      const allData = await db.query(query);
+      const allData = await db.query(query)
 
-      const data = await allData.rows;
-      res.send(data);
+      const data = await allData.rows
+      res.send(data)
     } catch (e) {
-      console.log(e);
-      res.send("an error ocurred");
+      console.log(e)
+      res.send("an error ocurred")
     }
   },
   profileProgressNotes: async (req, res) => {
-    let {clientid} = req.params
+    let { clientid } = req.params
     const query = {
-      text:`SELECT DISTINCT clients.*, progress_note.id as progressnote_id, progress_note.progressnotedate 
+      text: `SELECT DISTINCT clients.*, progress_note.id as progressnote_id, progress_note.progressnotedate 
       FROM clients
       JOIN (
         SELECT progress_note.*,
@@ -642,19 +757,16 @@ values: [clientid],
       WHERE clients.clientactive = '1' and clients.clientid =$1
       AND progress_note.row_num = 1
       ORDER BY clients.id ASC;`,
-values: [clientid],
+      values: [clientid],
     }
     try {
-      const allData = await db.query(query);
+      const allData = await db.query(query)
 
-      const data = await allData.rows;
-      res.send(data);
+      const data = await allData.rows
+      res.send(data)
     } catch (e) {
-      console.log(e);
-      res.send("an error ocurred");
+      console.log(e)
+      res.send("an error ocurred")
     }
   },
-};
-
-
-
+}
