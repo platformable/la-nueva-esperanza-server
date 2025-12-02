@@ -449,7 +449,7 @@ module.exports = {
     const lastnameCapitalized =
       clientLastName.charAt(0).toUpperCase() + clientLastName.slice(1)
 
-    const getFirt2LettersOfLastName = clientLastName.slice(0, 2).toUpperCase()
+    const getFirt2LettersOfLastName = clientLastName.slice(1, 2).toUpperCase()
     console.log("clientID, clientSSN", clientID)
     console.log("getFirt2LettersOfLastName", getFirt2LettersOfLastName)
 
