@@ -513,7 +513,7 @@ WHERE clientid IN ($1, $2);`,
 
           const responseCreatedUser = await db.query(query)
           //const res = await res.status(200).json(data.rows[0])
-          /*   const newresponse = await dropbox.connectToDropbox(
+          const newresponse = await dropbox.connectToDropbox(
             DBXCLIENT_ID,
             clienIdModified
           )
@@ -542,7 +542,7 @@ WHERE clientid IN ($1, $2);`,
           const tickler_updates = await dropbox.shareFolder(
             clienIdModified,
             folders[9]
-          ) */
+          )
           console.log("responseCreatedUser", "user created with modified ID")
           const responsestatus = await res
             .status(200)
@@ -568,7 +568,7 @@ WHERE clientid IN ($1, $2);`,
 
           const response = await db.query(query)
           //const res = await res.status(200).json(data.rows[0])
-          /*           const newresponse = await dropbox.connectToDropbox(
+          const newresponse = await dropbox.connectToDropbox(
             DBXCLIENT_ID,
             clientID
           )
@@ -588,7 +588,7 @@ WHERE clientid IN ($1, $2);`,
           const tickler_updates = await dropbox.shareFolder(
             clientID,
             folders[9]
-          ) */
+          )
           const responsestatus = await res
             .status(200)
             .send({ statusText: "OK", message: "client created" })
